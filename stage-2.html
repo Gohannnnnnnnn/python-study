@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 02 · 控制流 | Python-Study</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="progress" id="pgbar"></div>
+<nav class="topnav">
+  <a class="back" href="index.html">← 总览</a>
+  <a href="#py-005">py-005 if 判断</a><a href="#py-006">py-006 for 循环</a><a href="#py-007">py-007 while 循环</a><a href="#next">后续课程</a>
+</nav>
+<header class="hero"><div class="hero-inner">
+  <span class="badge">阶段 02 · 进行中</span>
+  <h1>控制流<br><span>岔路口与流水线</span></h1>
+  <p>让代码自己判断和重复：if/elif/else、for 循环、while 循环、break/continue、range。已完成 3 课，正在学习列表进阶。</p>
+  <div class="stage-progress">
+    <div class="bar"><i style="width:50%"></i></div>
+    <div class="label"><span>py-005 ~ py-010</span><span>3 / 6 完成</span></div>
+  </div>
+</div></header>
+<main class="container">
+
+<div class="toc">
+  <h3>本阶段目录</h3>
+  <div class="toc-grid">
+    <a href="#py-005">py-005 · if / elif / else 判断</a>
+    <a href="#py-006">py-006 · for 循环</a>
+    <a href="#py-007">py-007 · while + break/continue</a>
+    <a href="#next">py-008 ~ py-010 · 后续课程（未开始）</a>
+  </div>
+</div>
+
+<!-- ==================== py-005 ==================== -->
+<section id="py-005">
+  <div class="part-divider"><small>第 5 课 · py-005</small><h2>if / elif / else 判断</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. if = 分岔路</div>
+    <code>if</code> 让代码「看条件选路」：条件成立（True）走缩进里的代码，不成立就跳过。基本形状：
+<pre>t = 37.2
+if t >= 38:
+    print("发热")      # 只有条件成立才执行
+print("分诊结束")      # 无论成不成立都会执行</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 缩进 = 归属关系（Python 命根子）</div>
+    缩进的代码属于它上面的 if。缩进错了，程序直接报 <code>IndentationError</code> 崩溃。统一用 4 个空格（PyCharm 按 Tab 自动给 4 空格）。没缩进 = 不属于 if = 无条件执行，这是最常见的隐性 bug。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. elif = 否则如果；else = 兜底</div>
+<pre>t = 36.5
+if t >= 38:
+    print("发热")
+elif t >= 37:
+    print("正常偏高")
+else:
+    print("体温正常")    # 前面都不成立才到这里</pre>
+    <b>执行规则（重要）：</b>从上往下依次检查，<b>第一个成立的分支执行完，后面的一律不看</b>。所以顺序不能乱写：必须先问最严格的（发热），再问次严格的（偏高），最后才是兜底。
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. if 后面的条件是什么类型？</div>
+    条件位置放的是上一课学的比较表达式，结果永远是 bool（True/False）。bool 是分岔路的开关：True 走进去，False 不进去。
+  </div>
+  <div class="tip"><b>一句话总结：</b>if 按条件分路，缩进决定代码归属；elif 是「否则如果」、else 是兜底；从上往下第一个成立的就执行，后面不看。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">分诊逻辑</span></div>
+      <p>执行下面的代码，打印什么？</p>
+<pre>t = 37.2
+if t >= 38:
+    print("发热")
+elif t >= 37:
+    print("正常偏高")
+else:
+    print("体温正常")</pre>
+      <p class="hint">A. 发热　　B. 正常偏高　　C. 体温正常　　D. 什么都不打印</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>37.2 不满足 >= 38，跳到 elif：满足 >= 37 → 打印「正常偏高」，执行完整个 if 结构结束。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">兜底分支</span></div>
+      <p>同样的代码，t = 36.5 时打印什么？</p>
+      <p class="hint">A. 发热　　B. 正常偏高　　C. 体温正常　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>36.5 既不满足 >= 38，也不满足 >= 37，最后落到 else 兜底，打印「体温正常」。else 不需要条件：前面全不成立就是它。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">缩进错误</span></div>
+      <p>下面的代码哪里会报错？</p>
+<pre>行1: x = 5
+行2: if x > 3:
+行3: print("大")
+行4: print("结束")</pre>
+      <p class="hint">A. 行1　　B. 行2　　C. 行3　　D. 行4</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>行3 的 print 没有缩进，但上面是 if 且带了冒号——Python 要求 if 下面必须有缩进的代码块。报 <code>IndentationError: expected an indented block</code>。记住：if 那一行末尾的冒号就是「下面是缩进代码块」的预告。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">条件类型</span></div>
+      <p>if 后面的条件，最终要求的类型是？</p>
+      <p class="hint">A. int　　B. str　　C. bool　　D. float</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>条件位置放比较表达式（如 <code>t &gt;= 38</code>），结果一定是 bool。True 走进分支，False 跳过。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">执行顺序陷阱</span></div>
+      <p>执行下面的代码，打印什么？</p>
+<pre>x = 10
+if x > 5:
+    print("A")
+elif x > 8:
+    print("B")
+else:
+    print("C")</pre>
+      <p class="hint">A. A　　B. B　　C. C　　D. A 和 B 都打印</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>x &gt; 5 成立，进入 A，整个结构立即结束——哪怕后面的 x &gt; 8 也成立，也不会再看。这是 if/elif 和「逐个检查」最大的区别：elif 只在前面不成立时才轮到。如果想把所有成立的都执行，那是后面学多重 if 的事。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">边界值</span></div>
+      <p>医学上腋温 ≥ 37.3 算低热。t = 37.3 时，下面代码打印什么？</p>
+<pre>if t >= 37.3:
+    print("低热")
+else:
+    print("正常")</pre>
+      <p class="hint">A. 低热　　B. 正常　　C. 两个都打印　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>条件是 >=（大于等于），37.3 正好压线，算成立 → 低热。做分诊类判断前，先想清楚临界值含不含：>= 含边界，> 不含。这是选择题和实际程序里最爱考的细节。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">完整体温分诊</span></div>
+      <p>写一个完整程序：input 询问体温 → 转 float → 按四档分诊并打印——<code>&lt; 36</code> 体温偏低；<code>36 ~ 37.2</code> 体温正常；<code>37.3 ~ 37.9</code> 低热；<code>&gt;= 38</code> 发热。注意顺序：先问最严格的（发热），再逐级往下。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>t = float(input("体温："))
+if t >= 38:
+    print("发热")
+elif t >= 37.3:
+    print("低热")
+elif t >= 36:
+    print("体温正常")
+else:
+    print("体温偏低")</pre>
+        <b>自查要点：</b>① 有没有 float() 转换？② 条件是不是从最严格往宽松排？③ 每个分支缩进是否 4 空格？用 37.0、37.3、37.9、38.1 四个值各跑一遍验证。
+      </div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">排队号判断</span></div>
+      <p>挂号排队：用户输入排队号 n（int）。编写程序：n &lt;= 10 打印「快到了」；n &lt;= 20 打印「还要等一会儿」；n &lt;= 50 打印「人还不少」；超过 50 打印「建议改天来」。先想清楚：四个分支的先后顺序怎么排才不会出错？</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>n = int(input("排队号："))
+if n <= 10:
+    print("快到了")
+elif n <= 20:
+    print("还要等一会儿")
+elif n <= 50:
+    print("人还不少")
+else:
+    print("建议改天来")</pre>
+        <b>解析：</b>从小到大排——先问最少的（<= 10），再往上加。因为 elif 是「前面的不成立才轮到」，排反了（先问 &lt;= 50）会导致后面的分支永远没机会执行。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-006 ==================== -->
+<section id="py-006">
+  <div class="part-divider"><small>第 6 课 · py-006</small><h2>for 循环：流水线重复干活</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. for = 护士拿名单查房</div>
+    拿着一张名单，从头到尾逐个处理，每个都执行一遍相同的操作：
+<pre>names = ["张", "王", "李"]
+for name in names:
+    print(name, "请到 3 诊室")</pre>
+    打印三行：每个名字各一行。for 的读法：「名单里每个 name，都做一遍缩进里的事」。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 循环变量 = 每次换人的临时盒</div>
+    <code>name</code> 是循环变量：第一次循环装「张」，第二次装「王」，第三次装「李」。每次进入循环体，它都被换成当前这一轮的值。循环结束后，它停在最后一个值上。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. range(n) = 造一串数：0 到 n-1，共 n 个</div>
+<pre>for i in range(3):
+    print(i)     # 0 1 2</pre>
+    <div class="warning"><b>当日错题：</b>循环次数 = range 里的数的个数。range(3) 有 3 个数（0、1、2），循环就跑 3 次。别被「最后打印的是 2」迷惑——2 是第三个数。</div>
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. range 的变形</div>
+    <code>range(起点, 终点)</code>：从起点数到终点前一个，<code>range(2, 6)</code> → 2, 3, 4, 5。<code>range(起点, 终点, 步长)</code>：<code>range(0, 10, 2)</code> → 0, 2, 4, 6, 8。规则统一：<b>含起点，不含终点</b>。
+  </div>
+  <div class="tip"><b>一句话总结：</b>for 逐个处理名单或 range 的数；循环变量每轮换新值；range(n) 有 n 个数所以循环 n 次；range 含起点不含终点。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">当日错题原题</span></div>
+      <p><code>for i in range(3):</code> 循环体一共执行几次？</p>
+      <p class="hint">A. 2 次　　B. 3 次　　C. 4 次　　D. 无限次</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>range(3) 产生 3 个数：0、1、2，循环跑 3 次。错题根源是把「最后打印 2」当成「循环到 2 为止」，但 2 本身就是第三个数。记住口诀：循环次数 = range 里的数。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">range 内容</span></div>
+      <p><code>range(3)</code> 产生的数依次是？</p>
+      <p class="hint">A. 1, 2, 3　　B. 0, 1, 2　　C. 0, 1, 2, 3　　D. 3, 2, 1</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>range 从 0 开始数，数到 n-1 为止，共 n 个数。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">列表遍历</span></div>
+      <p>下面代码打印几行？</p>
+<pre>drugs = ["阿司匹林", "二甲双胍", "硝苯地平"]
+for d in drugs:
+    print(d)</pre>
+      <p class="hint">A. 1 行　　B. 2 行　　C. 3 行　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>列表有 3 个元素，循环逐个处理，打印 3 行。循环次数 = 名单长度。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">循环变量</span></div>
+      <p>下面代码第三次循环时，x 里装的是什么？</p>
+<pre>fruits = ["苹果", "香蕉", "橙子"]
+for x in fruits:
+    print(x)</pre>
+      <p class="hint">A. 苹果　　B. 香蕉　　C. 橙子　　D. 什么都没有</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>第一次装苹果、第二次装香蕉、第三次装橙子。循环变量每轮换一个，轮到谁就是谁。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">range 含起点不含终点</span></div>
+      <p><code>range(2, 6)</code> 产生的数依次是？</p>
+      <p class="hint">A. 2, 3, 4, 5, 6　　B. 2, 3, 4, 5　　C. 1, 2, 3, 4, 5　　D. 2, 3, 4</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>range(起点, 终点) 含起点 2、不含终点 6，所以是 2, 3, 4, 5。和切片一样的规矩：含头不含尾。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">累加器</span></div>
+      <p>执行下面的代码，最后打印什么？</p>
+<pre>total = 0
+for i in range(1, 5):
+    total = total + i
+print(total)</pre>
+      <p class="hint">A. 4　　B. 10　　C. 15　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>i 依次取 1, 2, 3, 4，total 每次都「吃进」当前的 i：0→1→3→6→10。这个「盒子累加」模式叫累加器，是循环最经典的用法——统计总和、计数都靠它。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">1 到 100 求和</span></div>
+      <p>用 for + range + 累加器，求 1 到 100 的和，并打印结果。这是高斯小时候做过的题：先想想答案应该比 5000 大还是小，写完跑出来对照一下。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>total = 0
+for i in range(1, 101):
+    total = total + i
+print(total)   # 5050</pre>
+        <b>解析：</b>range(1, 101) 含 1 不含 101，正好是 1~100 一百个数。累加器 total 从 0 开始，每轮吃进一个 i。跑出 5050 就对了。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">药房盘点编号</span></div>
+      <p>药品列表 <code>["阿司匹林", "二甲双胍", "硝苯地平", "奥美拉唑"]</code>。用 for 循环打印带编号的清单：第 1 行「1. 阿司匹林」、第 2 行「2. 二甲双胍」……</p>
+      <p class="hint">提示：用 <code>for i in range(4)</code> 拿到次数 i（0,1,2,3），再通过 <code>drugs[i]</code> 取对应位置的药。编号显示 i+1。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>drugs = ["阿司匹林", "二甲双胍", "硝苯地平", "奥美拉唑"]
+for i in range(4):
+    print(i + 1, ". ", drugs[i], sep="")</pre>
+        <b>解析：</b>range(4) 给出下标 0~3，drugs[i] 按下标取药；编号要显示 1 开头，所以打印 i+1。<code>sep=""</code> 是 print 的「分隔符」参数，设成空字符串就不会在数字和点之间加空格。<br><b>注意：</b>这种「用下标配 range」的写法要小心，下标和长度必须对得上——这也是下一课列表进阶要重点讲的索引规则。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-007 ==================== -->
+<section id="py-007">
+  <div class="part-divider"><small>第 7 课 · py-007</small><h2>while 循环 + break / continue</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. while = 值班循环（不问次数）</div>
+    for 是「名单多长就做几遍」；while 是「条件成立就一直做，直到条件不成立」。像个值班护士：只要没到点就继续，到了点就下班。
+<pre>x = 0
+while x < 3:
+    print(x)
+    x = x + 1        # 关键：让条件越来越接近不成立</pre>
+    输出 0 1 2。x 从 0 长到 3 时，条件 <code>x &lt; 3</code> 不成立，循环停止。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 死循环坑</div>
+    while 循环体里<b>必须有一条语句让条件越来越接近不成立</b>。如果忘写 <code>x = x + 1</code>，x 永远 < 3，程序永远不结束——死循环，只能强制终止（PyCharm 里点红色停止按钮）。写 while 时先问自己：循环体里哪一行在改变条件？
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. break = 下班（强行结束整个循环）</div>
+    break 像「今天到此为止」：不管条件还成不成立，直接跳出整个循环。常配合 <code>while True</code> 用：先无条件开始，满足特定条件就 break：
+<pre>x = 0
+while True:
+    print(x)
+    x = x + 1
+    if x == 3:
+        break        # 到 3 就下班</pre>
+    输出 0 1 2。while True 是「永远成立」的条件，全靠 break 来停。
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. continue = 跳过这一个，下一个照做</div>
+    continue 只跳过<b>当前这一轮</b>剩余的部分，直接进入下一轮。像查房时「这个病人下次再说」，继续查下一个：
+<pre>for i in range(4):
+    if i == 2:
+        continue     # 跳过打印 2
+    print(i)</pre>
+    输出 0 1 3。
+  </div>
+  <div class="tip"><b>一句话总结：</b>while 条件成立就一直循环，必须让条件走向不成立；break 整个循环下班，continue 只跳过当前这一轮。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">停止条件</span></div>
+      <p>while 循环什么时候停下来？</p>
+      <p class="hint">A. 循环次数到 10　　B. 条件不成立　　C. 随机时间　　D. 代码行数用完</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>while 不看次数，只看条件：条件为 True 就继续，变为 False 就停。循环次数完全由「条件何时变 False」决定。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">死循环识别</span></div>
+      <p>下面的代码会怎样？</p>
+<pre>x = 0
+while x < 5:
+    print("值班中")</pre>
+      <p class="hint">A. 打印 5 行后停止　　B. 死循环　　C. 报错　　D. 一行都不打印</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>循环体里没有任何语句改变 x，x 永远 0、永远 &lt; 5，条件永远成立 → 死循环。写 while 先检查：循环体里哪一行让条件走向不成立？</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">模拟执行</span></div>
+      <p>执行下面的代码，输出什么？</p>
+<pre>x = 0
+while x < 3:
+    print(x)
+    x = x + 1</pre>
+      <p class="hint">A. 1 2 3　　B. 0 1 2　　C. 0 1 2 3　　D. 死循环</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>逐轮模拟：x=0 打印 0，+1 变 1；x=1 打印 1，+1 变 2；x=2 打印 2，+1 变 3；x=3 不满足 &lt; 3，停。打印的是「进入循环时的 x」，3 那轮没进去，所以没有 3。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">break 输出</span></div>
+      <p>执行下面的代码，输出什么？</p>
+<pre>x = 0
+while True:
+    print(x)
+    x = x + 1
+    if x == 3:
+        break</pre>
+      <p class="hint">A. 0 1 2 3　　B. 0 1 2　　C. 0 1　　D. 死循环</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>while True 无条件循环。每轮先打印、再 +1、再检查：x=3 时 break，整个循环结束。所以打印 0 1 2——break 触发时 3 还没有被打印。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">continue 输出</span></div>
+      <p>执行下面的代码，输出什么？</p>
+<pre>for i in range(4):
+    if i == 2:
+        continue
+    print(i)</pre>
+      <p class="hint">A. 0 1 2 3　　B. 0 1 3　　C. 0 1　　D. 2</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>i=2 时遇到 continue，跳过这一轮剩下的 print，直接进下一轮 i=3。所以 2 没被打印，输出 0 1 3。continue 只管当前这一轮，不像 break 结束整个循环。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">break + continue 组合</span></div>
+      <p>执行下面的代码，最后输出什么？</p>
+<pre>i = 0
+while i < 6:
+    i = i + 1
+    if i == 2:
+        continue
+    if i == 5:
+        break
+    print(i)</pre>
+      <p class="hint">A. 1 2 3 4　　B. 1 3 4　　C. 1 3 4 5　　D. 1 3 4 5 6</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>逐轮推：i 先 +1 再检查。i=1 打印 1；i=2 被 continue 跳过；i=3 打印 3；i=4 打印 4；i=5 触发 break，整个循环结束（5 和 6 都不打印）。这种「先自增再判断」的写法很常见，模拟执行时把每一步写在纸上最稳。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">猜数字雏形</span></div>
+      <p>写一个「猜数字」程序：程序里藏好答案 <code>answer = 7</code>，用 <code>while True</code> 反复让用户 input 猜一个整数（记得 int 转换），猜对了打印「猜对了」并用 break 结束；猜错了打印「不对，再试」。注意：不要给用户无限次机会之外的东西——先跑通再说。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>answer = 7
+while True:
+    guess = int(input("猜一个数："))
+    if guess == answer:
+        print("猜对了")
+        break
+    else:
+        print("不对，再试")</pre>
+        <b>解析：</b>while True 提供「无限机会」，break 在猜对时结束。这是「先无条件循环、满足条件再 break」的标准结构，交互式程序（输入密码、选菜单）都靠它。跑一遍：故意猜错两次再猜对，确认程序行为符合预期。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">登录重试（填空）</span></div>
+      <p>密码登录，最多 3 次机会。把下面程序的空填上：</p>
+<pre>password = "abc123"
+times = 0
+while times < 3:
+    p = input("密码：")
+    if p == password:
+        print("欢迎")
+        ____   # 填 1：登录成功，结束整个循环
+    else:
+        times = ____   # 填 2：用掉一次机会
+        print("密码错误，还剩", 3 - times, "次")
+print("程序结束")</pre>
+      <p class="hint">两个空分别填什么？填完想：如果 3 次都错，程序会自然退出 while 吗？</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>password = "abc123"
+times = 0
+while times < 3:
+    p = input("密码：")
+    if p == password:
+        print("欢迎")
+        break              # 填 1
+    else:
+        times = times + 1  # 填 2
+        print("密码错误，还剩", 3 - times, "次")
+print("程序结束")</pre>
+        <b>解析：</b>填 1 是 break（成功就下班，别继续要密码）；填 2 是 times + 1（每次失败消耗一次机会）。times 从 0 长到 3 时条件不成立，while 自然退出。这个程序同时用到了 while 的条件控制（次数限制）和 break（提前退出），是两者的合体。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 后续课程占位 ==================== -->
+<section id="next">
+  <div class="part-divider"><small>py-008 ~ py-010</small><h2>后续课程 · 未开始</h2></div>
+  <div class="placeholder">
+    <div class="p-title">课程进行到此处后填充</div>
+    <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
+  </div>
+  <ul class="roadmap-list">
+    <li>
+      <span class="rid">py-008</span>
+      <span class="rtitle">列表进阶</span>
+      <span class="rdesc">索引、切片、增删改（append / remove / insert）——for 循环的好搭档，衔接阶段 03 数据结构</span>
+      <span class="rst now">下一课</span>
+    </li>
+    <li>
+      <span class="rid">py-009</span>
+      <span class="rtitle">待定</span>
+      <span class="rdesc">控制流收尾（可能覆盖 range 高级用法 / 嵌套循环），按学习进度更新标题</span>
+      <span class="rst wait">未开始</span>
+    </li>
+    <li>
+      <span class="rid">py-010</span>
+      <span class="rtitle">待定</span>
+      <span class="rdesc">阶段 02 综合演练（判断 + 循环组合小项目），按学习进度更新标题</span>
+      <span class="rst wait">未开始</span>
+    </li>
+  </ul>
+</section>
+
+<footer>阶段 02 · 控制流 · 3/6 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+</main>
+<script>
+window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
+document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
+</script>
+</body>
+</html>
