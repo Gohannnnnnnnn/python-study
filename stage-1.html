@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 01 · 代码是什么 | Python-Study</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="progress" id="pgbar"></div>
+<nav class="topnav">
+  <a class="back" href="index.html">← 总览</a>
+  <a href="#py-001">py-001 代码是什么</a><a href="#py-002">py-002 数据类型</a><a href="#py-003">py-003 输入与转换</a><a href="#py-004">py-004 布尔与比较</a>
+</nav>
+<header class="hero"><div class="hero-inner">
+  <span class="badge">阶段 01 · 已完成</span>
+  <h1>代码是什么<br><span>从零讲起，不预设基础</span></h1>
+  <p>4 课：计算机怎么执行代码；print、变量、数据类型、输入输出。每课附分层练习题与运用题，参考答案已折叠，先自己做再对照。</p>
+  <div class="stage-progress">
+    <div class="bar"><i style="width:100%"></i></div>
+    <div class="label"><span>py-001 ~ py-004</span><span>4 / 4 完成</span></div>
+  </div>
+</div></header>
+<main class="container">
+
+<div class="toc">
+  <h3>本阶段目录</h3>
+  <div class="toc-grid">
+    <a href="#py-001">py-001 · print / 变量 / 顺序执行</a>
+    <a href="#py-002">py-002 · 数据类型 int / float / str / bool</a>
+    <a href="#py-003">py-003 · input 输入与类型转换</a>
+    <a href="#py-004">py-004 · 布尔值与比较运算</a>
+  </div>
+</div>
+
+<!-- ==================== py-001 ==================== -->
+<section id="py-001">
+  <div class="part-divider"><small>第 1 课 · py-001</small><h2>print / 变量 / 顺序执行</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 代码 = 给计算机的菜谱</div>
+    程序不是魔法，是一行一行写好的指令。计算机像厨师一样<b>从上到下、逐行执行</b>，每行都做一件明确的小事。哪一行出错，程序就在哪一行停下来。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 引号 = "这是文本"的标记</div>
+    <code>print("1+2")</code> 输出 <code>1+2</code>（原样念出来，不计算）；<code>print(1+2)</code> 先算出 3，再输出 <code>3</code>。引号告诉 Python：「里面的东西别当代码，当作文字处理」。
+<pre>print("1+2")   # 输出：1+2   （引号内是文字，原样念）
+print(1+2)     # 输出：3     （没有引号，先计算）</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 变量 = 贴标签的盒子</div>
+    <code>x = 3</code> 意思是：造一个盒子，贴上标签 x，把 3 装进去。<code>=</code> 的读法是「把右边的装进左边」。盒子可以换内容：再执行 <code>x = 20</code>，x 里就变成 20（旧东西被换掉）。
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. 赋值是复制，不是改名</div>
+    <code>b = a</code> 是把 a 盒子里的东西<b>复制一份</b>装进 b。之后 a 换新东西，b 还是原来那份，互不影响。
+<pre>a = 1
+b = a      # 复制：b 里也装 1
+a = 10     # a 换新内容
+print(a)   # 10
+print(b)   # 1   ← b 不受影响</pre>
+  </div>
+  <div class="tip"><b>一句话总结：</b>代码从上到下逐行执行；引号让内容变文字；变量是贴标签的盒子；<code>=</code> 是把右边装进左边，<code>b = a</code> 是复制不是绑定。</div>
+
+  <h3>练习题</h3>
+  <div class="case-intro">先自己做，再点开参考答案。做错没关系，把错题告诉老师，进错题本。</div>
+
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">print 引号</span></div>
+      <p><code>print("2+3")</code> 运行后屏幕上显示什么？</p>
+      <p class="hint">A. 5　　B. 2+3　　C. 报错　　D. "2+3"（连引号一起显示）</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>引号是「文本标记」，里面的内容原样念出来。只有不带引号的 <code>print(2+3)</code> 才会先计算再输出 5。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">变量赋值</span></div>
+      <p>哪一行是「把 3 装进盒子 x」的正确写法？</p>
+      <p class="hint">A. <code>x = 3</code>　　B. <code>3 = x</code>　　C. <code>x == 3</code>　　D. <code>print(x)</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>等号左边必须是盒子的名字（变量名），右边是装进去的内容。B 把 3 当盒子，语法错误；C 的 <code>==</code> 是「问是否相等」，不是赋值；D 只是打印 x 里的内容。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">顺序执行</span></div>
+      <p>下面代码的输出顺序是什么？</p>
+<pre>print("A")
+print("B")</pre>
+      <p class="hint">A. B 然后 A　　B. A 然后 B　　C. 随机顺序　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>Python 从上到下逐行执行，先执行第一行 print("A")，再执行第二行，所以先 A 后 B。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">变量换内容</span></div>
+      <p>执行下面的代码，输出什么？</p>
+<pre>x = 10
+print(x)
+x = 20
+print(x)</pre>
+      <p class="hint">A. 10 然后 20　　B. 20 然后 20　　C. 10 然后 10　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>盒子 x 先装 10，第一次 print 输出 10；然后 x 换装 20，第二次 print 输出 20。print 打印的是「执行到那一行时盒子里装的东西」，不是盒子的历史。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">赋值=复制</span></div>
+      <p>这是当日错题原题：执行后 <code>print(b)</code> 输出什么？</p>
+<pre>a = 1
+b = a
+a = 10
+print(b)</pre>
+      <p class="hint">A. 1　　B. 10　　C. 报错　　D. 11</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b><code>b = a</code> 时 a 里装的是 1，于是复制一份 1 给 b。之后 a 换成 10，b 手里还是当初复制的那份 1。类比：病历复印件已经印出来了，原件改了，复印件不变。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题（像做数学题一样动手）</h4>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">交换两个变量</span></div>
+      <p>已知 <code>x = 3</code>，<code>y = 8</code>。要求：只写 3 行代码（允许用一个临时变量 temp），让交换后 <code>x = 8</code>、<code>y = 3</code>。</p>
+      <p class="hint">提示：先想「直接写 x = y 行不行？」——不行，那 y 的原值 3 就被覆盖丢了。需要先把一个值存到安全的地方。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>temp = x   # 先把 x 里的 3 存进 temp 保命
+x = y      # x 换成 8
+y = temp   # y 拿到当初的 3</pre>
+        <b>解析：</b>这和「两手各拿一个杯子要交换液体，必须先借第三个空杯」是同一个道理。temp 就是那个借来的空杯。这是编程里的经典操作，后面学函数、排序都会用到。
+      </div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">预测输出</span></div>
+      <p>不运行代码，在纸上写出下面程序的完整输出，并给每一行写一句注释说明「此刻每个盒子里装的是什么」：</p>
+<pre>a = 1
+b = a
+a = 10
+print(a)
+print(b)</pre>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre># 盒子 a 装 1
+# 复制：盒子 b 也装 1
+# 盒子 a 换装 10
+print(a)   # 输出 10
+print(b)   # 输出 1</pre>
+        <b>检查清单：</b>① 每行执行后把每个变量的值写下来；② print 那一行，写的是「当时」盒子里装的值。如果你 7 题全部写出且 5 题答对，说明这一课真正过了。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-002 ==================== -->
+<section id="py-002">
+  <div class="part-divider"><small>第 2 课 · py-002</small><h2>数据类型：int / float / str / bool</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 类型 = 标本的标签</div>
+    数据分类型，就像化验标本分血常规、尿常规。Python 常见四种：
+    <table>
+      <tr><th>类型</th><th>中文名</th><th>例子</th><th>说明</th></tr>
+      <tr><td><code>int</code></td><td>整数</td><td><code>3</code> <code>-2</code> <code>0</code></td><td>没有小数点的数</td></tr>
+      <tr><td><code>float</code></td><td>浮点数（小数）</td><td><code>3.0</code> <code>36.5</code></td><td>带小数点的数，体温、化验值都是它</td></tr>
+      <tr><td><code>str</code></td><td>字符串（文本）</td><td><code>"发热"</code> <code>"38.5"</code></td><td>必须带引号，内容可以是任何文字</td></tr>
+      <tr><td><code>bool</code></td><td>布尔值</td><td><code>True</code> <code>False</code></td><td>只有两个值：真 / 假</td></tr>
+    </table>
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 同一个 + 号，行为由类型决定</div>
+    「类型决定行为」是本课核心：同样是 <code>+</code>，遇到不同类型干不同的活。
+<pre>print(3 + 4)      # 7   数字相加
+print("3" + "4")  # 34  文本拼接（把两段文字接在一起）
+print(3 + 4.0)    # 7.0 整数+小数 → 自动升级成小数，防丢精度</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 类型不匹配会报错</div>
+    <code>"3" + 4</code> 会报 <code>TypeError</code>：文本和数字是两种标本，不能直接混着加。必须先转换（下一课讲）。另外注意：<code>10 / 2</code> 结果是 <code>5.0</code>（float）——除法永远返回小数，即使能整除。
+  </div>
+  <div class="tip"><b>一句话总结：</b>每个值都有类型；<code>+</code> 遇到数字相加、遇到文本拼接、遇到 int+float 自动升级；类型混用会报 TypeError。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">文本拼接</span></div>
+      <p><code>print("3" + "3")</code> 输出什么？</p>
+      <p class="hint">A. 6　　B. 33　　C. 报错　　D. 3+3</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>两边都是带引号的文本（str），<code>+</code> 是拼接，把 "3" 和 "3" 接在一起成 "33"。注意它不是数字 33，而是两个字符组成的文本。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">识别类型</span></div>
+      <p>下面哪个值是 float 类型？</p>
+      <p class="hint">A. <code>7</code>　　B. <code>7.0</code>　　C. <code>"7"</code>　　D. <code>True</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>7 是 int，7.0 带小数点所以是 float，"7" 带引号是 str，True 是 bool。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">除法类型</span></div>
+      <p><code>print(10 / 2)</code> 的结果是什么类型？</p>
+      <p class="hint">A. int　　B. float　　C. str　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>除法（/）永远返回 float，即使 10 / 2 能整除，结果也是 <code>5.0</code> 而不是 5。这是 Python 的规定：除法可能产生小数，干脆一律给小数。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">自动升级</span></div>
+      <p><code>3 + 3.0</code> 的结果是？</p>
+      <p class="hint">A. 6　　B. 6.0　　C. "33"　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>int + float 时，Python 自动把 int 升级成 float 再相加，结果是 <code>6.0</code>。规则：整数和小数相遇，结果保小数，绝不丢精度。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">TypeError</span></div>
+      <p>哪一行会报错？</p>
+<pre>行1: print(3 + 4)
+行2: print("3" + 4)
+行3: print(3.0 + 4)</pre>
+      <p class="hint">A. 行1　　B. 行2　　C. 行3　　D. 都不报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>行2 是 str + int：文本和数字不能直接相加，报 TypeError。行3 是 float + int，自动升级没问题。记住报错信息长这样：<code>TypeError: can only concatenate str (not "int") to str</code>——翻译过来就是「文本只能和文本拼接，不能和整数拼」。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">体温上升计算</span></div>
+      <p>患者基础体温 36.5（float），现在上升 0.3 度。写两行代码：第一行用变量 <code>t</code> 存基础体温，第二行计算并打印新体温。再想一想：如果体温是文本 <code>"36.5"</code>，直接 <code>"36.5" + 0.3</code> 会怎样？</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>t = 36.5
+print(t + 0.3)   # 输出 36.8，float + float 正常相加</pre>
+        <b>延伸：</b><code>"36.5" + 0.3</code> 会报 TypeError——文本和数据是两种标本。如果数据是从 input() 或文件里来的，常常是文本，需要先转换（下一课专门讲）。
+      </div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">报告单打印</span></div>
+      <p>白细胞数值 6.8，单位是 x10^9/L。用变量存数值和单位，用一行 <code>print</code> 打印出完整的报告行：<code>WBC: 6.8 x10^9/L</code>。</p>
+      <p class="hint">提示：数值是 float、文字是 str，不能直接相加。但 print 可以一次接收多个内容，用逗号隔开，它们会被空格连起来。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>wbc = 6.8
+unit = "x10^9/L"
+print("WBC:", wbc, unit)   # WBC: 6.8 x10^9/L</pre>
+        <b>解析：</b>print 用逗号隔开多个值，会把它们按顺序打印并用空格连接，自动把数字转成文字显示。这是「数字和文本要一起显示」时最省事的办法。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-003 ==================== -->
+<section id="py-003">
+  <div class="part-divider"><small>第 3 课 · py-003</small><h2>input 输入与类型转换</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. input() = 停下来问病人主诉</div>
+    程序跑到这里会<b>停住</b>，等你在屏幕上输入内容、按回车，才继续往下走。input 括号里可以写提示语：
+<pre>name = input("请输入姓名：")
+print("你好", name)</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 核心坑：input 返回永远是 str</div>
+    不管用户输入 <code>38.5</code> 还是 <code>3</code>，input 拿到手的都是<b>文本</b>。所以 <code>input("体温：") + 0.5</code> 必然 TypeError——必须先转换。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 类型转换 = 换标本管</div>
+    <code>float(x)</code> 把内容转成小数、<code>int(x)</code> 转成整数、<code>str(x)</code> 转成文本。转换规则不一样，注意区分：
+    <table>
+      <tr><th>写法</th><th>结果</th><th>原理</th></tr>
+      <tr><td><code>int(3.5)</code></td><td><code>3</code></td><td>物理截断：直接把小数部分倒掉，不报错</td></tr>
+      <tr><td><code>int("3.5")</code></td><td><b>报错 ValueError</b></td><td>读文本：内容必须长得像整数（如 "3"），带小数点就拒收</td></tr>
+      <tr><td><code>float("38.5")</code></td><td><code>38.5</code></td><td>文本内容长得像小数，成功转换</td></tr>
+      <tr><td><code>float("体温")</code></td><td><b>报错 ValueError</b></td><td>文本内容不是数字，转换失败</td></tr>
+    </table>
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. 嵌套写法：从里往外执行</div>
+    <code>t = float(input("体温："))</code>——先执行最里面的 <code>input()</code> 拿到文本，再交给 <code>float()</code> 转成小数，最后装进盒子 t。一层套一层，像剥洋葱，从里往外。
+  </div>
+  <div class="tip"><b>一句话总结：</b>input 拿到的一律是文本；要算数必须先转换；float→int 是倒掉小数，str→int 是读文本（内容必须整数写法，否则报错）。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">input 返回值</span></div>
+      <p>用户输入 <code>38.5</code> 并回车，<code>input()</code> 返回的值是什么类型？</p>
+      <p class="hint">A. float　　B. str　　C. int　　D. 看运气</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>input 永远返回 str，哪怕内容是数字。这是新手最常踩的坑：输入 38.5 拿到的是文本 "38.5"，直接做算术会报错。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">选择转换函数</span></div>
+      <p>要把文本 <code>"38.5"</code> 变成能做运算的小数，用哪个？</p>
+      <p class="hint">A. <code>int("38.5")</code>　　B. <code>float("38.5")</code>　　C. <code>str("38.5")</code>　　D. <code>bool("38.5")</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>要小数就用 float()。A 会报错（int 要求整数写法），C 是文本转文本没有意义，D 会得到 True。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">哪行报错</span></div>
+      <p>哪一行会报错？</p>
+<pre>行1: x = int("5")
+行2: y = float("5")
+行3: z = int("5.9")</pre>
+      <p class="hint">A. 行1　　B. 行2　　C. 行3　　D. 都不报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>int 读文本要求内容是「整数写法」，"5.9" 带小数点，拒收 → ValueError。行1 的 "5" 是整数写法，没问题；行2 float 接受 "5"（转成 5.0）。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">当日错题原题</span></div>
+      <p><code>int("3.5")</code> 会怎样？</p>
+      <p class="hint">A. 返回 3　　B. 返回 3.0　　C. 报错　　D. 返回 "3"</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>这是当日错题原题。容易把 <code>int(3.5)</code>（物理截断→3）的错误印象迁移到文本上。记住：<code>int("3.5")</code> 是「读文本」，文本内容必须长得像整数，带小数点一律拒收，报 <code>ValueError</code>。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">嵌套执行顺序</span></div>
+      <p>用户输入 <code>37.2</code> 后，<code>t = float(input("体温："))</code> 中盒子 t 最终装的是什么类型？</p>
+      <p class="hint">A. str　　B. int　　C. float　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>从里往外执行：先 input 拿到文本 "37.2"，再 float() 转成小数 37.2，装进 t。所以 t 是 float。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">BMI 计算器雏形</span></div>
+      <p>用 input 询问身高（米）和体重（kg），把两个输入都转成 float，计算 BMI = 体重 ÷ 身高² ，打印结果。写完在 PyCharm 里跑一遍，输入 1.75 和 70，看输出是不是约 22.86。</p>
+      <p class="hint">身高² 可以写 <code>h * h</code>（或 <code>h ** 2</code>）。别忘了 input 拿到的是文本，直接除会报错。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>h = float(input("身高（米）："))
+w = float(input("体重（kg）："))
+bmi = w / (h * h)
+print("BMI =", bmi)</pre>
+        <b>自查：</b>如果漏了 float()，会报 <code>TypeError: unsupported operand type(s) for /: 'str' and 'str'</code>——看到这个错，第一反应就是「哪个 input 没转类型」。
+      </div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">年龄 +1</span></div>
+      <p>用 input 问「今年几岁」，用户输入 35。程序打印「明年你就 36 岁了」。写代码，并解释：为什么必须用 <code>int()</code> 转换？如果不转换直接 <code>"35" + 1</code> 会发生什么？</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>age = int(input("今年几岁："))
+print("明年你就", age + 1, "岁了")</pre>
+        <b>解析：</b>必须 int() 是因为 input 拿到的是文本 "35"，"35" + 1 是 str + int，报 TypeError（文本只能拼文本）。转成 int 后 35 + 1 = 36，是正常加法。如果直接 <code>"35" + "1"</code>，得到的是 "351"——拼接不是加法，这是文本和数字的本质区别。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-004 ==================== -->
+<section id="py-004">
+  <div class="part-divider"><small>第 4 课 · py-004</small><h2>布尔值与比较运算</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. bool = 化验单的阳/阴</div>
+    布尔值只有两个：<code>True</code>（真）和 <code>False</code>（假）。它是一切判断的「原料」——下一阶段 if 就是靠它决定走哪条路。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 6 个比较符号，结果永远是 bool</div>
+    <table>
+      <tr><th>符号</th><th>含义</th><th>例子</th><th>结果</th></tr>
+      <tr><td><code>==</code></td><td>等于（问相等）</td><td><code>3 == 3</code></td><td><code>True</code></td></tr>
+      <tr><td><code>!=</code></td><td>不等于</td><td><code>3 != 4</code></td><td><code>True</code></td></tr>
+      <tr><td><code>&gt;</code> / <code>&lt;</code></td><td>大于 / 小于</td><td><code>5 &gt; 3</code></td><td><code>True</code></td></tr>
+      <tr><td><code>&gt;=</code> / <code>&lt;=</code></td><td>大于等于 / 小于等于</td><td><code>5 &gt;= 5</code></td><td><code>True</code></td></tr>
+    </table>
+    <div class="warning"><b>区分 == 和 =：</b><code>==</code> 是「问一问两者相等吗」（输出 True/False）；<code>=</code> 是「把右边装进左边」（赋值）。一个问问题，一个放东西。</div>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 比较前提：类型匹配</div>
+    <code>float("38.5") &gt; 37</code> → True（都是数字，能比）；但 <code>"38.5" &gt; 37</code> → 报 TypeError。文本和数字没法「比个子」，必须先转换。这里有个例外要记住：<code>"3" == 3</code> 不报错，返回 <b>False</b>（== 是验明正身，类型不同直接说不认识）。
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. 区间写法</div>
+    体温 37 到 37.5 之间（含两端）：<code>37 &lt;= t &lt;= 37.5</code>。Python 支持这种「连写」的比较，读起来和数学一模一样。注意它<b>包含边界</b>：t 恰好等于 37 或 37.5 都算 True。
+  </div>
+  <div class="tip"><b>一句话总结：</b>比较符号产出的永远是 True/False；== 验明正身（类型不同→False），&gt; 比个子（类型不同→报错）；数字和文本必须先转换再比。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">哪个是 True</span></div>
+      <p>下面哪个表达式结果是 True？</p>
+      <p class="hint">A. <code>1 == 2</code>　　B. <code>3 == 3</code>　　C. <code>"3" == 3</code>　　D. <code>3 &gt; 5</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>3 == 3 相等，True。C 是文本和数字比相等：不报错，但类型不同直接返回 False。A、D 明显不成立。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">转换后比较</span></div>
+      <p><code>float("38.5") &gt; 37</code> 的结果是？</p>
+      <p class="hint">A. True　　B. False　　C. 报错　　D. 38.5</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>先转换：float("38.5") 变成数字 38.5，再和 37 比，38.5 &gt; 37 成立 → True。先换标本管，再比个子。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">类型不匹配</span></div>
+      <p><code>"38.5" &gt; 37</code> 的结果是？</p>
+      <p class="hint">A. True　　B. False　　C. 报错　　D. 无法确定</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>文本和数字「比个子」没有意义，Python 直接报 TypeError：<code>'&gt;' not supported between instances of 'str' and 'int'</code>。这和 == 不同——== 是问「是不是同一个」，类型不同也能答「不是」；&gt; 必须同类才能比。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">区间与边界</span></div>
+      <p>表达式 <code>37 &lt;= t &lt;= 37.5</code> 在 t = 37.5 时结果是？在 t = 37.6 时呢？</p>
+      <p class="hint">A. True / True　　B. True / False　　C. False / False　　D. False / True</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>区间写法包含两端：t = 37.5 正好压线，True；t = 37.6 超出上限，False。判断体温是否「正常偏高」这类边界问题，先想清楚含不含等号。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl hard">进阶</span><span class="lvl tag">== 与 = 的区别</span></div>
+      <p>执行下面两行，分别会发生什么？</p>
+<pre>print(5 == 5)
+print(5 = 5)</pre>
+      <p class="hint">A. True / True　　B. True / 报错　　C. 报错 / True　　D. 都报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>第一行 <code>==</code> 是问「5 等于 5 吗」，输出 True。第二行 <code>=</code> 是赋值，要求左边是盒子的名字，而 5 不是名字 → 语法错误。看到 <code>SyntaxError: cannot assign to literal</code> 就要想到：是不是把 == 写成 = 了。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">发热初筛</span></div>
+      <p>用 input 让用户输入体温，转 float。写代码判断并打印三行结论：是否 >= 38（发热）、是否 &lt; 36（体温偏低）、是否在 36 到 37.5 之间（正常范围，含两端）。每个判断一行，输出 True/False。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>t = float(input("体温："))
+print("发热：", t >= 38)
+print("偏低：", t < 36)
+print("正常：", 36 <= t <= 37.5)</pre>
+        <b>解析：</b>三个判断互不冲突，可以都打印。这就是「先产生布尔值，再拿布尔值说话」的思路——下一课 if 会把 True/False 变成真正的分岔路。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">血型核对</span></div>
+      <p>写代码：用两个变量存患者登记血型 <code>reg = "A"</code> 和复查血型 <code>retest = "A"</code>，用 == 判断是否一致并打印 True/False。然后把 retest 改成 "B" 再跑一次，观察输出变化。最后想一想：如果用 <code>&gt;</code> 比 "A" 和 "B"，会报错吗？为什么？</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>reg = "A"
+retest = "A"
+print("血型一致：", reg == retest)   # True
+
+retest = "B"
+print("血型一致：", reg == retest)   # False</pre>
+        <b>延伸：</b>"A" &gt; "B" 不报错——因为两个都是文本，文本之间可以比（按字母顺序，A 在 B 前所以 False）。但文本和数字不能比。规则总结：同类型能比，== 例外（不同类型也能答「不是」）。</div></details>
+    </div>
+  </div>
+</section>
+
+<footer>阶段 01 · 代码是什么 · 4 课全量完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+</main>
+<script>
+window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
+document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
+</script>
+</body>
+</html>
