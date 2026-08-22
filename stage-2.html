@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-005">py-005 if 判断</a><a href="#py-006">py-006 for 循环</a><a href="#py-007">py-007 while 循环</a><a href="#next">后续课程</a>
+  <a href="#py-005">py-005 if 判断</a><a href="#py-006">py-006 for 循环</a><a href="#py-007">py-007 while 循环</a><a href="#py-008">py-008 列表进阶</a><a href="#next">后续课程</a>
 </nav>
 <header class="hero"><div class="hero-inner">
   <span class="badge">阶段 02 · 进行中</span>
   <h1>控制流<br><span>岔路口与流水线</span></h1>
-  <p>让代码自己判断和重复：if/elif/else、for 循环、while 循环、break/continue、range。已完成 3 课，正在学习列表进阶。</p>
+  <p>让代码自己判断和重复：if/elif/else、for 循环、while 循环、break/continue、range。已完成 4 课，正在学习字典进阶。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:50%"></i></div>
-    <div class="label"><span>py-005 ~ py-010</span><span>3 / 6 完成</span></div>
+    <div class="bar"><i style="width:67%"></i></div>
+    <div class="label"><span>py-005 ~ py-010</span><span>4 / 6 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -29,7 +29,8 @@
     <a href="#py-005">py-005 · if / elif / else 判断</a>
     <a href="#py-006">py-006 · for 循环</a>
     <a href="#py-007">py-007 · while + break/continue</a>
-    <a href="#next">py-008 ~ py-010 · 后续课程（未开始）</a>
+    <a href="#py-008">py-008 · 列表进阶：索引/切片/增删改</a>
+    <a href="#next">py-009 ~ py-010 · 后续课程（未开始）</a>
   </div>
 </div>
 
@@ -491,36 +492,163 @@ print("程序结束")</pre>
   </div>
 </section>
 
+<!-- ==================== py-008 ==================== -->
+<section id="py-008">
+  <div class="part-divider"><small>第 8 课 · py-008</small><h2>列表进阶：索引 / 切片 / 增删改</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 索引 = 按编号取货（从 0 开始）</div>
+    列表里每个位置有编号，叫索引。用 <code>列表[编号]</code> 打开指定柜子：<b>编号从 0 开始</b>（和 range 同一个规矩）。负数编号从右往左数：<code>[-1]</code> 永远是最后一个，不用数长度。
+<pre>病人 = ["张三", "李四", "王五", "赵六"]
+print(病人[0])    # 张三（第 1 个，编号 0）
+print(病人[2])    # 王五（第 3 个，编号 2）
+print(病人[-1])   # 赵六（倒数第 1 个）
+print(病人[-2])   # 王五（倒数第 2 个）</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 切片 = 取一段（起点包含、终点不包含）</div>
+    <code>列表[起点:终点]</code> 从起点开始取，取到终点<b>前一个</b>为止（终点本身不取）。省略起点 = 从头开始；省略终点 = 取到末尾；都省略 = 整份复制。
+<pre>病人 = ["张三", "李四", "王五", "赵六"]
+print(病人[1:3])   # ['李四', '王五'] —— 1 号到 3 号前
+print(病人[:2])    # ['张三', '李四'] —— 开头到 2 号前
+print(病人[2:])    # ['王五', '赵六'] —— 2 号到末尾
+print(病人[:])     # 整份复制（副本）</pre>
+    <b>医生类比：</b>切片不是复印整个病历，是「复印第 2 页到第 4 页（不含第 5 页）」。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 增删改四把钥匙</div>
+<pre>病人 = ["张三", "李四"]
+病人.append("王五")     # 末尾加 → ["张三","李四","王五"]
+病人.insert(1, "插队")  # 插到 1 号位 → ["张三","插队","李四","王五"]
+病人.remove("插队")     # 按内容删（第一个匹配）→ ["张三","李四","王五"]
+del 病人[1]             # 按编号删 → ["张三","王五"]</pre>
+    <b>注意区别：</b>remove 按「内容」找（值），del 按「编号」找（位置）。内容重复时 remove 只删第一个。
+  </div>
+  <div class="tip"><b>一句话总结：</b>索引是「按编号开柜子」（0 起、-1 结尾），切片是「复印一段」（起点算、终点不算），append/insert/remove/del 四把钥匙管增删改。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">索引取值</span></div>
+      <p><code>["苹果", "香蕉", "橙子"][1]</code> 的值是？</p>
+      <p class="hint">A. "苹果"　　B. "香蕉"　　C. "橙子"　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>编号从 0 开始：0 号是"苹果"，1 号是"香蕉"。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">负数索引</span></div>
+      <p><code>["苹果", "香蕉", "橙子"][-1]</code> 的值是？</p>
+      <p class="hint">A. "苹果"　　B. "香蕉"　　C. "橙子"　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>负数从右往左数：-1 永远是最后一个元素。取「最后一项」不用数长度，直接 [-1]。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">切片</span></div>
+      <p><code>["苹果", "香蕉", "橙子", "葡萄"][1:3]</code> 的结果是？</p>
+      <p class="hint">A. ["苹果","香蕉"]　　B. ["香蕉","橙子"]　　C. ["香蕉","橙子","葡萄"]　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>切片 [1:3] 从 1 号开始取，取到 3 号前（即 1、2 号），不含 3 号。口诀：起点算、终点不算。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">append</span></div>
+      <p><code>x = [1, 2, 3]</code>，执行 <code>x.append(4)</code> 后 x 是？</p>
+      <p class="hint">A. [4,1,2,3]　　B. [1,2,3,4]　　C. [1,2,3]　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>append 永远加在末尾，变成 [1,2,3,4]。想加在开头用 insert(0, 4)。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">越界陷阱</span></div>
+      <p><code>x = ["a", "b", "c"]</code>，执行 <code>x[3]</code> 会怎样？</p>
+      <p class="hint">A. 返回空字符串　　B. 报 IndexError　　C. 返回 "c"　　D. 自动循环回 "a"</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>编号 3 不存在（只有 0、1、2），Python 报 <code>IndexError: list index out of range</code>。索引越界是新手最常踩的坑——下标从 0 起，最后一个的下标是「长度 - 1」。切片不会越界报错（[1:99] 只取到末尾），但单独取值 [99] 会崩。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">模拟执行</span></div>
+      <p>逐行推演，最后 <code>print(名单)</code> 输出什么？</p>
+<pre>名单 = ["甲", "乙", "丙"]
+名单.remove("乙")
+名单.append("丁")
+del 名单[0]
+print(名单)</pre>
+      <p class="hint">A. ["甲","丙","丁"]　　B. ["丙","丁"]　　C. ["甲","丁"]　　D. ["乙","丙","丁"]</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>三步依次：remove("乙") 删内容 → ["甲","丙"]；append("丁") 加末尾 → ["甲","丙","丁"]；del 名单[0] 删 0 号（"甲"）→ ["丙","丁"]。一步步推，别跳步。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">排队叫号</span></div>
+      <p>候诊队列 <code>queue = ["A001", "A002", "A003"]</code>。写代码完成：① 新病人 A004 到队尾；② 打印当前第 1 个（队首）；③ 叫号后从队首删除（用 del 或切片重写）。</p>
+      <p class="hint">提示：队首是 0 号。删除队首 <code>del queue[0]</code> 后，原第 2 个自动变成新队首。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>queue = ["A001", "A002", "A003"]
+queue.append("A004")          # ① 新病人到队尾
+print("当前队首：", queue[0])  # ② 打印队首
+del queue[0]                  # ③ 叫号出队
+print("叫号后队列：", queue)</pre>
+        <b>自查要点：</b>del queue[0] 后 "A002" 自动顶上成为新队首——列表删中间/开头元素时，后面的会「自动前移」，这是列表的底层行为。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">切片取中间（填空）</span></div>
+      <p>体温记录 <code>temps = [36.5, 37.2, 38.1, 37.0, 36.8]</code>。取中间三天（去掉第 1 天和最后 1 天）存入 <code>mid</code>，填空：</p>
+<pre>temps = [36.5, 37.2, 38.1, 37.0, 36.8]
+mid = temps[____]     # 填：取 37.2, 38.1, 37.0
+print(mid)</pre>
+      <p class="hint">提示：37.2 在 1 号位，37.0 在 3 号位，4 号位（最后一天）不取。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>temps = [36.5, 37.2, 38.1, 37.0, 36.8]
+mid = temps[1:4]      # 1 号到 4 号前 = 1,2,3 号
+print(mid)            # [37.2, 38.1, 37.0]</pre>
+        <b>解析：</b>[1:4] 起点 1 号包含，终点 4 号不包含，正好取到 3 号。想取「去掉首尾」通用写法：<code>temps[1:-1]</code>——终点用 -1（不包含最后一个），起点 1（不包含第一个），一次搞定。</div></details>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== 后续课程占位 ==================== -->
 <section id="next">
-  <div class="part-divider"><small>py-008 ~ py-010</small><h2>后续课程 · 未开始</h2></div>
+  <div class="part-divider"><small>py-009 ~ py-010</small><h2>后续课程 · 未开始</h2></div>
   <div class="placeholder">
     <div class="p-title">课程进行到此处后填充</div>
     <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
   </div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-008</span>
-      <span class="rtitle">列表进阶</span>
-      <span class="rdesc">索引、切片、增删改（append / remove / insert）——for 循环的好搭档，衔接阶段 03 数据结构</span>
+      <span class="rid">py-009</span>
+      <span class="rtitle">字典进阶</span>
+      <span class="rdesc">查值、改值、加键值对、删除、for 遍历字典（for key in dict / items()）——用「病历卡」存多字段数据</span>
       <span class="rst now">下一课</span>
     </li>
     <li>
-      <span class="rid">py-009</span>
-      <span class="rtitle">待定</span>
-      <span class="rdesc">控制流收尾（可能覆盖 range 高级用法 / 嵌套循环），按学习进度更新标题</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-010</span>
-      <span class="rtitle">待定</span>
-      <span class="rdesc">阶段 02 综合演练（判断 + 循环组合小项目），按学习进度更新标题</span>
+      <span class="rtitle">阶段 02 综合演练</span>
+      <span class="rdesc">判断 + 循环 + 列表组合小项目（如候诊分诊系统），按学习进度更新标题</span>
       <span class="rst wait">未开始</span>
     </li>
   </ul>
 </section>
 
-<footer>阶段 02 · 控制流 · 3/6 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 02 · 控制流 · 4/6 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
