@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-005">py-005 if 判断</a><a href="#py-006">py-006 for 循环</a><a href="#py-007">py-007 while 循环</a><a href="#py-008">py-008 列表进阶</a><a href="#next">后续课程</a>
+  <a href="#py-005">py-005 if 判断</a><a href="#py-006">py-006 for 循环</a><a href="#py-007">py-007 while 循环</a><a href="#py-008">py-008 列表进阶</a><a href="#py-009">py-009 字典进阶</a><a href="#next">后续课程</a>
 </nav>
 <header class="hero"><div class="hero-inner">
   <span class="badge">阶段 02 · 进行中</span>
   <h1>控制流<br><span>岔路口与流水线</span></h1>
-  <p>让代码自己判断和重复：if/elif/else、for 循环、while 循环、break/continue、range。已完成 4 课，正在学习字典进阶。</p>
+  <p>让代码自己判断和重复：if/elif/else、for 循环、while 循环、break/continue、range。已完成 5 课，正在学习阶段综合演练。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:67%"></i></div>
-    <div class="label"><span>py-005 ~ py-010</span><span>4 / 6 完成</span></div>
+    <div class="bar"><i style="width:83%"></i></div>
+    <div class="label"><span>py-005 ~ py-010</span><span>5 / 6 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -30,7 +30,8 @@
     <a href="#py-006">py-006 · for 循环</a>
     <a href="#py-007">py-007 · while + break/continue</a>
     <a href="#py-008">py-008 · 列表进阶：索引/切片/增删改</a>
-    <a href="#next">py-009 ~ py-010 · 后续课程（未开始）</a>
+    <a href="#py-009">py-009 · 字典进阶：查改加删/遍历</a>
+    <a href="#next">py-010 · 后续课程（未开始）</a>
   </div>
 </div>
 
@@ -623,32 +624,202 @@ print(mid)            # [37.2, 38.1, 37.0]</pre>
         <b>解析：</b>[1:4] 起点 1 号包含，终点 4 号不包含，正好取到 3 号。想取「去掉首尾」通用写法：<code>temps[1:-1]</code>——终点用 -1（不包含最后一个），起点 1（不包含第一个），一次搞定。</div></details>
     </div>
   </div>
+
+  <h4>重点复习（Leo 标记：索引/切片易模糊，加量）</h4>
+  <div class="quiz">
+    <span class="qno">9</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">负切片</span></div>
+      <p><code>x = ["a", "b", "c", "d", "e"]</code>，<code>x[1:-1]</code> 的结果是？</p>
+      <p class="hint">A. ["b","c","d"]　　B. ["a","b","c","d"]　　C. ["b","c","d","e"]　　D. ["a","e"]</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>起点 1 包含（"b"），终点 -1 不包含（"e"），取 1 号到倒数第 2 个 = ["b","c","d"]。这是「去掉首尾」的通用写法，务必记住。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">10</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">insert 位置</span></div>
+      <p><code>x = ["a", "b", "c"]</code>，执行 <code>x.insert(1, "X")</code> 后 x 是？</p>
+      <p class="hint">A. ["X","a","b","c"]　　B. ["a","X","b","c"]　　C. ["a","b","X","c"]　　D. ["a","b","c","X"]</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>insert(位置, 内容) 把新元素插到指定编号上，原元素往后挤：X 插到 1 号位（"b" 前面），变成 ["a","X","b","c"]。insert(0, X) 才是插到最前。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">11</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">remove vs del</span></div>
+      <p><code>x = ["甲", "乙", "甲"]</code>，执行 <code>x.remove("甲")</code> 后 x 是？</p>
+      <p class="hint">A. ["乙"]　　B. ["乙","甲"]　　C. ["甲","乙"]　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>remove 按内容删，<b>只删第一个匹配</b>：删掉第一个"甲"，剩 ["乙","甲"]。想全删得循环删；按编号删用 del。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">12</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">切片越界 vs 取值越界</span></div>
+      <p><code>x = ["a", "b", "c"]</code>，下面哪个<b>不会</b>报错？</p>
+      <p class="hint">A. <code>x[5]</code>　　B. <code>x[1:99]</code>　　C. <code>x[-5]</code>　　D. 都会报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>切片超出范围不报错——[1:99] 只取到末尾 ["b","c"]（切片自动「截断」）。但单独取值 x[5] 或 x[-5] 超出范围会报 IndexError。记住：切片宽容，取值严格。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-009 ==================== -->
+<section id="py-009">
+  <div class="part-divider"><small>第 9 课 · py-009</small><h2>字典进阶：查值 / 改值 / 加项 / 遍历</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 字典 = 带标签的病历卡</div>
+    列表用「编号」找东西，字典用「名字（键）」找东西。每个 <code>键: 值</code> 成对出现，花括号包裹。像病历卡：字段名是键，填写内容是值。
+<pre>患者 = {"姓名": "张三", "体温": 38.5, "诊断": "肺炎"}
+print(患者["姓名"])   # 按键取值 → 张三</pre>
+    <b>医生类比：</b>列表 = 按床号找人；字典 = 按住院号/姓名找人。看标签拿东西，不用数位置。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 键存在就是改，不存在就是加（核心）</div>
+    同一个写法 <code>字典[键] = 值</code>，电脑自动判断：键已存在 → 覆盖旧值（改）；键不存在 → 新增一项（加）。
+<pre>患者 = {"姓名": "张三"}
+患者["体温"] = 38.5      # 键不存在 → 加一项
+患者["体温"] = 37.2      # 键已存在 → 改成 37.2
+del 患者["体温"]         # 按键删除</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 遍历字典两种方式</div>
+<pre>患者 = {"姓名": "张三", "体温": 38.5}
+for 键 in 患者:            # 方式1：只拿键
+    print(键)              # 姓名 / 体温
+for 键, 值 in 患者.items():  # 方式2：键和值一起
+    print(键, "=", 值)      # 姓名 = 张三 / 体温 = 38.5</pre>
+    <code>.items()</code> 把每对「键+值」打包递出来，<code>键, 值</code> 两个变量各接一个——像一次拿一双筷子。
+  </div>
+  <div class="tip"><b>一句话总结：</b>字典按「键」干活——取值用 字典[键]，赋值自动分「改/加」，删除用 del；items() 一次递出键值对。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">按键取值</span></div>
+      <p><code>d = {"a": 1, "b": 2}</code>，<code>d["a"]</code> 是？</p>
+      <p class="hint">A. 1　　B. 2　　C. "a"　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>字典[键] 按键取值，键 "a" 对应的值是 1。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">加新键</span></div>
+      <p><code>d = {"a": 1}</code>，执行 <code>d["b"] = 2</code> 后 d 是？</p>
+      <p class="hint">A. {"a": 1}　　B. {"a": 1, "b": 2}　　C. {"b": 2}　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>键 "b" 不存在 → 新增，变成 {"a": 1, "b": 2}。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">改已有键</span></div>
+      <p><code>d = {"a": 1, "b": 2}</code>，执行 <code>d["a"] = 99</code> 后 d 是？</p>
+      <p class="hint">A. {"a": 1, "b": 2}　　B. {"a": 99, "b": 2}　　C. 报错（不能改）　　D. {"a": 1, "a": 99}</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>键 "a" 已存在 → 覆盖旧值，变成 {"a": 99, "b": 2}。这就是「键存在就是改」。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">items() 遍历</span></div>
+      <p><code>for k, v in d.items():</code> 中，<code>k</code> 拿到的是？</p>
+      <p class="hint">A. 整个字典　　B. 键　　C. 值　　D. 键和值</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>items() 把每对「键+值」打包，两个变量各接一个：k 接键，v 接值。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">键不存在取值</span></div>
+      <p><code>d = {"a": 1}</code>，执行 <code>print(d["b"])</code> 会怎样？</p>
+      <p class="hint">A. 返回 None　　B. 返回 0　　C. 报 KeyError　　D. 自动加一项</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>取值时键不存在 → 报 <code>KeyError: 'b'</code>（和列表越界 IndexError 类似）。防呆写法：<code>d.get("b", 默认值)</code>——键不存在时返回默认值而不是报错。get 是字典的「安全取值」。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">模拟执行</span></div>
+      <p>逐行推演，最后 <code>print(患者)</code> 输出什么？</p>
+<pre>患者 = {"姓名": "张三", "体温": 38.5}
+患者["诊断"] = "肺炎"
+患者["体温"] = 37.2
+del 患者["体温"]
+print(患者)</pre>
+      <p class="hint">A. {"姓名":"张三","体温":38.5}　　B. {"姓名":"张三","诊断":"肺炎"}　　C. {"姓名":"张三","体温":37.2,"诊断":"肺炎"}　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>加"诊断"→ 改"体温"为 37.2 → 删"体温"→ 剩 {"姓名":"张三","诊断":"肺炎"}。一步步推：加、改、删，最后看剩什么。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">get 安全取值</span></div>
+      <p><code>d = {"a": 1}</code>，<code>d.get("b", 0)</code> 的结果是？</p>
+      <p class="hint">A. 报错　　B. None　　C. 0　　D. 1</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>get(键, 默认值)：键存在返回对应值，键不存在返回默认值（这里 0）。写数据处理时 get 比 [键] 安全，不会因为缺键崩掉。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">病历卡更新</span></div>
+      <p>患者档案 <code>patient = {"姓名": "李四", "诊断": "待查"}</code>。写代码完成：① 体温 39.0 加进档案；② 诊断从"待查"改成"肺部感染"；③ 用 items() 打印所有字段。</p>
+      <p class="hint">提示：加 = 赋值新键，改 = 赋值已有键，同一个写法。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>patient = {"姓名": "李四", "诊断": "待查"}
+patient["体温"] = 39.0              # ① 新键 → 加
+patient["诊断"] = "肺部感染"        # ② 已有键 → 改
+for 键, 值 in patient.items():      # ③ 遍历
+    print(键, "=", 值)</pre>
+        <b>自查要点：</b>①②都是 <code>patient[键] = 值</code>，电脑自动判断加还是改——这就是字典最方便的地方，一个写法两种操作。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">9</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">药房库存（填空）</span></div>
+      <p>药房库存 <code>stock = {"阿司匹林": 50, "二甲双胍": 30}</code>。发药 5 片阿司匹林，更新库存（填空）：</p>
+<pre>stock = {"阿司匹林": 50, "二甲双胍": 30}
+stock["阿司匹林"] = ____   # 填：发药 5 片后剩多少
+print(stock)</pre>
+      <p class="hint">提示：直接在原值基础上减 5。键已存在，这是「改」还是「加」？</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>stock = {"阿司匹林": 50, "二甲双胍": 30}
+stock["阿司匹林"] = stock["阿司匹林"] - 5   # 50 - 5 = 45
+print(stock)   # {"阿司匹林": 45, "二甲双胍": 30}</pre>
+        <b>解析：</b>等号右边先取值（50）再减 5（45），然后赋回去。键已存在 → 覆盖成 45。这种「取值-运算-赋值」是字典最常见的操作模式。</div></details>
+    </div>
+  </div>
 </section>
 
 <!-- ==================== 后续课程占位 ==================== -->
 <section id="next">
-  <div class="part-divider"><small>py-009 ~ py-010</small><h2>后续课程 · 未开始</h2></div>
+  <div class="part-divider"><small>py-010</small><h2>后续课程 · 未开始</h2></div>
   <div class="placeholder">
     <div class="p-title">课程进行到此处后填充</div>
     <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
   </div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-009</span>
-      <span class="rtitle">字典进阶</span>
-      <span class="rdesc">查值、改值、加键值对、删除、for 遍历字典（for key in dict / items()）——用「病历卡」存多字段数据</span>
-      <span class="rst now">下一课</span>
-    </li>
-    <li>
       <span class="rid">py-010</span>
       <span class="rtitle">阶段 02 综合演练</span>
-      <span class="rdesc">判断 + 循环 + 列表组合小项目（如候诊分诊系统），按学习进度更新标题</span>
-      <span class="rst wait">未开始</span>
+      <span class="rdesc">判断 + 循环 + 列表 + 字典组合小项目（候诊分诊系统）：输入体温 → 判断等级 → 排队列表 → 按等级叫号</span>
+      <span class="rst now">下一课</span>
     </li>
   </ul>
 </section>
 
-<footer>阶段 02 · 控制流 · 4/6 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 02 · 控制流 · 5/6 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
