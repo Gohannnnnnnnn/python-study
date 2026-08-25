@@ -10,82 +10,224 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#plan">课程路线</a><a href="#note">说明</a>
+  <a href="#py-011">py-011 元组与集合</a><a href="#next">后续课程</a>
 </nav>
 <header class="hero"><div class="hero-inner">
-  <span class="badge">阶段 03 · 未开始</span>
+  <span class="badge">阶段 03 · 进行中</span>
   <h1>数据结构<br><span>盒子家族</span></h1>
-  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、索引/切片/嵌套</p>
+  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、索引/切片/嵌套。已完成 1 课，正在学习字符串方法。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:0%"></i></div>
-    <div class="label"><span>py-011 ~ py-017</span><span>0 / 7 完成</span></div>
+    <div class="bar"><i style="width:14%"></i></div>
+    <div class="label"><span>py-011 ~ py-017</span><span>1 / 7 完成</span></div>
   </div>
 </div></header>
 <main class="container">
 
-<section id="plan">
-  <div class="part-divider"><small>阶段 03 · 学习路线图</small><h2>课程计划（预计内容，以实际教学为准）</h2></div>
+<div class="toc">
+  <h3>本阶段目录</h3>
+  <div class="toc-grid">
+    <a href="#py-011">py-011 · 元组与集合</a>
+    <a href="#next">py-012 ~ py-017 · 后续课程（未开始）</a>
+  </div>
+</div>
+
+<!-- ==================== py-011 ==================== -->
+<section id="py-011">
+  <div class="part-divider"><small>第 11 课 · py-011</small><h2>元组与集合：容器家族新成员</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 元组 = 只读列表（() 创建）</div>
+    元组和列表几乎一样（有顺序、能索引、能切片），唯一区别：<b>创建后不能改</b>——不能增、不能删、不能改值。
+<pre>坐标 = (3, 5)          # 圆括号 () 创建
+病人 = ("张三", "男", "2026-08-01")
+print(坐标[0])          # 3 —— 能查（索引和列表一样）
+坐标[0] = 9             # ❌ 报错！元组不能修改</pre>
+    <b>医生类比：</b>列表是「值班表」（随时加人删人），元组是「病历上的出生日期」（录进去就不能改——固定记录）。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 集合 = 去重口袋（{} 无冒号）</div>
+    集合三大特性：<b>自动去重</b>（重复只留一个）、<b>无序</b>（没有编号）、<b>能增删</b>（add / remove）。
+<pre>体温记录 = {37.2, 38.5, 37.2, 36.8}   # 花括号 {} 但里面没有冒号
+print(体温记录)   # {36.8, 37.2, 38.5} —— 37.2 只出现一次！
+
+名单 = {"张三", "李四"}
+名单.add("王五")        # 加一个
+名单.add("张三")        # 已有 → 不重复加
+名单.remove("李四")     # 删一个</pre>
+    <b>医生类比：</b>集合是「住院号登记本」——同一个病人挂几次号，登记本上只有一个号。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 容器家族全家福</div>
+    <table>
+      <tr><th>容器</th><th>符号</th><th>顺序</th><th>能改</th><th>按键找</th><th>去重</th></tr>
+      <tr><td>列表 list</td><td>[]</td><td>✅</td><td>✅</td><td>编号</td><td>❌</td></tr>
+      <tr><td>元组 tuple</td><td>()</td><td>✅</td><td>❌</td><td>编号</td><td>❌</td></tr>
+      <tr><td>字典 dict</td><td>{} 键:值</td><td>✅</td><td>✅</td><td>键</td><td>键去重</td></tr>
+      <tr><td>集合 set</td><td>{} 无冒号</td><td>❌</td><td>✅</td><td>❌</td><td>✅</td></tr>
+    </table>
+    <b>记忆口诀：</b>列表能改有顺序，元组只读有顺序，字典按键找值，集合自动去重。
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. 实战：统计不同种类</div>
+<pre>体温列表 = [37.2, 38.5, 37.2, 36.8, 38.5]
+种类数 = len(set(体温列表))     # 列表转集合 → 去重 → 数个数
+print("不同体温种类：", 种类数, "种")   # 3 种</pre>
+    <code>set(列表)</code> 把列表变成集合自动去重，<code>len()</code> 数个数——这是统计"有几种"的标准姿势。
+  </div>
+  <div class="tip"><b>一句话总结：</b>元组是只读列表（防误改），集合是去重口袋（无序、无编号）——"能按编号取"的前提是有顺序，集合为了去重牺牲了顺序。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">元组只读</span></div>
+      <p>元组 <code>t = (1, 2, 3)</code>，执行 <code>t[0] = 99</code> 会怎样？</p>
+      <p class="hint">A. t 变成 (99, 2, 3)　　B. 报错（元组不能改）　　C. 变成 [99, 2, 3]　　D. 静默忽略</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>元组创建后不能修改——增删改都不行。想改就换列表。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">集合去重</span></div>
+      <p><code>s = {1, 2, 2, 3, 3, 3}</code>，<code>print(s)</code> 输出？</p>
+      <p class="hint">A. {1, 2, 2, 3, 3, 3}　　B. {1, 2, 3}　　C. (1, 2, 3)　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>集合自动去重：重复元素只保留一个，输出 {1, 2, 3}（顺序可能不同，因为无序）。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">集合索引</span></div>
+      <p>集合能像列表一样用 <code>s[0]</code> 取第一个元素吗？</p>
+      <p class="hint">A. 能，从 0 开始　　B. 不能，集合无序没有编号　　C. 能，但只能取一次　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>集合无序，没有"第 0 个"的概念。<code>s[0]</code> 会报 TypeError。集合只能整体用（for 遍历、add、remove）。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">去重统计</span></div>
+      <p>想统计"体温列表里有几种不同的温度"，最合适的是？</p>
+      <p class="hint">A. 手动数　　B. <code>len(set(体温列表))</code>　　C. <code>len(体温列表)</code>　　D. <code>体温列表.count(全部)</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>set() 去重 → len() 数个数。len(列表) 是总数（含重复），不适用。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">元组用途</span></div>
+      <p>下面哪种数据<b>最适合</b>用元组存？</p>
+      <p class="hint">A. 值班医生名单（每周变）　　B. 出生日期 (年, 月, 日)——永不改变　　C. 病人体温记录　　D. 药品库存</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>元组 = "不该被改的数据"。出生日期是固定记录用元组；名单/体温/库存都要变，用列表。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">集合运算</span></div>
+      <p><code>a = {1, 2, 3}</code>，<code>b = {2, 3, 4}</code>，<code>a &amp; b</code> 的结果是？（&amp; 是交集：两边都有）</p>
+      <p class="hint">A. {2, 3}　　B. {1, 2, 3, 4}　　C. {1, 4}　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>交集 &amp; 取两边都有的元素：2 和 3 同时出现在两个集合里。集合天生支持数学运算（交集 &amp;、并集 |、差集 -），处理"共同/去重"类问题很好用。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">重复检查</span></div>
+      <p>住院号列表 <code>ids = ["A001", "A002", "A001", "A003", "A002"]</code>。写代码统计：① 一共有几条记录 ② 有几个不同病人。</p>
+      <p class="hint">提示：len() 总数，set() 去重后再 len()。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>ids = ["A001", "A002", "A001", "A003", "A002"]
+print("总记录：", len(ids))          # 5
+print("不同病人：", len(set(ids)))   # 3</pre>
+        <b>自查要点：</b>len(set(ids)) 是"去重后数个数"的标准组合，体检数据/病历数据查重复时很常用。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">交集找药（填空）</span></div>
+      <p>药房 A 有 <code>a = {"阿司匹林", "二甲双胍", "奥美拉唑"}</code>，药房 B 有 <code>b = {"二甲双胍", "硝苯地平"}</code>。填空：找出两个药房<b>都有</b>的药。</p>
+<pre>a = {"阿司匹林", "二甲双胍", "奥美拉唑"}
+b = {"二甲双胍", "硝苯地平"}
+共同 = ____    # 填：求交集
+print(共同)</pre>
+      <p class="hint">提示：交集符号是 &amp;。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>a = {"阿司匹林", "二甲双胍", "奥美拉唑"}
+b = {"二甲双胍", "硝苯地平"}
+共同 = a &amp; b    # 交集
+print(共同)     # {"二甲双胍"}</pre>
+        <b>解析：</b>集合的 &amp; 直接求两边共有元素。"找两个名单的共同项"（共同病人、共同药物）用集合交集一行搞定。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 后续课程占位 ==================== -->
+<section id="next">
+  <div class="part-divider"><small>py-012 ~ py-017</small><h2>后续课程 · 未开始</h2></div>
   <div class="placeholder">
-    <div class="p-title">本阶段尚未开始</div>
-    <p>先展示学习路线图。每天一课 15-20 分钟，课程进行到本阶段后，这里会补上知识要点、分层练习题与运用题。</p>
+    <div class="p-title">课程进行到此处后填充</div>
+    <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
   </div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-011</span>
-      <span class="rtitle">索引与切片</span>
-      <span class="rdesc">列表按下标取值、切片的含头不含尾规则</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-012</span>
-      <span class="rtitle">列表增删改</span>
-      <span class="rdesc">append / remove / insert，列表的自我更新</span>
-      <span class="rst wait">未开始</span>
+      <span class="rtitle">字符串方法</span>
+      <span class="rdesc">upper / lower / split / join / strip——处理文本的瑞士军刀；字符串不可变</span>
+      <span class="rst now">下一课</span>
     </li>
     <li>
       <span class="rid">py-013</span>
-      <span class="rtitle">元组 tuple</span>
-      <span class="rdesc">不可变的列表，数据锁死不能改</span>
+      <span class="rtitle">嵌套结构</span>
+      <span class="rdesc">列表套列表、字典套列表——真实数据的常见形状（如患者列表）</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
       <span class="rid">py-014</span>
-      <span class="rtitle">字典 dict</span>
-      <span class="rdesc">键值对：按名字查值，病历「项目: 结果」结构</span>
+      <span class="rtitle">待定</span>
+      <span class="rdesc">按学习进度更新标题</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
       <span class="rid">py-015</span>
-      <span class="rtitle">集合 set</span>
-      <span class="rdesc">去重与集合关系（交集、并集）</span>
+      <span class="rtitle">待定</span>
+      <span class="rdesc">按学习进度更新标题</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
       <span class="rid">py-016</span>
-      <span class="rtitle">字符串方法</span>
-      <span class="rdesc">split / join / upper 等常用文本处理</span>
+      <span class="rtitle">待定</span>
+      <span class="rdesc">按学习进度更新标题</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
       <span class="rid">py-017</span>
-      <span class="rtitle">嵌套结构</span>
-      <span class="rdesc">列表套列表、字典套列表，真实数据的常见形状</span>
+      <span class="rtitle">待定</span>
+      <span class="rdesc">按学习进度更新标题</span>
       <span class="rst wait">未开始</span>
     </li>
   </ul>
-  <div class="tip"><b>阶段目标：</b>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、索引/切片/嵌套。全部学完后，本页将变为完整知识页。</div>
 </section>
 
 <div class="note" id="note">
   <strong>说明</strong><br>
-  · 占位页仅展示课程计划；每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
-  · 想提前了解任何概念，随时在课上问，也可以让老师先出一两道「预习选择题」。
+  · 每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
+  · 本阶段 7 课：元组/集合（已完成）→ 字符串方法 → 嵌套结构 → 待定 4 课。
 </div>
 
-<footer>阶段 03 · 数据结构 · 未开始 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 03 · 数据结构 · 1/7 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
+document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
 </script>
 </body>
 </html>
