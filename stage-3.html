@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-011">py-011 元组与集合</a><a href="#next">后续课程</a>
+  <a href="#py-011">py-011 元组集合</a><a href="#py-012">py-012 字符串</a><a href="#py-013">py-013 嵌套</a><a href="#py-014">py-014 演练</a><a href="#next">后续课程</a>
 </nav>
 <header class="hero"><div class="hero-inner">
   <span class="badge">阶段 03 · 进行中</span>
   <h1>数据结构<br><span>盒子家族</span></h1>
-  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、索引/切片/嵌套。已完成 1 课，正在学习字符串方法。</p>
+  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、嵌套结构。已完成 4 课，正在学习字符串更多方法。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:14%"></i></div>
-    <div class="label"><span>py-011 ~ py-017</span><span>1 / 7 完成</span></div>
+    <div class="bar"><i style="width:57%"></i></div>
+    <div class="label"><span>py-011 ~ py-017</span><span>4 / 7 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -27,7 +27,10 @@
   <h3>本阶段目录</h3>
   <div class="toc-grid">
     <a href="#py-011">py-011 · 元组与集合</a>
-    <a href="#next">py-012 ~ py-017 · 后续课程（未开始）</a>
+    <a href="#py-012">py-012 · 字符串方法</a>
+    <a href="#py-013">py-013 · 嵌套结构</a>
+    <a href="#py-014">py-014 · 综合演练</a>
+    <a href="#next">py-015 ~ py-017 · 后续课程（未开始）</a>
   </div>
 </div>
 
@@ -170,48 +173,451 @@ print(共同)     # {"二甲双胍"}</pre>
   </div>
 </section>
 
+<!-- ==================== py-012 ==================== -->
+<section id="py-012">
+  <div class="part-divider"><small>第 12 课 · py-012</small><h2>字符串方法：处理文本的瑞士军刀</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. strip / upper / lower——清理与大小写</div>
+<pre>姓名 = "  Zhang San  "        # 注意前后有空格
+print(姓名.strip())            # "Zhang San" —— 去掉首尾空白
+print(姓名.upper())            # "  ZHANG SAN  " —— 全大写
+print(姓名.strip().lower())    # "zhang san" —— 链式调用</pre>
+    <b>医生场景：</b>用户输入姓名带空格（" 张三 "），`姓名.strip()` 一步清理干净。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. split / join——拆分与拼接（方向相反）</div>
+<pre>体温记录 = "37.2, 38.5, 36.8"
+列表 = 体温记录.split(", ")     # ["37.2", "38.5", "36.8"] —— 拆成列表
+新字符串 = " | ".join(列表)     # "37.2 | 38.5 | 36.8" —— 拼回字符串</pre>
+    <b>注意 join 写法反直觉：</b>`"分隔符".join(列表)`——胶水在前，列表在后。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. ⚠️ 字符串不可变——所有方法都是"复印机"</div>
+<pre>s = "abc"
+s[0] = "X"       # ❌ 报错！字符串不能改
+s.upper()        # 产生 "ABC" 但没存 → 丢了
+新 = s.upper()   # ✅ 必须接住返回值
+print(s)         # 还是 "abc"（原件从未被改动）</pre>
+    <b>心智模型：</b>字符串方法像"复印机"——返回新值、原件不动。<b>不接住 = 白复印。</b>列表方法（append/remove）是直接改原件，字符串方法是返回新值，两者完全不同。
+  </div>
+  <div class="tip"><b>一句话总结：</b>strip/split/join 是文本处理三件套；字符串方法都是"复印机"——返回新值、原件不动，必须接住返回值。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">strip</span></div>
+      <p><code>"  hello  ".strip()</code> 的结果是？</p>
+      <p class="hint">A. "hello"　　B. "  hello  "　　C. "HELLO"　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>strip 去掉首尾空白，中间不动。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">split</span></div>
+      <p><code>"a,b,c".split(",")</code> 的结果是？</p>
+      <p class="hint">A. "abc"　　B. ["a", "b", "c"]　　C. ("a", "b", "c")　　D. "a,b,c"</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>split 按分隔符拆成<b>列表</b>。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">join</span></div>
+      <p><code>"-".join(["1", "2", "3"])</code> 的结果是？</p>
+      <p class="hint">A. "123"　　B. ["1-2-3"]　　C. "1-2-3"　　D. "1,2,3"</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>join 把列表元素用分隔符粘成<b>字符串</b>（胶水在前）。不是列表！</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">不可变</span></div>
+      <p>下面代码输出什么？</p>
+<pre>s = "Python"
+s.upper()
+print(s)</pre>
+      <p class="hint">A. PYTHON　　B. python　　C. Python　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>s.upper() 返回新值但没接住，s 还是 "Python"。想拿到大写必须 <code>s = s.upper()</code> 或 <code>新 = s.upper()</code>。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">链式调用</span></div>
+      <p><code>"  Zhang San  ".strip().upper()</code> 的结果是？</p>
+      <p class="hint">A. "zhang san"　　B. "ZHANG SAN"　　C. "  ZHANG SAN  "　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>链式调用从左往右：先 strip 去空白 → "Zhang San"，再 upper → "ZHANG SAN"。每一步都返回新字符串，所以能继续调下一个方法。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">split 实战</span></div>
+      <p>病历号 <code>"A001-A002-A003"</code>，用 split 拆出三个号，正确的是？</p>
+      <p class="hint">A. <code>"A001-A002-A003".split("-")</code>　　B. <code>"-".join("A001-A002-A003")</code>　　C. <code>"A001-A002-A003".split()</code>　　D. 都行</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>按 "-" 拆：["A001","A002","A003"]。B 是拼接不是拆分；C 按空白拆（没有空白，拆不出）。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">清理输入</span></div>
+      <p>护士录入体温时带了多余空格 <code>输入 = "  38.5  "</code>。写代码把它变成能计算的 float。</p>
+      <p class="hint">提示：先 strip 再 float。两步可以链式：float("  38.5  ".strip())</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>输入 = "  38.5  "
+体温 = float(输入.strip())   # 先清理再转换
+print(体温, type(体温))      # 38.5 &lt;class 'float'&gt;</pre>
+        <b>自查要点：</b>float("38.5") 能转，但 float("  38.5  ") 报错——所以先 strip 再 float。真实数据处理里"清理 → 转换"是标准两步。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">CSV 拆分（填空）</span></div>
+      <p>一行 CSV 数据 <code>"张三,38.5,肺炎"</code>，拆成三个字段并打印诊断（填空）：</p>
+<pre>行 = "张三,38.5,肺炎"
+字段 = ____   # 填：按逗号拆
+print("诊断：", 字段[____])   # 填：诊断在第几个位置（从0数）</pre>
+      <p class="hint">提示：split(",") 拆成列表，姓名0/体温1/诊断2。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>行 = "张三,38.5,肺炎"
+字段 = 行.split(",")      # ["张三", "38.5", "肺炎"]
+print("诊断：", 字段[2])   # 肺炎</pre>
+        <b>解析：</b>split 拆 CSV 是最常见的文本处理——以后读数据文件全靠它。字段顺序：0姓名、1体温、2诊断。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-013 ==================== -->
+<section id="py-013">
+  <div class="part-divider"><small>第 13 课 · py-013</small><h2>嵌套结构：真实数据的形状</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 列表套列表 = 表格（[行][列]）</div>
+<pre>体温记录 = [
+    ["张三", 38.5],
+    ["李四", 37.2],
+]
+print(体温记录[0])      # ['张三', 38.5] —— 第一行
+print(体温记录[0][0])   # 张三 —— 第一行第0列
+print(体温记录[1][1])   # 37.2 —— 第二行第1列</pre>
+    <b>底层逻辑：</b>两次取号，先外后内——像档案柜的抽屉里还有小格子。`[行号][列号]`。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 列表套字典 = 一摞病历卡（最常用）</div>
+<pre>病人列表 = [
+    {"姓名": "张三", "体温": 38.5, "诊断": "肺炎"},
+    {"姓名": "李四", "体温": 37.2, "诊断": "待查"},
+]
+print(病人列表[0]["姓名"])   # 张三 —— 第0张卡的"姓名"
+for 病人 in 病人列表:
+    print(病人["姓名"], 病人["体温"])   # 遍历所有病人</pre>
+    <b>取值口诀：</b>`[编号]` 抽卡 → `["键"]` 看字段。这就是 py-010 候诊系统的结构。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 字典套字典 = 层级数据（两级查找）</div>
+<pre>患者档案 = {
+    "张三": {"体温": 38.5, "诊断": "肺炎"},
+    "李四": {"体温": 37.2, "诊断": "待查"},
+}
+print(患者档案["张三"]["诊断"])   # 肺炎 —— 先外层键，再内层键</pre>
+    <b>重要：API 返回的 JSON 全是这种结构。</b>学会嵌套 = 学会读 JSON——调 DeepSeek API、处理文献数据全靠它。
+  </div>
+  <div class="tip"><b>一句话总结：</b>嵌套取值像剥洋葱——先剥外层再剥里层；列表套字典（一摞病历卡）是"先抽卡、再看字段"；学会嵌套就读得懂 JSON。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">列表套列表</span></div>
+      <p><code>x = [[1, 2], [3, 4]]</code>，<code>x[1][0]</code> 是？</p>
+      <p class="hint">A. 1　　B. 2　　C. 3　　D. 4</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>先算外层 x[1] = [3, 4]，再算内层 [0] = 3。分两步走，别跳步。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">列表套字典</span></div>
+      <p><code>d = [{"a": 1}, {"a": 2}]</code>，<code>d[1]["a"]</code> 是？</p>
+      <p class="hint">A. 1　　B. 2　　C. {"a": 1}　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>d[1] = {"a": 2}，再取键 "a" = 2。先编号抽卡，再按键看字段。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">字典套字典</span></div>
+      <p><code>e = {"x": {"y": 99}}</code>，<code>e["x"]["y"]</code> 是？</p>
+      <p class="hint">A. 99　　B. {"y": 99}　　C. "x"　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>e["x"] = {"y": 99}，再取 "y" = 99。两级查找。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">遍历嵌套</span></div>
+      <p>下面代码输出什么？</p>
+<pre>病人列表 = [
+    {"姓名": "张三", "体温": 38.5},
+    {"姓名": "李四", "体温": 37.2},
+]
+for 病人 in 病人列表:
+    print(病人["姓名"], end=" ")</pre>
+      <p class="hint">A. 张三 李四　　B. 38.5 37.2　　C. 报错　　D. 只打印张三</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>遍历列表，每轮 病人 是一个字典，取 ["姓名"] 打印。end=" " 让输出在同一行。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">三级嵌套</span></div>
+      <p><code>数据 = {"科室": {"胸外": ["张三", "李四"], "心内": ["王五"]}}</code>，<code>数据["科室"]["胸外"][1]</code> 是？</p>
+      <p class="hint">A. 张三　　B. 李四　　C. 王五　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>一层层剥：数据["科室"] = {"胸外":[...], "心内":[...]}；再 ["胸外"] = ["张三","李四"]；再 [1] = "李四"。字典→字典→列表，三层。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">嵌套遍历</span></div>
+      <p>想打印所有科室的所有医生，正确的是？</p>
+<pre>数据 = {"胸外": ["张三", "李四"], "心内": ["王五"]}</pre>
+      <p class="hint">A. <code>for 科 in 数据: print(数据[科])</code>　　B. <code>for 科 in 数据: for 医 in 数据[科]: print(医)</code>　　C. <code>for 医 in 数据: print(医)</code>　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>嵌套 for 循环：外层遍历科室（键），内层遍历该科室的医生列表。两层循环 = 两层结构。这是 JSON 数据遍历的标准写法。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">找急症病人</span></div>
+      <p>病人列表如下，写代码打印所有体温 ≥38 的急症病人姓名：</p>
+<pre>病人列表 = [
+    {"姓名": "张三", "体温": 38.5},
+    {"姓名": "李四", "体温": 37.2},
+    {"姓名": "王五", "体温": 39.0},
+]</pre>
+      <p class="hint">提示：for 遍历 + if 判断体温 + 打印姓名。嵌套结构 + 条件判断组合。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>病人列表 = [
+    {"姓名": "张三", "体温": 38.5},
+    {"姓名": "李四", "体温": 37.2},
+    {"姓名": "王五", "体温": 39.0},
+]
+for 病人 in 病人列表:
+    if 病人["体温"] >= 38:
+        print(病人["姓名"])   # 张三 / 王五</pre>
+        <b>自查要点：</b>"遍历 + 条件 + 取字段"是嵌套数据最常用的组合——筛选、统计、查找全靠它。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">API 返回值（填空）</span></div>
+      <p>调 DeepSeek API 返回的 JSON 结构如下，填空取出"回复内容"：</p>
+<pre>响应 = {
+    "choices": [
+        {"message": {"role": "assistant", "content": "你好！"}}
+    ]
+}
+回复 = ____   # 填：取出 content</pre>
+      <p class="hint">提示：choices → [0] → message → content。一层层剥。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>响应 = {
+    "choices": [
+        {"message": {"role": "assistant", "content": "你好！"}}
+    ]
+}
+回复 = 响应["choices"][0]["message"]["content"]
+print(回复)   # 你好！</pre>
+        <b>解析：</b>这就是真实 API 返回结构！字典→列表→字典→字典→字符串，四层剥取。等你学到调用 API 时，这行代码天天见——现在学会，到时候就是老朋友。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-014 ==================== -->
+<section id="py-014">
+  <div class="part-divider"><small>第 14 课 · py-014</small><h2>阶段综合演练：病人数据管理系统</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 全系统代码（元组 + 嵌套 + strip + 集合 + 遍历）</div>
+<pre>医院 = ("阜阳市人民医院", "胸外科", "v1.0")   # 元组：固定信息
+print("系统：", 医院[0], "-", 医院[1], "版本", 医院[2])
+
+病人列表 = [                                # 嵌套：一摞病历卡
+    {"姓名": "张三", "体温": 38.5, "诊断": "肺炎"},
+    {"姓名": "李四", "体温": 37.2, "诊断": "支气管炎"},
+    {"姓名": "王五", "体温": 36.8, "诊断": "肺炎"},
+]
+
+新病人 = input("新病人姓名：").strip()        # strip：清理输入
+
+for 病人 in 病人列表:                        # 遍历 + 统计
+    print(病人["姓名"], 病人["体温"], "度", 病人["诊断"])
+
+诊断列表 = [病人["诊断"] for 病人 in 病人列表]  # 列表推导式：收集所有诊断
+print("诊断种类：", len(set(诊断列表)), "种")    # 集合：去重统计
+
+for 病人 in 病人列表:                        # 筛选急症
+    if 病人["体温"] >= 38:
+        print("急症：", 病人["姓名"])</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 五个零件各管一件事</div>
+    <table>
+      <tr><th>零件</th><th>作用</th><th>来自哪课</th></tr>
+      <tr><td>元组 ()</td><td>存固定信息（防误改）</td><td>py-011</td></tr>
+      <tr><td>strip()</td><td>清理用户输入的空格</td><td>py-012</td></tr>
+      <tr><td>列表推导式</td><td>一行收集数据（= for+append 简写）</td><td>py-014 初见</td></tr>
+      <tr><td>set()</td><td>去重统计种类</td><td>py-011</td></tr>
+      <tr><td>嵌套结构</td><td>存多条记录（列表套字典）</td><td>py-013</td></tr>
+    </table>
+  </div>
+  <div class="tip"><b>一句话总结：</b>病人数据管理系统 = 元组管"不变的" + 嵌套管"数据的形状" + strip 管"输入干净" + 集合管"统计去重"——四个知识点组装成一个真实系统。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">元组识别</span></div>
+      <p><code>医院 = ("阜阳市人民医院", "胸外科", "v1.0")</code> 是什么类型？</p>
+      <p class="hint">A. 列表　　B. 元组　　C. 字典　　D. 集合</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>圆括号 () = 元组。存固定信息，防误改。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">strip 结果</span></div>
+      <p><code>"  张三  ".strip()</code> 的结果是？</p>
+      <p class="hint">A. "  张三  "　　B. "张三"　　C. " 张三"　　D. "张三  "</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>strip 去掉首尾空格，只剩中间的"张三"。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">set 去重</span></div>
+      <p><code>set([病人["诊断"] for 病人 in 病人列表])</code> 的作用是？</p>
+      <p class="hint">A. 数病人总数　　B. 收集所有诊断并去重　　C. 按体温排序　　D. 删除重复病人</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>列表推导式收集诊断 → set() 去重。len() 包住就是"有几种诊断"。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">改需求</span></div>
+      <p>想把"急症"标准从 38 改成 38.5，改哪一行？</p>
+      <p class="hint">A. <code>for 病人 in 病人列表:</code>　　B. <code>if 病人["体温"] >= 38:</code>　　C. <code>print("急症：")</code>　　D. <code>诊断列表 = [...]</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>只改 if 判断那一行，其他逻辑不动。看懂结构 → 改参数。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">模拟执行</span></div>
+      <p>病人列表 3 人（张三 38.5/李四 37.2/王五 39.0），执行"打印所有 ≥38 的姓名"后输出？</p>
+      <p class="hint">A. 张三　　B. 张三 王五　　C. 李四　　D. 张三 李四 王五</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>张三 38.5≥38 ✅，李四 37.2&lt;38 ❌，王五 39.0≥38 ✅。逐人判断，别漏别多。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">列表推导式等价</span></div>
+      <p>下面哪个和 <code>[x["体温"] for x in 病人列表]</code> 效果相同？</p>
+      <p class="hint">A. <code>for x in 病人列表: print(x["体温"])</code>　　B. <code>结果 = []; for x in 病人列表: 结果.append(x["体温"])</code>　　C. <code>病人列表["体温"]</code>　　D. 没有等价写法</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>列表推导式就是"for 循环 + append"的一行简写。B 是它的展开版，效果完全相同。看懂这个等价，推导式就不神秘了。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">统计诊断人数</span></div>
+      <p>给系统加功能：统计"肺炎"诊断的病人有几位。写代码（用集合或计数都行）。</p>
+      <p class="hint">提示：遍历 + if 判断诊断 == "肺炎" + 计数器；或 count() 方法。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>病人列表 = [
+    {"姓名": "张三", "体温": 38.5, "诊断": "肺炎"},
+    {"姓名": "李四", "体温": 37.2, "诊断": "支气管炎"},
+    {"姓名": "王五", "体温": 36.8, "诊断": "肺炎"},
+]
+计数 = 0
+for 病人 in 病人列表:
+    if 病人["诊断"] == "肺炎":
+        计数 = 计数 + 1
+print("肺炎人数：", 计数)   # 2</pre>
+        <b>解析：</b>计数器模式：先 计数=0，命中就 +1。这是所有"统计某类数量"问题的标准解法。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">加病人（填空）</span></div>
+      <p>给系统加一个"孙七 36.5 待查"的病人（填空）：</p>
+<pre>病人列表 = [
+    {"姓名": "张三", "体温": 38.5, "诊断": "肺炎"},
+    {"姓名": "李四", "体温": 37.2, "诊断": "支气管炎"},
+]
+病人列表.____   # 填：追加一个新病人字典</pre>
+      <p class="hint">提示：append 一个字典。字典用 {} 包三个键值对。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>病人列表 = [
+    {"姓名": "张三", "体温": 38.5, "诊断": "肺炎"},
+    {"姓名": "李四", "体温": 37.2, "诊断": "支气管炎"},
+]
+病人列表.append({"姓名": "孙七", "体温": 36.5, "诊断": "待查"})</pre>
+        <b>解析：</b>append 加字典——这就是"系统新增一条记录"的本质。加完列表变 3 人，所有 for 遍历自动包含新人。</div></details>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== 后续课程占位 ==================== -->
 <section id="next">
-  <div class="part-divider"><small>py-012 ~ py-017</small><h2>后续课程 · 未开始</h2></div>
+  <div class="part-divider"><small>py-015 ~ py-017</small><h2>后续课程 · 未开始</h2></div>
   <div class="placeholder">
     <div class="p-title">课程进行到此处后填充</div>
     <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
   </div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-012</span>
-      <span class="rtitle">字符串方法</span>
-      <span class="rdesc">upper / lower / split / join / strip——处理文本的瑞士军刀；字符串不可变</span>
+      <span class="rid">py-015</span>
+      <span class="rtitle">字符串更多方法</span>
+      <span class="rdesc">find / replace / count / startswith——查、换、数、判</span>
       <span class="rst now">下一课</span>
     </li>
     <li>
-      <span class="rid">py-013</span>
-      <span class="rtitle">嵌套结构</span>
-      <span class="rdesc">列表套列表、字典套列表——真实数据的常见形状（如患者列表）</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
-      <span class="rid">py-014</span>
-      <span class="rtitle">待定</span>
-      <span class="rdesc">按学习进度更新标题</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
-      <span class="rid">py-015</span>
-      <span class="rtitle">待定</span>
-      <span class="rdesc">按学习进度更新标题</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-016</span>
-      <span class="rtitle">待定</span>
-      <span class="rdesc">按学习进度更新标题</span>
+      <span class="rtitle">字典高级</span>
+      <span class="rdesc">get / setdefault / 嵌套字典遍历——处理层级数据</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
       <span class="rid">py-017</span>
-      <span class="rtitle">待定</span>
-      <span class="rdesc">按学习进度更新标题</span>
+      <span class="rtitle">阶段 03 综合演练 2</span>
+      <span class="rdesc">文献数据处理器：嵌套 + 字符串 + 集合全部用上</span>
       <span class="rst wait">未开始</span>
     </li>
   </ul>
@@ -220,10 +626,10 @@ print(共同)     # {"二甲双胍"}</pre>
 <div class="note" id="note">
   <strong>说明</strong><br>
   · 每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
-  · 本阶段 7 课：元组/集合（已完成）→ 字符串方法 → 嵌套结构 → 待定 4 课。
+  · 本阶段 7 课：元组/集合 → 字符串方法 → 嵌套结构 → 综合演练（已完成）→ 字符串更多方法 → 字典高级 → 综合演练 2。
 </div>
 
-<footer>阶段 03 · 数据结构 · 1/7 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 03 · 数据结构 · 4/7 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
