@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-011">py-011 元组集合</a><a href="#py-012">py-012 字符串</a><a href="#py-013">py-013 嵌套</a><a href="#py-014">py-014 演练</a><a href="#next">后续课程</a>
+  <a href="#py-011">py-011 元组集合</a><a href="#py-012">py-012 字符串</a><a href="#py-013">py-013 嵌套</a><a href="#py-014">py-014 演练</a><a href="#py-015">py-015 方法</a><a href="#py-016">py-016 字典</a><a href="#next">后续课程</a>
 </nav>
 <header class="hero"><div class="hero-inner">
   <span class="badge">阶段 03 · 进行中</span>
   <h1>数据结构<br><span>盒子家族</span></h1>
-  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、嵌套结构。已完成 4 课，正在学习字符串更多方法。</p>
+  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、嵌套结构。已完成 6 课，还剩综合演练收官。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:57%"></i></div>
-    <div class="label"><span>py-011 ~ py-017</span><span>4 / 7 完成</span></div>
+    <div class="bar"><i style="width:86%"></i></div>
+    <div class="label"><span>py-011 ~ py-017</span><span>6 / 7 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -30,7 +30,9 @@
     <a href="#py-012">py-012 · 字符串方法</a>
     <a href="#py-013">py-013 · 嵌套结构</a>
     <a href="#py-014">py-014 · 综合演练</a>
-    <a href="#next">py-015 ~ py-017 · 后续课程（未开始）</a>
+    <a href="#py-015">py-015 · 字符串更多方法</a>
+    <a href="#py-016">py-016 · 字典高级</a>
+    <a href="#next">py-017 · 后续课程（未开始）</a>
   </div>
 </div>
 
@@ -594,31 +596,295 @@ print("肺炎人数：", 计数)   # 2</pre>
   </div>
 </section>
 
+<!-- ==================== py-015 ==================== -->
+<section id="py-015">
+  <div class="part-divider"><small>第 15 课 · py-015</small><h2>字符串更多方法：查、换、数、判</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. find——找位置（找不到返回 -1）</div>
+<pre>病历 = "患者张三，体温38.5度，诊断为肺炎"
+位置 = 病历.find("肺炎")
+print(位置)          # 15 —— 从 0 数
+print(病历[位置:])   # 肺炎 —— 切片取出
+print(病历.find("肺癌"))   # -1 —— 找不到！注意不是报错</pre>
+    <b>标志性行为：</b>找不到返回 -1。写代码常用 <code>if 位置 != -1:</code> 判断"有没有找到"。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. replace——替换（复印机！必须接住）</div>
+<pre>报告 = "患者体温38.5度，体温偏高"
+新报告 = 报告.replace("38.5", "38.2")
+print(新报告)   # 患者体温38.2度，体温偏高
+print(报告)     # 原字符串没变！（复印机）
+报告.replace("体温", "体温计", 1)   # 第三参数=替换几次</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. count / startswith——数次数与判格式</div>
+<pre>医嘱 = "每天3次，每次2片，饭后服用，共7天"
+print(医嘱.count("次"))    # 2
+
+住院号 = "A20260902"
+print(住院号.startswith("A"))   # True —— 格式检查
+文件名 = "data.csv"
+if 文件名.endswith(".csv"):
+    print("是 CSV 文件")</pre>
+  </div>
+  <div class="tip"><b>一句话总结：</b>find 找位置（找不到是 -1 不是报错）、replace 换内容（复印机必须接住）、count 数次数、startswith 判格式——四个方法搞定 90% 文本处理。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">find 位置</span></div>
+      <p><code>"hello world".find("o")</code> 的结果是？（找第一个出现的位置）</p>
+      <p class="hint">A. 4　　B. 5　　C. -1　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>h=0,e=1,l=2,l=3,o=4——第一个 "o" 在位置 4。find 从 0 数。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">find 找不到</span></div>
+      <p><code>"hello".find("z")</code> 的结果是？</p>
+      <p class="hint">A. 0　　B. -1　　C. 报错　　D. None</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>找不到返回 -1，不是报错也不是 None。这是 find 的标志性行为。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">replace 接住</span></div>
+      <p>下面代码输出什么？</p>
+<pre>s = "abc"
+s.replace("a", "X")
+print(s)</pre>
+      <p class="hint">A. Xbc　　B. abc　　C. 报错　　D. X</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>replace 是复印机——返回新值但没接住，s 还是 "abc"。想拿到结果要 <code>s = s.replace(...)</code>。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">count</span></div>
+      <p><code>"apple,banana,apple".count("apple")</code> 的结果是？</p>
+      <p class="hint">A. 1　　B. 2　　C. 3　　D. -1</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>"apple" 出现 2 次。count 数全部出现次数。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">find+切片</span></div>
+      <p>病历 <code>"诊断：肺炎，建议住院"</code>，想提取"肺炎"两个字（从"肺炎"位置取到句号前），正确的是？</p>
+      <p class="hint">A. <code>s[3:5]</code>　　B. 先 find("肺炎") 再切片　　C. <code>s.count("肺炎")</code>　　D. <code>s.startswith("诊断")</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>先 <code>位置 = s.find("肺炎")</code> 拿到起点，再 <code>s[位置:位置+2]</code> 切片取出。find 和切片配合 = "定位后提取"的标准组合。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">文件格式判断</span></div>
+      <p>想判断文件名是不是 Excel 文件（.xlsx 结尾），用哪个？</p>
+      <p class="hint">A. <code>文件名.find(".xlsx")</code>　　B. <code>文件名.endswith(".xlsx")</code>　　C. <code>文件名.count(".xlsx")</code>　　D. <code>文件名.replace(".xlsx")</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>endswith 专门判断"以什么结尾"，返回 True/False，最贴切。find 也行但要多写判断，endswith 更直接。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">敏感词脱敏</span></div>
+      <p>把报告里的患者姓名"张三"替换成"患者"，保护隐私。写代码：</p>
+<pre>报告 = "张三于今日入院，张三体温38.5度"</pre>
+      <p class="hint">提示：replace 替换全部出现。记得接住返回值。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>报告 = "张三于今日入院，张三体温38.5度"
+脱敏 = 报告.replace("张三", "患者")
+print(脱敏)   # 患者于今日入院，患者体温38.5度</pre>
+        <b>自查要点：</b>replace 默认替换所有出现（不只第一个）。接住返回值是关键——忘了接住等于白做。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">校验住院号（填空）</span></div>
+      <p>住院号必须是"A"开头。填空：检查并提示：</p>
+<pre>住院号 = input("输入住院号：")
+if ____:        # 填：判断是否 A 开头
+    print("格式正确")
+else:
+    print("格式错误，需以 A 开头")</pre>
+      <p class="hint">提示：startswith("A")</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>住院号 = input("输入住院号：")
+if 住院号.startswith("A"):
+    print("格式正确")
+else:
+    print("格式错误，需以 A 开头")</pre>
+        <b>解析：</b>startswith 返回 bool，直接当 if 条件用。数据录入校验的经典写法——以后写表单校验全靠它。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-016 ==================== -->
+<section id="py-016">
+  <div class="part-divider"><small>第 16 课 · py-016</small><h2>字典高级：get / setdefault / 嵌套遍历</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. get——安全取值（键不存在不报错）</div>
+<pre>患者 = {"姓名": "张三", "体温": 38.5}
+print(患者["诊断"])          # ❌ KeyError！键不存在直接崩
+print(患者.get("诊断"))       # None —— 不报错
+print(患者.get("诊断", "无")) # "无" —— 给默认值</pre>
+    <b>三档对比：</b><code>[]</code> 报错 / <code>get</code> 给 None / <code>get+默认</code> 给兜底。处理 API 返回的 JSON 时字段常缺失——get 是写健壮代码的第一课。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. setdefault——"有就用，没有就创建"</div>
+<pre>统计 = {}
+统计.setdefault("发热", 0)   # 不存在 → 创建并设 0
+统计.setdefault("发热", 0)   # 已存在 → 不动
+统计["发热"] = 统计["发热"] + 1
+print(统计)                 # {'发热': 1}</pre>
+    <b>用途：</b>统计各诊断的病人数——第一次见"肺炎"就建计数器，之后累加。<code>setdefault(键, 默认)</code> = "自动建计数器"。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 嵌套字典遍历——两层结构两层循环</div>
+<pre>病房 = {
+    "101室": {"张三": 38.5, "李四": 37.2},
+    "102室": {"王五": 39.0},
+}
+for 房号, 病人体温 in 病房.items():
+    for 病人, 体温 in 病人体温.items():
+        print(房号, 病人, 体温, "度")</pre>
+    <b>底层逻辑：</b>items() 递出键+值，值又是字典——内层再套 for。两层结构 = 两层循环（py-013 学过）。
+  </div>
+  <div class="tip"><b>一句话总结：</b>get 是安全取值（有键用真值、没键用默认）、setdefault 是自动建计数器、嵌套字典用双层循环遍历。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">get 无默认</span></div>
+      <p><code>d = {"a": 1}</code>，<code>d.get("b")</code> 的结果是？</p>
+      <p class="hint">A. 0　　B. None　　C. 报错 KeyError　　D. 1</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>get 键不存在 → 返回 None（不报错）。这是 get 和 [] 的区别。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">get 带默认</span></div>
+      <p><code>d = {"a": 1}</code>，<code>d.get("b", 99)</code> 的结果是？</p>
+      <p class="hint">A. 1　　B. None　　C. 99　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>键不存在 + 带了默认值 → 返回默认值 99。记住：<b>有键取值，没键用默认</b>。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">setdefault+累加</span></div>
+      <p>执行下面代码后，<code>统计</code> 是什么？</p>
+<pre>统计 = {}
+统计.setdefault("发热", 0)
+统计["发热"] = 统计["发热"] + 1
+统计["发热"] = 统计["发热"] + 1</pre>
+      <p class="hint">A. {}　　B. {"发热": 2}　　C. {"发热": 0}　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>setdefault 先建"发热":0，然后累加两次 → 2。这就是"自动建计数器"的用法。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">嵌套遍历</span></div>
+      <p><code>for k, v in d.items():</code> 里，如果 d 的值也是字典，<code>v</code> 是？</p>
+      <p class="hint">A. 字符串　　B. 字典（需要再一层循环）　　C. 列表　　D. 数字</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>v 是字典——要取里面的内容就得再套一层 for 遍历 v.items()。两层结构两层循环。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">get 键存在</span></div>
+      <p><code>d = {"x": 5}</code>，<code>d.get("x", 999)</code> 的结果是？</p>
+      <p class="hint">A. 999　　B. 5　　C. None　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>键 "x" 存在 → 返回真实值 5，默认值 999 被无视。只有键不存在时默认值才生效。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">诊断统计</span></div>
+      <p>用 setdefault 统计以下列表里各诊断的人数，最后"肺炎"的计数是？</p>
+<pre>诊断列表 = ["肺炎", "支气管炎", "肺炎", "肺脓肿"]
+统计 = {}
+for 诊断 in 诊断列表:
+    统计.setdefault(诊断, 0)
+    统计[诊断] = 统计[诊断] + 1</pre>
+      <p class="hint">A. 1　　B. 2　　C. 3　　D. 4</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>"肺炎"出现 2 次。setdefault 给每个诊断建计数器，循环里累加——这是"分类统计"的标准写法。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">API 字段缺失</span></div>
+      <p>调 API 返回的患者信息可能缺"诊断"字段。写代码：安全取出诊断，缺省显示"待查"。</p>
+<pre>患者 = {"姓名": "张三", "体温": 38.5}   # 没有"诊断"字段</pre>
+      <p class="hint">提示：get 带默认值。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>患者 = {"姓名": "张三", "体温": 38.5}
+诊断 = 患者.get("诊断", "待查")
+print(诊断)   # 待查（键不存在 → 用默认值）</pre>
+        <b>自查要点：</b>真实 API 数据经常缺字段——get(键, 默认值) 是防崩的标准姿势。以后调 DeepSeek API 解析响应时天天用。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">科室统计（填空）</span></div>
+      <p>统计各科室人数（填空）：</p>
+<pre>科室列表 = ["胸外", "心内", "胸外", "神外"]
+人数 = {}
+for 科 in 科室列表:
+    人数.____(科, 0)      # 填：没有就建计数器
+    人数[科] = 人数[科] + 1
+print(人数)   # {'胸外': 2, '心内': 1, '神外': 1}</pre>
+      <p class="hint">提示：setdefault</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>科室列表 = ["胸外", "心内", "胸外", "神外"]
+人数 = {}
+for 科 in 科室列表:
+    人数.setdefault(科, 0)
+    人数[科] = 人数[科] + 1
+print(人数)   # {'胸外': 2, '心内': 1, '神外': 1}</pre>
+        <b>解析：</b>setdefault + 累加 = 分类计数器的固定套路。这个模式在数据处理里出现频率极高，务必记牢。</div></details>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== 后续课程占位 ==================== -->
 <section id="next">
-  <div class="part-divider"><small>py-015 ~ py-017</small><h2>后续课程 · 未开始</h2></div>
+  <div class="part-divider"><small>py-017</small><h2>后续课程 · 未开始</h2></div>
   <div class="placeholder">
     <div class="p-title">课程进行到此处后填充</div>
     <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
   </div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-015</span>
-      <span class="rtitle">字符串更多方法</span>
-      <span class="rdesc">find / replace / count / startswith——查、换、数、判</span>
-      <span class="rst now">下一课</span>
-    </li>
-    <li>
-      <span class="rid">py-016</span>
-      <span class="rtitle">字典高级</span>
-      <span class="rdesc">get / setdefault / 嵌套字典遍历——处理层级数据</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-017</span>
       <span class="rtitle">阶段 03 综合演练 2</span>
-      <span class="rdesc">文献数据处理器：嵌套 + 字符串 + 集合全部用上</span>
-      <span class="rst wait">未开始</span>
+      <span class="rdesc">文献数据处理器：嵌套 + 字符串 + 集合 + get 全部用上——stage-3 收官</span>
+      <span class="rst now">下一课</span>
     </li>
   </ul>
 </section>
@@ -626,10 +892,10 @@ print("肺炎人数：", 计数)   # 2</pre>
 <div class="note" id="note">
   <strong>说明</strong><br>
   · 每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
-  · 本阶段 7 课：元组/集合 → 字符串方法 → 嵌套结构 → 综合演练（已完成）→ 字符串更多方法 → 字典高级 → 综合演练 2。
+  · 本阶段 7 课：元组/集合 → 字符串方法 → 嵌套结构 → 综合演练 → 字符串更多方法 → 字典高级（已完成）→ 综合演练 2（最后一课）。
 </div>
 
-<footer>阶段 03 · 数据结构 · 4/7 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 03 · 数据结构 · 6/7 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
