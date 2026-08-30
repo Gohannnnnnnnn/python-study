@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>容器速查卡 · 数据结构 | Python-Study</title>
+<style>
+  :root {
+    --primary:#2563eb; --deep:#172554; --panel:#1e3a8a; --lime:#67e8f9;
+    --paper:#f5f7fb; --ink:#24324a; --muted:#65748b; --line:#dbe4f0;
+    --green:#159568; --amber:#e8a11c; --red:#d64c4c; --code:#172033;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:var(--paper); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px; line-height:1.8;
+    max-width:720px; margin:0 auto; padding:24px 18px 60px;
+  }
+  .progress { position:fixed; top:0; left:0; height:3px; background:var(--primary); width:0; z-index:999; }
+  header { text-align:center; padding:20px 0 16px; }
+  .badge { display:inline-block; background:var(--primary); color:#fff; font-size:0.75rem; padding:3px 14px; border-radius:20px; margin-bottom:8px; }
+  h1 { font-size:1.4rem; color:var(--deep); }
+  h1 span { display:block; font-size:0.95rem; color:var(--muted); font-weight:400; margin-top:4px; }
+  section { background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:14px 0; }
+  .sec-title { font-size:0.95rem; font-weight:700; color:var(--primary); margin-bottom:10px; padding-left:10px; border-left:3px solid var(--primary); }
+  table { width:100%; border-collapse:collapse; font-size:0.88rem; margin:8px 0; }
+  th { background:#eef3fd; padding:8px 10px; text-align:left; color:var(--deep); }
+  td { padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .big { font-weight:700; color:var(--deep); }
+  .tip { background:#eef6f3; border:1px solid #cfe8df; border-radius:10px; padding:12px 14px; margin:10px 0; font-size:0.9rem; }
+  .warn { background:#fdf6e7; border:1px solid #f0e0b8; border-radius:10px; padding:12px 14px; margin:10px 0; font-size:0.9rem; }
+  .flow { background:var(--code); color:#d6e4ff; border-radius:10px; padding:14px 16px; font-family:Consolas,monospace; font-size:0.85rem; white-space:pre; overflow-x:auto; line-height:1.7; }
+  .flow .hl { color:var(--lime); }
+  pre { background:var(--code); color:#d6e4ff; border-radius:10px; padding:12px 14px; font-family:Consolas,monospace; font-size:0.82rem; overflow-x:auto; line-height:1.6; }
+  code { background:#eef3fd; color:var(--primary); padding:1px 6px; border-radius:4px; font-size:0.85em; }
+  pre code { background:none; color:inherit; padding:0; }
+  .back-btn { position:fixed; left:12px; z-index:100; background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:20px; padding:5px 12px; font-size:0.78rem; color:var(--primary); text-decoration:none; box-shadow:0 1px 4px rgba(34,48,74,.12); }
+  .back-top-left { top:12px; }
+  .back-bottom-left { bottom:12px; }
+  footer { text-align:center; color:var(--muted); font-size:0.8rem; margin-top:24px; }
+</style>
+</head>
+<body>
+<div class="progress" id="pgbar"></div>
+<a class="back-btn back-top-left" href="index.html">← 总览</a>
+<a class="back-btn back-bottom-left" href="index.html">← 总览</a>
+
+<header>
+  <div class="badge">Python-Study · 速查卡</div>
+  <h1>数据结构容器速查卡<span>列表 / 元组 / 字典 / 集合 + 嵌套 · 手机随时查</span></h1>
+</header>
+
+<section>
+  <div class="sec-title">① 四容器一眼看全</div>
+  <table>
+    <tr><th>容器</th><th>符号</th><th>有顺序？</th><th>能改？</th><th>怎么取值</th><th>去重？</th><th>一句话</th></tr>
+    <tr><td class="big">列表</td><td><code>[]</code></td><td>✅</td><td>✅</td><td><code>[编号]</code></td><td>❌</td><td>值班表</td></tr>
+    <tr><td class="big">元组</td><td><code>()</code></td><td>✅</td><td>❌</td><td><code>[编号]</code></td><td>❌</td><td>出生日期</td></tr>
+    <tr><td class="big">字典</td><td><code>{"k":v}</code></td><td>✅</td><td>✅</td><td><code>["键"]</code></td><td>键去重</td><td>病历卡</td></tr>
+    <tr><td class="big">集合</td><td><code>{}</code></td><td>❌</td><td>✅</td><td>❌ 不能[0]</td><td>✅</td><td>住院号登记本</td></tr>
+  </table>
+  <div class="tip"><b>核心口诀：</b>列表能改有顺序 / 元组只读有顺序 / 字典按键找值 / 集合自动去重。<br><b>集合最特殊：</b>无序 → 不能 <code>s[0]</code>！</div>
+</section>
+
+<section>
+  <div class="sec-title">② 选容器决策树（拿到数据先问 4 个问题）</div>
+  <div class="flow"><span class="hl">拿到数据，先问自己：</span>
+┌─ 要按顺序存吗？────────┐
+│  是 → 要改吗？          │
+│      是 → <span class="hl">列表 []</span>        │
+│      否 → <span class="hl">元组 ()</span>        │
+│  否 → 要按键找吗？       │
+│      是 → <span class="hl">字典 {键:值}</span>    │
+│      否 → 要自动去重吗？  │
+│          是 → <span class="hl">集合 {}</span>      │</div>
+  <div class="tip"><b>医生场景对照：</b>值班表=列表 / 出生日期=元组 / 病历卡=字典 / 住院号登记=集合。</div>
+</section>
+
+<section>
+  <div class="sec-title">③ 嵌套结构：剥洋葱三步</div>
+  <div class="flow">病人列表 = [ {"姓名":"张三",...}, {"姓名":"李四",...} ]
+   ↓ ① 最外层是 <span class="hl">[</span>（列表）
+[0] → {"姓名":"张三",...}（字典）   ② 剥一层：<span class="hl">[编号]</span>
+["姓名"] → "张三"（字符串）         ③ 再剥：<span class="hl">["键"]</span> → 到头</div>
+  <p style="margin:8px 0">取值 = <code>列表[编号]["键"]</code>——<b>先抽卡，再看字段</b>。多层就多剥几次。</p>
+  <table>
+    <tr><th>结构</th><th>长什么样</th><th>取值例子</th></tr>
+    <tr><td>列表套列表</td><td><code>[[1,2],[3,4]]</code></td><td><code>x[1][0]</code> = 3</td></tr>
+    <tr><td>列表套字典 ⭐</td><td><code>[{"a":1},{"a":2}]</code></td><td><code>d[1]["a"]</code> = 2</td></tr>
+    <tr><td>字典套字典</td><td><code>{"x":{"y":99}}</code></td><td><code>e["x"]["y"]</code> = 99</td></tr>
+  </table>
+  <div class="warn"><b>API 返回的 JSON 全是这种结构</b>——学会剥洋葱 = 学会读 JSON。以后调 DeepSeek API 天天用。</div>
+</section>
+
+<section>
+  <div class="sec-title">④ 高频操作速记</div>
+  <table>
+    <tr><th>操作</th><th>写法</th><th>注意</th></tr>
+    <tr><td>末尾加</td><td><code>列表.append(x)</code></td><td>改原件，不用接</td></tr>
+    <tr><td>按内容删</td><td><code>列表.remove(x)</code></td><td>只删第一个匹配</td></tr>
+    <tr><td>按编号删</td><td><code>del 列表[编号]</code></td><td>—</td></tr>
+    <tr><td>安全取值</td><td><code>d.get("键", 默认)</code></td><td>有键取值，没键用默认，<b>不报错</b></td></tr>
+    <tr><td>建计数器</td><td><code>d.setdefault("键", 0)</code></td><td>有就用，没有就建</td></tr>
+    <tr><td>文本拆分</td><td><code>"a,b".split(",")</code></td><td>返回<b>列表</b>！</td></tr>
+    <tr><td>文本拼接</td><td><code>"-".join(列表)</code></td><td>胶水在前，返回<b>字符串</b></td></tr>
+    <tr><td>找位置</td><td><code>s.find("x")</code></td><td>找不到返回 <b>-1</b></td></tr>
+    <tr><td>替换</td><td><code>s.replace(a, b)</code></td><td>复印机！<b>必须接住</b></td></tr>
+    <tr><td>去重数种类</td><td><code>len(set(列表))</code></td><td>—</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="sec-title">⑤ 5 道自测（每题 5 秒）</div>
+  <table>
+    <tr><th>场景</th><th>答案</th></tr>
+    <tr><td>按床号存病人姓名</td><td class="big">列表 []</td></tr>
+    <tr><td>住院号去重</td><td class="big">集合 {}</td></tr>
+    <tr><td>按姓名查体温</td><td class="big">字典 {}</td></tr>
+    <tr><td>固定日期 (2001,5,12)</td><td class="big">元组 ()</td></tr>
+    <tr><td>一摞病历卡</td><td class="big">列表套字典</td></tr>
+  </table>
+</section>
+
+<footer>Python-Study · 容器速查卡 · 学完 stage-3 后常翻常新</footer>
+<script>
+window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
+</script>
+</body>
+</html>
