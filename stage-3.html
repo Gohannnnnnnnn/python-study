@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-011">py-011 元组集合</a><a href="#py-012">py-012 字符串</a><a href="#py-013">py-013 嵌套</a><a href="#py-014">py-014 演练</a><a href="#py-015">py-015 方法</a><a href="#py-016">py-016 字典</a><a href="#next">后续课程</a>
+  <a href="#py-011">py-011 元组集合</a><a href="#py-012">py-012 字符串</a><a href="#py-013">py-013 嵌套</a><a href="#py-014">py-014 演练</a><a href="#py-015">py-015 方法</a><a href="#py-016">py-016 字典</a><a href="#py-017">py-017 演练2</a>
 </nav>
 <header class="hero"><div class="hero-inner">
-  <span class="badge">阶段 03 · 进行中</span>
+  <span class="badge">阶段 03 · 已完成 ✅</span>
   <h1>数据结构<br><span>盒子家族</span></h1>
-  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、嵌套结构。已完成 6 课，还剩综合演练收官。</p>
+  <p>list（列表）、dict（字典）、tuple（元组）、set（集合）、字符串方法、嵌套结构、综合演练。7/7 课全部完成。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:86%"></i></div>
-    <div class="label"><span>py-011 ~ py-017</span><span>6 / 7 完成</span></div>
+    <div class="bar"><i style="width:100%"></i></div>
+    <div class="label"><span>py-011 ~ py-017</span><span>7 / 7 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -32,7 +32,7 @@
     <a href="#py-014">py-014 · 综合演练</a>
     <a href="#py-015">py-015 · 字符串更多方法</a>
     <a href="#py-016">py-016 · 字典高级</a>
-    <a href="#next">py-017 · 后续课程（未开始）</a>
+    <a href="#py-017">py-017 · 综合演练 2</a>
   </div>
 </div>
 
@@ -872,30 +872,156 @@ print(人数)   # {'胸外': 2, '心内': 1, '神外': 1}</pre>
   </div>
 </section>
 
-<!-- ==================== 后续课程占位 ==================== -->
-<section id="next">
-  <div class="part-divider"><small>py-017</small><h2>后续课程 · 未开始</h2></div>
-  <div class="placeholder">
-    <div class="p-title">课程进行到此处后填充</div>
-    <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
+<!-- ==================== py-017 ==================== -->
+<section id="py-017">
+  <div class="part-divider"><small>第 17 课 · py-017</small><h2>阶段综合演练：文献数据处理器</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 全系统代码（嵌套 + get + find/lower + set + setdefault）</div>
+<pre>文献列表 = [
+    {"标题": "Lung cancer screening with low-dose CT", "期刊": "NEJM", "年份": 2020, "摘要": "Randomized trial..."},
+    {"标题": "EGFR mutations in NSCLC", "期刊": "JCO", "年份": 2018},
+    {"标题": "Immunotherapy for lung cancer", "期刊": "NEJM", "年份": 2021, "摘要": "Phase III study..."},
+    {"标题": "AI in thoracic surgery", "期刊": "ATS", "年份": 2023},
+]
+
+for 文献 in 文献列表:
+    摘要 = 文献.get("摘要", "无摘要")     # get 安全取值
+    print(文献["标题"][:30], "|", 文献["期刊"], "|", 摘要[:20] if 摘要 != "无摘要" else "无摘要")
+
+for 文献 in 文献列表:                    # find + lower 搜索
+    if 文献["标题"].lower().find("lung") != -1:
+        print(" ", 文献["标题"])
+
+期刊列表 = [文献["期刊"] for 文献 in 文献列表]   # 推导式收集
+print("期刊种类：", len(set(期刊列表)), "种")     # set 去重
+
+期刊统计 = {}                              # setdefault 计数
+for 文献 in 文献列表:
+    期刊统计.setdefault(文献["期刊"], 0)
+    期刊统计[文献["期刊"]] = 期刊统计[文献["期刊"]] + 1
+print("发文量：", 期刊统计)</pre>
   </div>
-  <ul class="roadmap-list">
-    <li>
-      <span class="rid">py-017</span>
-      <span class="rtitle">阶段 03 综合演练 2</span>
-      <span class="rdesc">文献数据处理器：嵌套 + 字符串 + 集合 + get 全部用上——stage-3 收官</span>
-      <span class="rst now">下一课</span>
-    </li>
-  </ul>
+  <div class="term-card">
+    <div class="term-name">2. 四个零件各管一件事</div>
+    <table>
+      <tr><th>零件</th><th>作用</th><th>来自哪课</th></tr>
+      <tr><td>嵌套结构</td><td>存文献列表（列表套字典）</td><td>py-013</td></tr>
+      <tr><td>get 安全取值</td><td>摘要可能缺失 → "无摘要"</td><td>py-016</td></tr>
+      <tr><td>find + lower</td><td>大小写不敏感搜索</td><td>py-015</td></tr>
+      <tr><td>set / setdefault</td><td>期刊去重统计 + 发文量</td><td>py-011/016</td></tr>
+    </table>
+    <b>注意：</b>find 前先 <code>.lower()</code>——"Lung" 和 "lung" 大小写不同，先统一转小写再找，才能搜全。文本搜索的标配操作。
+  </div>
+  <div class="tip"><b>一句话总结：</b>文献数据处理器 = 嵌套存数据 + get 防缺字段 + find/lower 搜关键词 + set/setdefault 统计——stage-3 全部知识点组装成一个真实科研工具。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">get 缺字段</span></div>
+      <p>文献列表里 <code>文献.get("摘要", "无摘要")</code> 的作用是？</p>
+      <p class="hint">A. 摘要存在就返回，不存在返回"无摘要"　　B. 永远返回"无摘要"　　C. 摘要不存在时报错　　D. 删除摘要字段</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>get(键, 默认)：有键取值、没键用默认——文献缺摘要字段时给"无摘要"，不崩。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">lower</span></div>
+      <p><code>"Lung Cancer".lower()</code> 的结果是？</p>
+      <p class="hint">A. "Lung Cancer"　　B. "lung cancer"　　C. "LUNG CANCER"　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>lower 全转小写，和 find 配合做大小写不敏感搜索。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">推导式收集</span></div>
+      <p><code>[文献["期刊"] for 文献 in 文献列表]</code> 收集的是什么？</p>
+      <p class="hint">A. 所有标题　　B. 所有期刊名　　C. 所有年份　　D. 所有摘要</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>列表推导式遍历文献列表，每项取 "期刊" 字段——收集所有期刊名。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">setdefault</span></div>
+      <p><code>期刊统计.setdefault(文献["期刊"], 0)</code> 的作用是？</p>
+      <p class="hint">A. 把期刊名改成 0　　B. 第一次遇到该期刊时建计数器，之后不动　　C. 删除不存在的期刊　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>setdefault = "有就用，没有就建"。第一次见 NEJM 建 NEJM:0，之后再见不动，只累加。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">模拟执行</span></div>
+      <p>文献列表 4 篇（NEJM×2、JCO、ATS），"期刊种类"输出几？</p>
+      <p class="hint">A. 2　　B. 3　　C. 4　　D. 5</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>set(期刊列表) 去重后剩 {NEJM, JCO, ATS} = 3 种。NEJM 出现 2 次只算 1 种。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">搜索容错</span></div>
+      <p>标题 <code>"AI in thoracic surgery"</code> 会被"含 lung 的文献"搜索找到吗？</p>
+      <p class="hint">A. 会，AI 和 lung 有关　　B. 不会，标题里没有 "lung" 字样　　C. 会，lower 后就有　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>find("lung") 找的是"文本里有没有 lung 这几个字母"——标题里没有就找不到，与语义无关。搜索是字面匹配，不是语义理解。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">年份筛选</span></div>
+      <p>给系统加功能：打印 2020 年及以后发表的文献标题。写代码：</p>
+<pre>文献列表 = [
+    {"标题": "Lung cancer screening", "期刊": "NEJM", "年份": 2020},
+    {"标题": "EGFR mutations", "期刊": "JCO", "年份": 2018},
+    {"标题": "Immunotherapy", "期刊": "NEJM", "年份": 2021},
+]</pre>
+      <p class="hint">提示：for 遍历 + if 判断年份 >= 2020 + 打印标题。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>文献列表 = [
+    {"标题": "Lung cancer screening", "期刊": "NEJM", "年份": 2020},
+    {"标题": "EGFR mutations", "期刊": "JCO", "年份": 2018},
+    {"标题": "Immunotherapy", "期刊": "NEJM", "年份": 2021},
+]
+for 文献 in 文献列表:
+    if 文献["年份"] >= 2020:
+        print(文献["标题"])   # Lung cancer screening / Immunotherapy</pre>
+        <b>自查要点：</b>"遍历 + 条件 + 取字段"三件套又用上了——筛选是数据处理最高频的操作。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">加文献（填空）</span></div>
+      <p>给文献列表加一篇新文献（填空）：</p>
+<pre>文献列表 = [{"标题": "AI in thoracic surgery", "期刊": "ATS", "年份": 2023}]
+文献列表.____   # 填：追加新文献字典（含标题/期刊/年份/摘要）</pre>
+      <p class="hint">提示：append 一个字典，四个键值对。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>文献列表 = [{"标题": "AI in thoracic surgery", "期刊": "ATS", "年份": 2023}]
+文献列表.append({"标题": "Nodule detection with AI", "期刊": "Radiology", "年份": 2024, "摘要": "Deep learning model..."})</pre>
+        <b>解析：</b>append 加字典 = 系统新增一条文献。加完所有 for 遍历自动包含新文献——这就是"数据驱动"：代码不用改，数据变就行。</div></details>
+    </div>
+  </div>
 </section>
 
 <div class="note" id="note">
   <strong>说明</strong><br>
-  · 每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
-  · 本阶段 7 课：元组/集合 → 字符串方法 → 嵌套结构 → 综合演练 → 字符串更多方法 → 字典高级（已完成）→ 综合演练 2（最后一课）。
+  · stage-3 全部 7 课已完成 ✅ 本页即完整知识页。<br>
+  · 速查卡（容器对比/决策树/嵌套剥洋葱）：<a href="container-cheatsheet.html" style="color:#1d4ed8">打开速查卡</a>
 </div>
 
-<footer>阶段 03 · 数据结构 · 6/7 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 03 · 数据结构 · 7/7 完成 ✅ · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
