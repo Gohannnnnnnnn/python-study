@@ -10,70 +10,232 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#plan">课程路线</a><a href="#note">说明</a>
+  <a href="#py-018">py-018 函数基础</a><a href="#next">后续课程</a>
 </nav>
 <header class="hero"><div class="hero-inner">
-  <span class="badge">阶段 04 · 未开始</span>
+  <span class="badge">阶段 04 · 进行中</span>
   <h1>函数<br><span>菜谱逻辑</span></h1>
-  <p>定义/调用、参数（位置/默认/关键字）、返回值、作用域、lambda 匿名函数、内置函数</p>
+  <p>定义/调用、参数（位置/默认/关键字）、返回值、作用域、lambda 匿名函数、内置函数。已完成 1 课，正在学习参数进阶。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:0%"></i></div>
-    <div class="label"><span>py-018 ~ py-022</span><span>0 / 5 完成</span></div>
+    <div class="bar"><i style="width:20%"></i></div>
+    <div class="label"><span>py-018 ~ py-022</span><span>1 / 5 完成</span></div>
   </div>
 </div></header>
 <main class="container">
 
-<section id="plan">
-  <div class="part-divider"><small>阶段 04 · 学习路线图</small><h2>课程计划（预计内容，以实际教学为准）</h2></div>
+<div class="toc">
+  <h3>本阶段目录</h3>
+  <div class="toc-grid">
+    <a href="#py-018">py-018 · 函数基础</a>
+    <a href="#next">py-019 ~ py-022 · 后续课程（未开始）</a>
+  </div>
+</div>
+
+<!-- ==================== py-018 ==================== -->
+<section id="py-018">
+  <div class="part-divider"><small>第 18 课 · py-018</small><h2>函数基础：把代码打包成菜谱</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 为什么需要函数——重复代码的救星</div>
+    没函数：查 3 个病人体温要写 3 遍判断。有函数：把逻辑打包成"菜谱"，喊一声就用。
+<pre>def 发热判断(体温):          # 定义：写下"体温分诊"SOP
+    if 体温 >= 38:
+        return "发热"
+    else:
+        return "正常"
+
+print(发热判断(38.5))        # 调用：按 SOP 处理 38.5 → 发热
+print(发热判断(37.0))        # → 正常</pre>
+    <b>医生类比：</b>def = 写标准操作流程（SOP）；参数 = SOP 的输入栏；return = SOP 的输出；调用 = 按 SOP 处理某个输入。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 函数结构四件套</div>
+<pre>def 函数名(参数):       # ① def + 名字 + (参数) + 冒号
+    """功能说明"""      # ② 函数体（缩进！）
+    return 结果         # ③ return = 把结果交出来
+
+结果 = 函数名(实参)      # ④ 调用
+</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. ⚠️ return vs print——别搞混</div>
+<pre>def 加一(x):
+    print(x + 1)        # 只是显示，结果丢了
+
+def 加一返回(x):
+    return x + 1        # 交出值，能继续用
+
+加一(5)                  # 输出 6，但结果烂在肚子里
+y = 加一返回(5)          # y = 6，能继续算
+print(y * 2)             # 12</pre>
+    <b>核心：</b>print = 写给自己看（显示）；return = 递给别人用（可继续处理）。<b>没有 return 的函数返回 None。</b>
+  </div>
+  <div class="tip"><b>一句话总结：</b>函数 = 把重复逻辑打包成菜谱（SOP）——def 写流程、参数收输入、return 交结果；print 是显示、return 是递交，没 return 返回 None。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">def 关键字</span></div>
+      <p>函数定义用哪个关键字开头？</p>
+      <p class="hint">A. function　　B. def　　C. func　　D. define</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>Python 用 def（define 的缩写）定义函数。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">return 取值</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 平方(x):
+    return x * x
+print(平方(4))</pre>
+      <p class="hint">A. 4　　B. 16　　C. 报错　　D. 不输出</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>平方(4) 返回 4×4=16，print 显示 16。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">无 return</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 打招呼(名字):
+    print("你好", 名字)
+结果 = 打招呼("张三")
+print(结果)</pre>
+      <p class="hint">A. 你好 张三 / 你好 张三　　B. 你好 张三 / None　　C. 你好 张三　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>打招呼 里只有 print 没有 return → 返回 None。第一行"你好 张三"是函数内 print 的输出，第二行 None 是 print(结果)。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">交出结果</span></div>
+      <p>想定义一个函数把两个数相加并"交出结果"继续用，用哪个？</p>
+      <p class="hint">A. <code>print(a + b)</code>　　B. <code>return a + b</code>　　C. <code>def a + b</code>　　D. 都不行</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>return 才交出值；print 只是显示。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">return 中断</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 检查(x):
+    if x > 0:
+        return "正数"
+    return "非正数"
+
+print(检查(5), 检查(-3))</pre>
+      <p class="hint">A. 正数 非正数　　B. 正数 正数　　C. 非正数 非正数　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>return 会立即结束函数——x&gt;0 时走第一个 return，后面的代码不再执行。检查(-3) 跳过 if 块，落到第二个 return。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">返回值参与运算</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 温差(a, b):
+    return a - b
+
+print(温差(38.5, 37.0) * 2)</pre>
+      <p class="hint">A. 1.5　　B. 3.0　　C. 2.0　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>温差(38.5, 37.0) 返回 1.5，再 ×2 = 3.0。return 的值能继续参与运算——这就是"递交"的意义。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">分诊函数</span></div>
+      <p>写一个分诊函数：体温 ≥38 返回"急"，≥37.2 返回"普通"，否则"慢"。然后调用它给 38.5 和 36.8 分诊。</p>
+      <p class="hint">提示：def + if/elif/else + return；调用两次分别打印。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>def 分诊(体温):
+    if 体温 >= 38:
+        return "急"
+    elif 体温 >= 37.2:
+        return "普通"
+    else:
+        return "慢"
+
+print(分诊(38.5))   # 急
+print(分诊(36.8))   # 慢</pre>
+        <b>自查要点：</b>函数把"分诊规则"封起来——以后规则改了（比如 38→38.5）只改函数内部一处，所有调用自动生效。这就是函数最大的价值：改一处，处处生效。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">病历格式化（填空）</span></div>
+      <p>写一个函数，输入姓名和体温，返回格式化字符串"张三：38.5度"（填空）：</p>
+<pre>def 病历行(姓名, 体温):
+    return ____   # 填：返回 "姓名：体温度" 格式的字符串
+
+print(病历行("张三", 38.5))</pre>
+      <p class="hint">提示：用 f-string 拼接，如 f"{姓名}：{体温}度"。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>def 病历行(姓名, 体温):
+    return f"{姓名}：{体温}度"
+
+print(病历行("张三", 38.5))   # 张三：38.5度</pre>
+        <b>解析：</b>return 返回 f-string 结果。函数把"格式规则"封起来——要改格式只改这一处。参数从外传进，结果从 return 递出。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 后续课程占位 ==================== -->
+<section id="next">
+  <div class="part-divider"><small>py-019 ~ py-022</small><h2>后续课程 · 未开始</h2></div>
   <div class="placeholder">
-    <div class="p-title">本阶段尚未开始</div>
-    <p>先展示学习路线图。每天一课 15-20 分钟，课程进行到本阶段后，这里会补上知识要点、分层练习题与运用题。</p>
+    <div class="p-title">课程进行到此处后填充</div>
+    <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
   </div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-018</span>
-      <span class="rtitle">定义与调用</span>
-      <span class="rdesc">def 把代码打包成菜谱，随时调用</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-019</span>
-      <span class="rtitle">参数进阶</span>
-      <span class="rdesc">默认值 / 关键字参数，调用时的灵活性</span>
-      <span class="rst wait">未开始</span>
+      <span class="rtitle">函数参数进阶</span>
+      <span class="rdesc">位置参数 / 默认参数 / 关键字参数——菜谱的调料怎么传、哪些可以缺省</span>
+      <span class="rst now">下一课</span>
     </li>
     <li>
       <span class="rid">py-020</span>
-      <span class="rtitle">返回值</span>
-      <span class="rdesc">return 把结果递出来，函数与函数的衔接</span>
+      <span class="rtitle">返回值与作用域</span>
+      <span class="rdesc">return 进阶（多返回值）、局部 vs 全局变量</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
       <span class="rid">py-021</span>
-      <span class="rtitle">作用域</span>
-      <span class="rdesc">函数内的局部变量与函数外的全局变量</span>
+      <span class="rtitle">lambda 与内置函数</span>
+      <span class="rdesc">匿名函数、map/filter、常用内置函数</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
       <span class="rid">py-022</span>
-      <span class="rtitle">lambda 与内置函数</span>
-      <span class="rdesc">一行匿名函数，Python 常用内置工具</span>
+      <span class="rtitle">阶段 04 综合演练</span>
+      <span class="rdesc">把函数组装成工具包（如"临床数据小助手"）</span>
       <span class="rst wait">未开始</span>
     </li>
   </ul>
-  <div class="tip"><b>阶段目标：</b>定义/调用、参数（位置/默认/关键字）、返回值、作用域、lambda 匿名函数、内置函数。全部学完后，本页将变为完整知识页。</div>
 </section>
 
 <div class="note" id="note">
   <strong>说明</strong><br>
-  · 占位页仅展示课程计划；每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
-  · 想提前了解任何概念，随时在课上问，也可以让老师先出一两道「预习选择题」。
+  · 每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
+  · 本阶段 5 课：函数基础（已完成）→ 参数进阶 → 返回值与作用域 → lambda → 综合演练。
 </div>
 
-<footer>阶段 04 · 函数 · 未开始 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 04 · 函数 · 1/5 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
+document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
 </script>
 </body>
 </html>
