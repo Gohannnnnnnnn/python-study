@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-018">py-018 函数基础</a><a href="#next">后续课程</a>
+  <a href="#py-018">py-018 函数基础</a><a href="#py-019">py-019 参数</a><a href="#py-020">py-020 作用域</a><a href="#next">后续课程</a>
 </nav>
 <header class="hero"><div class="hero-inner">
   <span class="badge">阶段 04 · 进行中</span>
   <h1>函数<br><span>菜谱逻辑</span></h1>
-  <p>定义/调用、参数（位置/默认/关键字）、返回值、作用域、lambda 匿名函数、内置函数。已完成 1 课，正在学习参数进阶。</p>
+  <p>定义/调用、参数（位置/默认/关键字）、返回值、作用域、lambda 匿名函数、内置函数。已完成 3 课，正在学习 lambda。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:20%"></i></div>
-    <div class="label"><span>py-018 ~ py-022</span><span>1 / 5 完成</span></div>
+    <div class="bar"><i style="width:60%"></i></div>
+    <div class="label"><span>py-018 ~ py-022</span><span>3 / 5 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -27,7 +27,9 @@
   <h3>本阶段目录</h3>
   <div class="toc-grid">
     <a href="#py-018">py-018 · 函数基础</a>
-    <a href="#next">py-019 ~ py-022 · 后续课程（未开始）</a>
+    <a href="#py-019">py-019 · 参数进阶</a>
+    <a href="#py-020">py-020 · 返回值与作用域</a>
+    <a href="#next">py-021 ~ py-022 · 后续课程（未开始）</a>
   </div>
 </div>
 
@@ -190,31 +192,320 @@ print(病历行("张三", 38.5))   # 张三：38.5度</pre>
   </div>
 </section>
 
+<!-- ==================== py-019 ==================== -->
+<section id="py-019">
+  <div class="part-divider"><small>第 19 课 · py-019</small><h2>函数参数进阶：位置 / 默认 / 关键字</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 位置参数——按顺序对号入座</div>
+<pre>def 开医嘱(药名, 剂量, 频次):
+    print(f"开医嘱：{药名} {剂量}，{频次}")
+
+开医嘱("阿司匹林", "100mg", "每日一次")   # 按位置一一对应 ✅
+开医嘱("每日一次", "100mg", "阿司匹林")   # 位置错 = 药开错 ❌</pre>
+    <b>底层逻辑：</b>实参按位置依次传给形参。顺序错不报错但结果错——比报错更危险。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 默认参数——不填就用默认值</div>
+<pre>def 开医嘱(药名, 剂量, 频次="每日一次"):   # 频次有默认值
+    print(f"{药名} {剂量}，{频次}")
+
+开医嘱("阿司匹林", "100mg")             # 频次不填 → 默认
+开医嘱("阿司匹林", "100mg", "每日两次")   # 填了 → 覆盖</pre>
+    <b>规则：</b>默认参数必须放在无默认参数<b>后面</b>。<code>def f(a=1, b)</code> 报错！
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 关键字参数——点名传参（顺序随意）</div>
+<pre>开医嘱(频次="每日一次", 药名="阿司匹林", 剂量="100mg")   # ✅ 顺序随便
+
+开医嘱("阿司匹林", 剂量="100mg", 频次="每日一次")       # ✅ 位置在前关键字在后
+开医嘱(药名="阿司匹林", "100mg")                        # ❌ 关键字在前位置在后 → 报错</pre>
+    <b>规则：</b>位置参数在前，关键字参数在后。
+  </div>
+  <div class="tip"><b>一句话总结：</b>位置按顺序对号入座、默认不填用兜底（必须在无默认后面）、关键字点名传参顺序随意（位置在前关键字在后）。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">默认参数</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 打招呼(名字, 问候语="你好"):
+    print(问候语, 名字)
+打招呼("张三")</pre>
+      <p class="hint">A. 你好 张三　　B. 张三 你好　　C. 报错（少参数）　　D. 你好</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>问候语有默认值"你好"，不填就用默认。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">调用报错</span></div>
+      <p>下面哪个调用<b>会报错</b>？</p>
+<pre>def f(a, b=1, c=2):
+    print(a, b, c)</pre>
+      <p class="hint">A. <code>f(5)</code>　　B. <code>f(5, 6)</code>　　C. <code>f(a=5, c=6)</code>　　D. <code>f(b=6, 5)</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>D。</b>关键字参数在前、位置参数在后 → 语法错误。规则：位置在前，关键字在后。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">关键字乱序</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 计算(x, y, z):
+    return x + y - z
+print(计算(z=10, x=5, y=3))</pre>
+      <p class="hint">A. -2　　B. 8　　C. 报错　　D. 12</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>关键字参数按名字对应：x=5, y=3, z=10 → 5+3-10 = -2。顺序随意但名字要对。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">定义报错</span></div>
+      <p>下面哪行定义<b>会报错</b>？</p>
+      <p class="hint">A. <code>def f(a, b=1):</code>　　B. <code>def f(a=1, b):</code>　　C. <code>def f(a, b, c=3):</code>　　D. <code>def f(a, b=1, c=2):</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>默认参数必须在无默认参数后面。a=1 有默认却在 b（无默认）前面 → 报错。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">混合调用</span></div>
+      <p>下面哪个调用<b>不</b>报错？</p>
+<pre>def 医嘱(药名, 剂量, 频次="每日一次", 备注=""):
+    pass</pre>
+      <p class="hint">A. <code>医嘱("阿司匹林", "100mg", "每日两次", "餐后")</code>　　B. <code>医嘱(药名="阿司匹林", "100mg")</code>　　C. <code>医嘱("阿司匹林", 备注="空腹")</code>　　D. A 和 C</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>D。</b>A 全位置传 4 个 ✅；C 位置+关键字混合（位置在前）✅；B 关键字在前位置在后 ❌。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">默认值顺序</span></div>
+      <p><code>def f(a, b=2, c=3)</code>，调用 <code>f(1, c=30)</code> 后 b 和 c 分别是？</p>
+      <p class="hint">A. b=2, c=30　　B. b=30, c=3　　C. b=2, c=3　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>a=1 位置传入；c=30 关键字点名；b 没传 → 用默认 2。默认参数可以"跳过"不传，用关键字精准指定。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">开医嘱函数</span></div>
+      <p>写函数：输入药名、剂量，频次默认"每日一次"，备注可选。然后调用：① 阿司匹林 100mg（全默认）② 二甲双胍 500mg 每日两次 餐后服用。</p>
+      <p class="hint">提示：def + 默认参数 + 关键字参数。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>def 开医嘱(药名, 剂量, 频次="每日一次", 备注=""):
+    return f"{药名} {剂量}，{频次}" + (f"，{备注}" if 备注 else "")
+
+print(开医嘱("阿司匹林", "100mg"))
+print(开医嘱("二甲双胍", "500mg", "每日两次", "餐后服用"))</pre>
+        <b>自查要点：</b>默认参数让"常规医嘱"只需填 2 个参数；特殊医嘱补全 4 个。函数的灵活性来自参数设计。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">缺省调用（填空）</span></div>
+      <p>调用 <code>开医嘱("硝苯地平", "30mg")</code> 时，频次和备注用什么？</p>
+      <p class="hint">提示：没传就用默认值。</p>
+      <details><summary>参考答案</summary><div class="faq-body">频次="每日一次"（默认），备注=""（默认）。调用时不传的参数自动用定义时的默认值——这就是"默认参数"的意义。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-020 ==================== -->
+<section id="py-020">
+  <div class="part-divider"><small>第 20 课 · py-020</small><h2>返回值与作用域：return 多值 + 局部 vs 全局</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. return 多个值——返回元组，可以拆包</div>
+<pre>def 查体征(体温, 心率):
+    return 体温, 心率        # 逗号分隔 = 返回元组
+
+结果 = 查体征(38.5, 90)
+print(结果)                  # (38.5, 90)
+
+体温, 心率 = 查体征(38.5, 90)   # 拆包：两个变量各接一个
+print(体温, 心率)              # 38.5 90</pre>
+    <b>底层逻辑：</b>return a, b, c 返回元组 (a, b, c)。拆包 = 像 items() 遍历时"键, 值"一样一次接多个。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 局部 vs 全局——独立房间规则</div>
+<pre>库存 = 100                # 全局：整个程序可见
+
+def 查库存():
+    return 库存            # ✅ 能"读"全局（查医院总库存）
+
+def 扣库存(数量):
+    库存 = 库存 - 数量     # ❌ 报错！"写"全局没声明
+    return 库存</pre>
+    <b>规则三连：</b>
+    <table>
+      <tr><th>情况</th><th>结果</th></tr>
+      <tr><td>函数里读全局</td><td>✅ 可以</td></tr>
+      <tr><td>函数里写全局（赋值）</td><td>❌ UnboundLocalError</td></tr>
+      <tr><td>global 声明 + 写</td><td>✅ 特批通道</td></tr>
+    </table>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. global 声明——特批改全局</div>
+<pre>总发药量 = 0
+
+def 发药(数量):
+    global 总发药量          # 声明：我要改全局
+    总发药量 += 数量
+
+发药(10); 发药(20)
+print(总发药量)              # 30</pre>
+    <b>注意：</b>尽量少用 global——好函数习惯是"参数进、return 出"，不偷偷改外面。
+  </div>
+  <div class="tip"><b>一句话总结：</b>return a,b 返回元组可拆包；函数是独立房间——读全局随便读、写全局要 global（否则报错）、局部变量外面看不见。</div>
+
+  <h3>练习题</h3>
+  <h4>基础题</h4>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">return 多值</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 返回两个():
+    return 1, 2
+结果 = 返回两个()
+print(结果)</pre>
+      <p class="hint">A. 1 2　　B. (1, 2)　　C. [1, 2]　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>return 1, 2 返回元组 (1, 2)。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">读全局</span></div>
+      <p>下面代码输出什么？</p>
+<pre>x = 5
+def 函数():
+    return x + 1
+print(函数())</pre>
+      <p class="hint">A. 6　　B. 5　　C. 报错　　D. 1</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>只读不写 → 读全局 x=5 → 返回 6。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">写全局未声明</span></div>
+      <p>下面代码会怎样？</p>
+<pre>x = 5
+def 函数():
+    x = x + 1
+    return x
+函数()</pre>
+      <p class="hint">A. 返回 6　　B. 报错（UnboundLocalError）　　C. 返回 5　　D. x 变成 6</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>函数内对 x 赋值 → Python 认定 x 是局部变量 → 右边读 x 时局部未定义 → 报错。写全局必须先 global 声明。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">global 声明</span></div>
+      <p>想让函数修改全局变量，需要先在函数里写什么？</p>
+      <p class="hint">A. <code>import</code>　　B. <code>return</code>　　C. <code>global 变量名</code>　　D. <code>def</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>global 声明 = 特批通道，函数里才能改全局。</div></details>
+    </div>
+  </div>
+
+  <h4>进阶题</h4>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">读改写三连</span></div>
+      <p>哪个<b>不</b>报错？</p>
+<pre>总数 = 10</pre>
+      <p class="hint">A. <code>def f(): return 总数 + 1</code>　　B. <code>def f(): 总数 = 总数 + 1</code>　　C. <code>def f(): global 总数; 总数 += 1</code>　　D. A 和 C</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>D。</b>A 只读 ✅；C global 声明后写 ✅；B 赋值没声明 ❌。三连口诀：读可以、写要 global、声明+写成功。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">6</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">局部变量隔离</span></div>
+      <p>下面代码输出什么？</p>
+<pre>def 测试():
+    局部 = 20
+    return 局部
+测试()
+print(局部)</pre>
+      <p class="hint">A. 20　　B. 报错（NameError）　　C. None　　D. 0</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>局部变量只在函数内存在，函数结束后消失——外面访问报 NameError。函数 = 独立房间，外面看不见里面。</div></details>
+    </div>
+  </div>
+
+  <h4>运用题</h4>
+  <div class="quiz">
+    <span class="qno">7</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">多值返回</span></div>
+      <p>写函数：输入体温和心率，返回"体温值、心率值、是否发热(≥38)"三个结果，然后拆包打印。</p>
+      <p class="hint">提示：return 三个值，调用时三个变量拆包。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>def 评估(体温, 心率):
+    发热 = 体温 >= 38
+    return 体温, 心率, 发热
+
+体温, 心率, 发热 = 评估(38.5, 90)
+print(体温, 心率, "发热" if 发热 else "正常")   # 38.5 90 发热</pre>
+        <b>自查要点：</b>一个函数返回多个相关信息，调用处拆包各归各——比分别写多个函数简洁。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">8</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">全局计数器（填空）</span></div>
+      <p>统计发药次数（填空）：</p>
+<pre>发药次数 = 0
+
+def 发药():
+    ____         # 填：声明要改全局
+    发药次数 += 1
+
+发药(); 发药(); 发药()
+print(发药次数)   # 3</pre>
+      <p class="hint">提示：global 声明。</p>
+      <details><summary>参考答案</summary><div class="faq-body">
+        <pre>发药次数 = 0
+
+def 发药():
+    global 发药次数
+    发药次数 += 1
+
+发药(); 发药(); 发药()
+print(发药次数)   # 3</pre>
+        <b>解析：</b>全局计数器 + global = 跨函数累计状态的标准写法。但记住：能用 return 传递就别用 global。</div></details>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== 后续课程占位 ==================== -->
 <section id="next">
-  <div class="part-divider"><small>py-019 ~ py-022</small><h2>后续课程 · 未开始</h2></div>
+  <div class="part-divider"><small>py-021 ~ py-022</small><h2>后续课程 · 未开始</h2></div>
   <div class="placeholder">
     <div class="p-title">课程进行到此处后填充</div>
     <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
   </div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-019</span>
-      <span class="rtitle">函数参数进阶</span>
-      <span class="rdesc">位置参数 / 默认参数 / 关键字参数——菜谱的调料怎么传、哪些可以缺省</span>
-      <span class="rst now">下一课</span>
-    </li>
-    <li>
-      <span class="rid">py-020</span>
-      <span class="rtitle">返回值与作用域</span>
-      <span class="rdesc">return 进阶（多返回值）、局部 vs 全局变量</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-021</span>
       <span class="rtitle">lambda 与内置函数</span>
-      <span class="rdesc">匿名函数、map/filter、常用内置函数</span>
-      <span class="rst wait">未开始</span>
+      <span class="rdesc">匿名函数、map/filter、常用内置函数——一行版函数</span>
+      <span class="rst now">下一课</span>
     </li>
     <li>
       <span class="rid">py-022</span>
@@ -228,10 +519,10 @@ print(病历行("张三", 38.5))   # 张三：38.5度</pre>
 <div class="note" id="note">
   <strong>说明</strong><br>
   · 每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
-  · 本阶段 5 课：函数基础（已完成）→ 参数进阶 → 返回值与作用域 → lambda → 综合演练。
+  · 本阶段 5 课：函数基础 → 参数进阶 → 返回值与作用域（已完成）→ lambda → 综合演练。
 </div>
 
-<footer>阶段 04 · 函数 · 1/5 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 04 · 函数 · 3/5 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
