@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>阶段 01 考试 · Python 基础</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fb;color:#24324a;font-size:16px;line-height:1.7;padding:16px 14px 60px;max-width:720px;margin:0 auto}
+.progress{position:fixed;top:0;left:0;height:3px;background:#2563eb;width:0;z-index:999}
+h1{font-size:1.3rem;color:#172554;text-align:center;margin:12px 0 6px}
+.sub{text-align:center;color:#65748b;font-size:.85rem;margin-bottom:16px}
+.badge{display:inline-block;background:#2563eb;color:#fff;font-size:.7rem;padding:2px 12px;border-radius:20px;margin-bottom:6px}
+.header{text-align:center;padding:10px 0}
+.stat-row{display:flex;gap:8px;justify-content:center;margin:10px 0 16px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid #dbe4f0;border-radius:10px;padding:6px 14px;text-align:center;font-size:.8rem;color:#65748b}
+.stat b{display:block;font-size:1.2rem;color:#172554}
+.q{background:#fff;border:1px solid #dbe4f0;border-radius:12px;padding:14px 16px;margin:8px 0;transition:border-color .2s}
+.q.disabled{opacity:.7}
+.qno{display:inline-block;background:#eef3fd;color:#2563eb;font-size:.75rem;font-weight:700;padding:1px 10px;border-radius:10px;margin-bottom:6px}
+.qmeta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.lvl{font-size:.7rem;padding:1px 8px;border-radius:8px;display:inline-block}
+.lvl.base{background:#eef3fd;color:#2563eb}
+.lvl.adv{background:#fdf6e7;color:#e8a11c}
+.lvl.use{background:#eef6f3;color:#159568}
+.lvl.err{background:#fef2f2;color:#d64c4c}
+.qtext{font-size:.95rem;margin:6px 0 8px;line-height:1.6}
+pre{background:#172033;color:#d6e4ff;border-radius:8px;padding:10px 12px;font-family:Consolas,monospace;font-size:.82rem;overflow-x:auto;line-height:1.5;margin:6px 0 10px;white-space:pre-wrap}
+code{background:#eef3fd;color:#2563eb;padding:1px 5px;border-radius:4px;font-size:.85em}
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.opt{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #dbe4f0;border-radius:8px;cursor:pointer;font-size:.9rem;transition:all .15s;background:#fff}
+.opt:hover{border-color:#2563eb;background:#f8fbff}
+.opt input{display:none}
+.opt.selected{border-color:#2563eb;background:#eef3fd;font-weight:600}
+.opt-label{width:22px;height:22px;border-radius:50%;border:1.5px solid #dbe4f0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;transition:all .15s;color:#65748b}
+.opt.selected .opt-label{border-color:#2563eb;background:#2563eb;color:#fff}
+.actions{display:flex;gap:10px;justify-content:center;margin:20px 0 10px;flex-wrap:wrap}
+.btn{background:#2563eb;color:#fff;border:none;padding:12px 36px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:active{opacity:.8}
+.btn.reset{background:#65748b}
+.results{background:#fff;border:1px solid #dbe4f0;border-radius:14px;padding:18px 20px;margin:16px 0;display:none}
+.results h2{font-size:1.1rem;color:#172554;margin-bottom:10px}
+.results .score{font-size:2rem;font-weight:700;color:#2563eb;text-align:center;margin:6px 0 4px}
+.results .score-detail{text-align:center;color:#65748b;font-size:.85rem}
+.results .score-detail span{margin:0 6px}
+.results .score-detail .correct{color:#159568;font-weight:700}
+.results .score-detail .wrong{color:#d64c4c;font-weight:700}
+.err-list{list-style:none;margin-top:12px;padding:0}
+.err-list li{background:#fef2f2;border:1px solid #fcd5d5;border-radius:8px;padding:10px 12px;margin:4px 0;font-size:.85rem}
+.err-list li .err-q{font-weight:700;color:#d64c4c}
+.err-list li .err-a{color:#159568;font-weight:700}
+footer{text-align:center;color:#65748b;font-size:.8rem;margin-top:24px;padding:8px 0}
+</style>
+</head>
+<body>
+<div class="progress" id="pgbar"></div>
+<div class="header">
+  <span class="badge">Python-Study · 阶段考试</span>
+  <h1>阶段 01 · 代码是什么 / 变量 / 数据类型 / 布尔值</h1>
+  <div class="sub">py-001 ~ py-004 · 100 道选择题 · 涵盖全部内容 + 错题</div>
+  <div class="stat-row">
+    <div class="stat" id="sAnswered"><b>0</b>已答</div>
+    <div class="stat"><b>100</b>总题量</div>
+    <div class="stat" id="sRemain"><b>100</b>未答</div>
+  </div>
+</div>
+<div id="quiz"></div>
+<div class="actions">
+  <button class="btn" id="submitBtn" onclick="submitQuiz()">交卷判分</button>
+  <button class="btn reset" onclick="resetQuiz()">重新答题</button>
+</div>
+<div class="results" id="results"></div>
+<footer>Python-Study · 阶段 01 考试 · 手机可考</footer>
+<script>
+// ========== 100 道题 ==========
+const Q = [
+  // === py-001: 代码是什么 · 变量 · 赋值（~20题）===
+  {q:"下面哪个是 Python 代码的正确执行方式？",o:["从顶部开始，一行一行往下执行","从底部开始，往上执行","随机执行","全部同时执行"],a:0,t:"base",c:"py-001"},
+  {q:"x = 5 这行代码，正确理解是？",o:["把 5 这个值放进名字叫 x 的盒子里","把 x 改成 5","检查 x 是不是等于 5","删除 x 的值"],a:0,t:"base",c:"py-001"},
+  {q:"先执行 a = 1，再执行 a = 2，此时 a 的值是？",o:["1","2","报错","[1,2]"],a:1,t:"base",c:"py-001"},
+  {q:"a = 1; b = a; a = 10，此时 b 的值是？",o:["10","1","报错","None"],a:1,t:"err",c:"py-001"},
+  {q:"a = 1; b = a; a = 10，此时 a 的值是？",o:["1","10","报错","None"],a:1,t:"base",c:"py-001"},
+  {q:"x = 5; y = x; y = 8; print(x) 输出什么？",o:["5","8","报错","None"],a:0,t:"err",c:"py-001"},
+  {q:"变量名可以以什么开头？",o:["数字或字母","字母或下划线","任何符号","空格"],a:1,t:"base",c:"py-001"},
+  {q:"下面哪个变量名是合法的？",o:["2name","my_name","my-name","my name"],a:1,t:"base",c:"py-001"},
+  {q:"下面哪个变量名是合法的？",o:["class","_myVar","123abc","my-var"],a:1,t:"adv",c:"py-001"},
+  {q:"赋值语句中，等号 ( = ) 表示什么？",o:["左右两边相等","把右边的值赋给左边的变量","比较左右是否相等","把左边的值赋给右边的变量"],a:1,t:"base",c:"py-001"},
+  {q:"a = 5; b = a; b = 3，此时 a 和 b 分别是？",o:["a=5, b=3","a=3, b=3","a=5, b=5","报错"],a:0,t:"base",c:"py-001"},
+  {q:"多重赋值 a, b = 1, 2 后，a 和 b 的值是？",o:["a=1, b=2","a=2, b=1","报错","a=1, b=1"],a:0,t:"adv",c:"py-001"},
+  {q:"a = 10; b = a; a = a + 1，此时 a 和 b 分别是？",o:["a=11, b=10","a=10, b=10","a=11, b=11","报错"],a:0,t:"adv",c:"py-001"},
+  {q:"下面代码执行后，结果是什么？\\nname = 'Alice'\\nnick = name\\nname = 'Bob'\\nprint(nick)",o:["Alice","Bob","报错","None"],a:0,t:"err",c:"py-001"},
+  {q:"Python 中 # 符号的作用是？",o:["字符串标记","注释","乘法","变量定义"],a:1,t:"base",c:"py-001"},
+  {q:"下面代码输出什么？\\nx = 3\\ny = x + 2\\nprint(y)",o:["3","5","报错","2"],a:1,t:"base",c:"py-001"},
+  {q:"下面代码输出什么？\\na = 5\\nb = 10\\na = b\\nprint(a, b)",o:["5 10","10 10","5 5","10 5"],a:1,t:"adv",c:"py-001"},
+  {q:"Python 中能用中文做变量名吗？",o:["完全不能","Python 3 支持中文变量名","只有 Python 2 支持","需要额外包"],a:1,t:"adv",c:"py-001"},
+  {q:"下面代码最后 c 的值是？\\na = 2\\nb = 3\\nc = a + b\\nb = 5\\nprint(c)",o:["5","8","2","3"],a:0,t:"adv",c:"py-001"},
+  {q:"下面哪个是合法的 Python 赋值？",o:["1x = 2","x_1 = 2","x-1 = 2","x 1 = 2"],a:1,t:"base",c:"py-001"},
+
+  // === py-002: 数据类型 int/float/str/bool（~20题）===
+  {q:"type(3) 的结果是？",o:["int","float","str","bool"],a:0,t:"base",c:"py-002"},
+  {q:"type(3.0) 的结果是？",o:["int","float","str","bool"],a:1,t:"base",c:"py-002"},
+  {q:"type('3') 的结果是？",o:["int","float","str","bool"],a:2,t:"base",c:"py-002"},
+  {q:"type(True) 的结果是？",o:["int","float","str","bool"],a:3,t:"base",c:"py-002"},
+  {q:"'3' + '3' 的结果是？",o:["6","'33'","报错","33"],a:1,t:"base",c:"py-002"},
+  {q:"3 + 3 的结果是？",o:["6","'33'","报错","33"],a:0,t:"base",c:"py-002"},
+  {q:"'3' + 3 的结果是？",o:["6","'33'","报错","33"],a:2,t:"base",c:"py-002"},
+  {q:"下面代码输出什么？\\nprint('Hello' + ' ' + 'World')",o:["Hello World","HelloWorld","报错","Hello + World"],a:0,t:"base",c:"py-002"},
+  {q:"下面哪个是整数类型？",o:["3.14","'3'","3","True"],a:2,t:"base",c:"py-002"},
+  {q:"下面哪个是字符串类型？",o:["42","'42'","True","3.14"],a:1,t:"base",c:"py-002"},
+  {q:"type(False) 的结果是？",o:["int","float","str","bool"],a:3,t:"base",c:"py-002"},
+  {q:"下面代码输出什么？\\nprint(type(2.5))",o:["<class 'int'>","<class 'float'>","<class 'str'>","<class 'bool'>"],a:1,t:"base",c:"py-002"},
+  {q:"下面代码会报错吗？\\nprint('5' * 3)",o:["会报错","不会，输出 '555'","不会，输出 15","不会，输出 '5*3'"],a:1,t:"adv",c:"py-002"},
+  {q:"下面代码会报错吗？\\nprint('5' - 3)",o:["会报错","不会，输出 2","不会，输出 '53'","不会，输出 '5-3'"],a:0,t:"adv",c:"py-002"},
+  {q:"下面哪个是布尔值？",o:["1","'True'","True","true"],a:2,t:"base",c:"py-002"},
+  {q:"type(3.14) 的结果是？",o:["int","float","str","bool"],a:1,t:"base",c:"py-002"},
+  {q:"type('True') 的结果是？",o:["int","float","str","bool"],a:2,t:"adv",c:"py-002"},
+  {q:"下面代码输出什么？\\nprint(10 + 20)",o:["1020","30","报错","10+20"],a:1,t:"base",c:"py-002"},
+  {q:"下面代码输出什么？\\nprint('10' + '20')",o:["1020","30","报错","10+20"],a:0,t:"adv",c:"py-002"},
+  {q:"下面哪个是合法的布尔值？",o:["true","FALSE","True","yes"],a:2,t:"base",c:"py-002"},
+
+  // === py-003: input / 类型转换（~20题）===
+  {q:"input() 函数返回的数据类型是？",o:["str","int","float","取决于输入内容"],a:0,t:"base",c:"py-003"},
+  {q:"int('5') 的结果是？",o:["5","'5'","报错","5.0"],a:0,t:"base",c:"py-003"},
+  {q:"float('3.5') 的结果是？",o:["3","3.5","'3.5'","报错"],a:1,t:"base",c:"py-003"},
+  {q:"int(3.5) 的结果是？",o:["3","3.5","4","报错"],a:0,t:"err",c:"py-003"},
+  {q:"int('3.5') 的结果是？",o:["3","3.5","报错 ValueError","报错 TypeError"],a:2,t:"err",c:"py-003"},
+  {q:"下面代码输出什么？\\n年龄 = input('请输入：')\\nprint(年龄 + 10)（假设输入 20）",o:["30","'2010'","报错","2010"],a:2,t:"err",c:"py-003"},
+  {q:"想让 input 输入的数字参与数学运算，需要先做什么？",o:["用 int() 转换","直接加减","用 str() 转换","不能做运算"],a:0,t:"base",c:"py-003"},
+  {q:"str(100) 的结果是？",o:["100","'100'","报错","'100"],a:1,t:"base",c:"py-003"},
+  {q:"int('  \t5  ') 的结果是？",o:["报错","5","'5'","None"],a:1,t:"adv",c:"py-003"},
+  {q:"下面哪个转换会报错？",o:["int('100')","int('3.14')","float('3.14')","str(100)"],a:1,t:"err",c:"py-003"},
+  {q:"下面哪个转换会报错？",o:["int('5')","int(5.9)","int('5.9')","float('5')"],a:2,t:"err",c:"py-003"},
+  {q:"int(5.9) 的结果是？",o:["5","5.9","6","报错"],a:0,t:"adv",c:"py-003"},
+  {q:"float('5') 的结果是？",o:["5","5.0","'5'","报错"],a:1,t:"adv",c:"py-003"},
+  {q:"bool(1) 的结果是？",o:["True","False","1","报错"],a:0,t:"adv",c:"py-003"},
+  {q:"bool(0) 的结果是？",o:["True","False","0","报错"],a:1,t:"adv",c:"py-003"},
+  {q:"下面代码输出什么？\\nnum = int(input('数字：'))\\nprint(num * 2)（假设输入 5）",o:["55","10","报错","'55'"],a:1,t:"use",c:"py-003"},
+  {q:"下面代码会报错吗？\\nprint(int('二十'))",o:["会报错（不能转中文数字）","不会，输出 20","不会，输出 '二十'","不会，输出 0"],a:0,t:"adv",c:"py-003"},
+  {q:"下面代码输出什么？\\nprint(type(str(3.14)))",o:["<class 'int'>","<class 'float'>","<class 'str'>","<class 'bool'>"],a:2,t:"adv",c:"py-003"},
+  {q:"下面代码输出什么？\\nprint('结果是：' + str(42))",o:["结果是：42","结果是：'42'","报错","结果是：str(42)"],a:0,t:"use",c:"py-003"},
+  {q:"下面代码会报错吗？\\nprint(int('  '))",o:["会报错","不会，输出 0","不会，输出 None","不会，输出空"],a:0,t:"adv",c:"py-003"},
+
+  // === py-004: 布尔值 / 比较运算（~20题）===
+  {q:"5 > 3 的结果是？",o:["True","False","5","报错"],a:0,t:"base",c:"py-004"},
+  {q:"3 > 5 的结果是？",o:["True","False","3","报错"],a:1,t:"base",c:"py-004"},
+  {q:"5 == 5 的结果是？",o:["True","False","5","'5'"],a:0,t:"base",c:"py-004"},
+  {q:"5 != 5 的结果是？",o:["True","False","5","报错"],a:1,t:"base",c:"py-004"},
+  {q:"'3' == 3 的结果是？",o:["True","False","报错","'33'"],a:1,t:"err",c:"py-004"},
+  {q:"'3' > 3 的结果是？",o:["True","False","False（不报错）","报错 TypeError"],a:3,t:"err",c:"py-004"},
+  {q:"10 >= 10 的结果是？",o:["True","False","10","报错"],a:0,t:"base",c:"py-004"},
+  {q:"8 <= 5 的结果是？",o:["True","False","8","报错"],a:1,t:"base",c:"py-004"},
+  {q:"比较运算符的结果永远是什么类型？",o:["int","float","str","bool"],a:3,t:"base",c:"py-004"},
+  {q:"下面代码输出什么？\\nprint(7 == 7.0)",o:["True","False","7","报错"],a:0,t:"adv",c:"py-004"},
+  {q:"下面代码输出什么？\\nprint(True == 1)",o:["True","False","报错","None"],a:0,t:"adv",c:"py-004"},
+  {q:"下面代码输出什么？\\nprint(False == 0)",o:["True","False","0","报错"],a:0,t:"adv",c:"py-004"},
+  {q:"下面哪个表达式结果为 True？",o:["3 > 5","10 == 10","'a' > 'b'","3 != 3"],a:1,t:"base",c:"py-004"},
+  {q:"下面哪个表达式结果为 False？",o:["'hello' == 'hello'","5 >= 3","5 != 3","'3' == 3"],a:3,t:"err",c:"py-004"},
+  {q:"下面代码输出什么？\\nprint(3 < 5 < 10)",o:["True","False","报错","3"],a:0,t:"adv",c:"py-004"},
+  {q:"下面代码会报错吗？\\nprint('5' == '5')",o:["会报错","不会，输出 True","不会，输出 False","不会，输出 5"],a:1,t:"base",c:"py-004"},
+  {q:"下面代码会报错吗？\\nprint(3 < '5')",o:["会报错 TypeError","不会，输出 True","不会，输出 False","不等类型比较一律返回 False"],a:0,t:"err",c:"py-004"},
+  {q:"下面代码输出什么？\\nprint(2 + 2 == 4)",o:["True","False","4","报错"],a:0,t:"use",c:"py-004"},
+  {q:"下面代码输出什么？\\nprint(2 + 2 > 5)",o:["True","False","报错","4"],a:1,t:"use",c:"py-004"},
+  {q:"下面代码输出什么？\\nprint(not True)",o:["True","False","报错","None"],a:1,t:"adv",c:"py-004"},
+
+  // === 综合混搭（~20题）===
+  {q:"下面代码输出什么？\\nx = 5\\ny = 10\\nz = x + y\\nprint(z)",o:["15","510","报错","5+10"],a:0,t:"use",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(type('100') == str)",o:["True","False","报错","None"],a:0,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nname = 'Tom'\\nage = 25\\nprint(name + str(age))",o:["Tom25","Tom 25","报错","Tom"],a:0,t:"use",c:"综合"},
+  {q:"下面代码输出什么？\\na = 3\\nb = 4\\nprint(a * b)",o:["12","34","7","报错"],a:0,t:"use",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(3 > 2 and 5 > 4)",o:["True","False","报错","3"],a:0,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(3 > 2 and 5 < 4)",o:["True","False","报错","3"],a:1,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(3 > 2 or 5 < 4)",o:["True","False","报错","3"],a:0,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(5 % 2)",o:["2.5","2","1","报错"],a:2,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(10 // 3)",o:["3.33","3","3.0","报错"],a:1,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(10 / 3)",o:["3.33","3","3.333...","报错"],a:2,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(2 ** 3)",o:["6","8","9","报错"],a:1,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\na = '10'\\nb = int(a)\\nprint(b + 5)",o:["15","105","报错","'105'"],a:0,t:"use",c:"综合"},
+  {q:"x = 5; x = x + 1; print(x) 输出什么？",o:["5","6","报错","x+1"],a:1,t:"use",c:"综合"},
+  {q:"下面代码哪个不会报错？",o:["print('5' + 3)","print(5 + '3')","print('5' + '3')","print('5' - 3)"],a:2,t:"err",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(3 * 2 + 1)",o:["7","9","6","报错"],a:0,t:"use",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(3 * (2 + 1))",o:["7","9","6","报错"],a:1,t:"use",c:"综合"},
+  {q:"下面代码哪个行会报错？\\n1: x = 5\\n2: y = '5'\\n3: print(x + y)",o:["第1行","第2行","第3行","都不报错"],a:2,t:"err",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(True + 1)",o:["True+1","2","报错","True"],a:1,t:"adv",c:"综合"},
+  {q:"下面代码输出什么？\\nprint(False + 1)",o:["False+1","1","报错","False"],a:1,t:"adv",c:"综合"},
+  {q:"写代码时，print() 和 input() 的共同点是？",o:["都是输出函数","都是输入函数","都是内置函数","都需要类型转换"],a:2,t:"adv",c:"综合"},
+];
+
+// ========== 渲染 ==========
+const labels = ['A','B','C','D'];
+let selected = new Array(Q.length).fill(-1);
+
+function render(){
+  const container = document.getElementById('quiz');
+  container.innerHTML = '';
+  Q.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'q';
+    div.id = 'q'+i;
+    div.innerHTML = `
+      <div class="qmeta">
+        <span class="lvl ${q.t}">${labelMap(q.t)}</span>
+        <span class="lvl" style="background:#eef3fd;color:#2563eb">${q.c}</span>
+      </div>
+      <div class="qno">第 ${i + 1} 题</div>
+      <div class="qtext">${q.q.replace(/\\n/g, '<br>')}</div>
+      <div class="opts">${q.o.map((opt, j) => `
+        <div class="opt ${selected[i] === j ? 'selected' : ''}" onclick="selectOpt(${i}, ${j})">
+          <span class="opt-label">${labels[j]}</span>
+          <span>${opt}</span>
+        </div>
+      `).join('')}</div>
+    `;
+    container.appendChild(div);
+  });
+  updateStats();
+}
+function labelMap(t){
+  const m = {base:'基础',adv:'进阶',use:'运用',err:'错题'};
+  return m[t] || t;
+}
+function selectOpt(qi, oi){
+  if(document.getElementById('submitBtn').disabled) return;
+  selected[qi] = oi;
+  // 更新UI
+  const qDiv = document.getElementById('q'+qi);
+  qDiv.querySelectorAll('.opt').forEach((el, j) => {
+    el.className = 'opt' + (j === oi ? ' selected' : '');
+  });
+  updateStats();
+}
+function updateStats(){
+  const answered = selected.filter(s => s !== -1).length;
+  document.getElementById('sAnswered').innerHTML = '<b>'+answered+'</b>已答';
+  document.getElementById('sRemain').innerHTML = '<b>'+(Q.length - answered)+'</b>未答';
+}
+function submitQuiz(){
+  if(selected.filter(s => s !== -1).length === 0){
+    alert('一题都还没答，先选几道吧！');
+    return;
+  }
+  document.getElementById('submitBtn').disabled = true;
+  let correct = 0;
+  const errors = [];
+  Q.forEach((q, i) => {
+    const qDiv = document.getElementById('q'+i);
+    qDiv.classList.add('disabled');
+    const opts = qDiv.querySelectorAll('.opt');
+    opts.forEach((el, j) => {
+      const sel = selected[i] === j;
+      el.classList.remove('selected');
+      if(j === q.a) el.classList.add('correct');
+      else if(sel && j !== q.a) el.classList.add('wrong');
+      if(sel) el.classList.add('selected');
+    });
+    if(selected[i] === q.a) correct++;
+    else if(selected[i] !== -1) errors.push({num: i+1, q: q.q, your: labels[selected[i]] + '. ' + q.o[selected[i]], correct: labels[q.a] + '. ' + q.o[q.a]});
+  });
+  const results = document.getElementById('results');
+  const pct = Math.round(correct / Q.length * 100);
+  results.style.display = 'block';
+  results.innerHTML = `
+    <h2>📊 考试结果</h2>
+    <div class="score">${pct}%</div>
+    <div class="score-detail">
+      <span class="correct">${correct} 题正确</span>
+      <span class="wrong">${Q.length - correct} 题错误</span>
+      <span>${Q.length} 题共</span>
+    </div>
+    ${errors.length > 0 ? '<h3 style="margin-top:16px;color:#d64c4c">❌ 错题总结</h3><ul class="err-list">' + errors.map(e => `<li><span class="err-q">第${e.num}题</span>：${e.q.replace(/\\n/g,' ').substr(0,80)}…<br>你选了 <span class="err-q">${e.your}</span><br>正确答案 <span class="err-a">${e.correct}</span></li>`).join('') + '</ul>' : '<p style="text-align:center;color:#159568;font-size:1.1rem;font-weight:700;margin-top:12px">🎉 满分！全部正确！</p>'}
+  `;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resetQuiz(){
+  if(!confirm('确定重新答题？所有已选答案将被清空。')) return;
+  selected = new Array(Q.length).fill(-1);
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('results').style.display = 'none';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+render();
+</script>
+</body>
+</html>
