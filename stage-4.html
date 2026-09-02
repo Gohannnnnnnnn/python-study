@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-018">py-018 函数基础</a><a href="#py-019">py-019 参数</a><a href="#py-020">py-020 作用域</a><a href="#next">后续课程</a>
+  <a href="#py-018">py-018 函数基础</a><a href="#py-019">py-019 参数</a><a href="#py-020">py-020 作用域</a><a href="#py-021">py-021 lambda</a><a href="#py-022">py-022 演练</a>
 </nav>
 <header class="hero"><div class="hero-inner">
-  <span class="badge">阶段 04 · 进行中</span>
+  <span class="badge">阶段 04 · 已完成 ✅</span>
   <h1>函数<br><span>菜谱逻辑</span></h1>
-  <p>定义/调用、参数（位置/默认/关键字）、返回值、作用域、lambda 匿名函数、内置函数。已完成 3 课，正在学习 lambda。</p>
+  <p>定义/调用、参数（位置/默认/关键字）、返回值、作用域、lambda 匿名函数、内置函数、综合演练。5/5 课全部完成。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:60%"></i></div>
-    <div class="label"><span>py-018 ~ py-022</span><span>3 / 5 完成</span></div>
+    <div class="bar"><i style="width:100%"></i></div>
+    <div class="label"><span>py-018 ~ py-022</span><span>5 / 5 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -29,7 +29,8 @@
     <a href="#py-018">py-018 · 函数基础</a>
     <a href="#py-019">py-019 · 参数进阶</a>
     <a href="#py-020">py-020 · 返回值与作用域</a>
-    <a href="#next">py-021 ~ py-022 · 后续课程（未开始）</a>
+    <a href="#py-021">py-021 · lambda 与内置函数</a>
+    <a href="#py-022">py-022 · 综合演练</a>
   </div>
 </div>
 
@@ -489,40 +490,289 @@ def 发药():
 发药(); 发药(); 发药()
 print(发药次数)   # 3</pre>
         <b>解析：</b>全局计数器 + global = 跨函数累计状态的标准写法。但记住：能用 return 传递就别用 global。</div></details>
-    </div>
-  </div>
-</section>
+            </div>
+          </div>
+        </section>
 
-<!-- ==================== 后续课程占位 ==================== -->
-<section id="next">
-  <div class="part-divider"><small>py-021 ~ py-022</small><h2>后续课程 · 未开始</h2></div>
-  <div class="placeholder">
-    <div class="p-title">课程进行到此处后填充</div>
-    <p>先展示学习路线图。每完成一课，本页会补上知识要点、分层练习题与运用题。</p>
-  </div>
-  <ul class="roadmap-list">
-    <li>
-      <span class="rid">py-021</span>
-      <span class="rtitle">lambda 与内置函数</span>
-      <span class="rdesc">匿名函数、map/filter、常用内置函数——一行版函数</span>
-      <span class="rst now">下一课</span>
-    </li>
-    <li>
-      <span class="rid">py-022</span>
-      <span class="rtitle">阶段 04 综合演练</span>
-      <span class="rdesc">把函数组装成工具包（如"临床数据小助手"）</span>
-      <span class="rst wait">未开始</span>
-    </li>
-  </ul>
-</section>
+        <!-- ==================== py-021 ==================== -->
+        <section id="py-021">
+          <div class="part-divider"><small>第 21 课 · py-021</small><h2>lambda 与内置函数：一行版函数 + 批量处理</h2></div>
 
-<div class="note" id="note">
-  <strong>说明</strong><br>
-  · 每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
-  · 本阶段 5 课：函数基础 → 参数进阶 → 返回值与作用域（已完成）→ lambda → 综合演练。
-</div>
+          <h3>知识要点</h3>
+          <div class="term-card">
+            <div class="term-name">1. lambda——一行版函数（自动 return）</div>
+        <pre>加倍 = lambda x: x * 2
+        print(加倍(5))   # 10
 
-<footer>阶段 04 · 函数 · 3/5 完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+        # 对比普通函数
+        def 加倍(x):
+            return x * 2</pre>
+            <b>结构：</b><code>lambda 参数: 表达式</code>——不需要 def、return 关键字。像"一句话菜谱"。
+          </div>
+          <div class="term-card">
+            <div class="term-name">2. lambda 实战：作为 sorted/max/min 的 key 参数</div>
+        <pre>病人 = [{"姓名":"张三", "年龄":45}, {"姓名":"李四", "年龄":38}]
+        排序后 = sorted(病人, key=lambda p: p["年龄"])
+        # 按年龄从小到大排
+
+        最高龄 = max(病人, key=lambda p: p["年龄"])
+        # 找年龄最大的病人</pre>
+            <b>底层逻辑：</b>key 参数告诉 sorted "按什么规则排序"——lambda 临时写个规则，用完就丢。
+          </div>
+          <div class="term-card">
+            <div class="term-name">3. 常用内置函数</div>
+        <pre>len([1,2,3])     # 3 —— 长度
+        sum([1,2,3])     # 6 —— 求和
+        max([1,2,3])     # 3 —— 最大
+        min([1,2,3])     # 1 —— 最小
+        sorted([3,1,2])  # [1,2,3] —— 排序（返回新列表，原列表不变）</pre>
+          </div>
+          <div class="tip"><b>一句话总结：</b>lambda = 一行版函数（自动 return），最常用作 sorted 的 key 参数——"临时规则用完就丢"。</div>
+
+          <h3>练习题</h3>
+          <h4>基础题</h4>
+          <div class="quiz">
+            <span class="qno">1</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">lambda 等价</span></div>
+              <p><code>lambda x: x + 1</code> 等价于哪个普通函数？</p>
+              <p class="hint">A. <code>def f(x): return x + 1</code>　　B. <code>def f(x): print(x + 1)</code>　　C. <code>def f(): return x + 1</code>　　D. <code>def f(x): x + 1</code></p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>lambda 自动 return——等价于 def + return。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">2</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">lambda 调用</span></div>
+              <p><code>(lambda x, y: x * y)(3, 4)</code> 的结果是？</p>
+              <p class="hint">A. 12　　B. 7　　C. 34　　D. 报错</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>3×4=12。lambda 定义完直接传参调用。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">3</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">key=-x 排序</span></div>
+              <p><code>sorted([3, 1, 2], key=lambda x: -x)</code> 的结果是？</p>
+              <p class="hint">A. [1,2,3]　　B. [3,2,1]　　C. [3,1,2]　　D. 报错</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>key=lambda x: -x 按负数排：-3 &lt; -2 &lt; -1 → 3,2,1。反向排序的技巧。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">4</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">max+lambda</span></div>
+              <p>下面代码输出什么？</p>
+        <pre>数据 = [{"v": 10}, {"v": 5}, {"v": 8}]
+        print(max(数据, key=lambda x: x["v"])["v"])</pre>
+              <p class="hint">A. 10　　B. 5　　C. 8　　D. 报错</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>max 按 v 字段找最大值 → {"v":10}，再取["v"]=10。</div></details>
+            </div>
+          </div>
+
+          <h4>进阶题</h4>
+          <div class="quiz">
+            <span class="qno">5</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">lambda 多参数</span></div>
+              <p><code>(lambda a, b, c: a + b - c)(10, 5, 3)</code> 的结果是？</p>
+              <p class="hint">A. 12　　B. 8　　C. 18　　D. 15</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>10+5-3=12。lambda 可以接受多个参数，逗号分隔。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">6</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">sorted 不改变原列表</span></div>
+              <p>下面代码输出什么？</p>
+        <pre>x = [3, 1, 2]
+        y = sorted(x)
+        print(x, y)</pre>
+              <p class="hint">A. [3,1,2] [1,2,3]　　B. [1,2,3] [1,2,3]　　C. [3,1,2] [3,1,2]　　D. 报错</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>sorted 返回新列表，原列表不变。x 还是 [3,1,2]，y 是 [1,2,3]。</div></details>
+            </div>
+          </div>
+
+          <h4>运用题</h4>
+          <div class="quiz">
+            <span class="qno">7</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">按体温排序</span></div>
+              <p>用 lambda 把病人列表按体温从高到低排序：</p>
+        <pre>病人 = [{"姓名": "张三", "体温": 38.5}, {"姓名": "李四", "体温": 37.2}]
+        # 填空：
+        排序后 = sorted(____, key=lambda p: ____, reverse=True)</pre>
+              <p class="hint">提示：第一个空填列表名，第二个空填 p["体温"]。</p>
+              <details><summary>参考答案</summary><div class="faq-body">
+                <pre>排序后 = sorted(病人, key=lambda p: p["体温"], reverse=True)</pre>
+                <b>解析：</b>reverse=True 降序（从高到低）。加上 reverse=False（默认）就是升序。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">8</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">统计总费用</span></div>
+              <p>求所有病人费用总和（填空）：</p>
+        <pre>费用 = [{"项目": "CT", "金额": 500}, {"项目": "血常规", "金额": 80}]
+        总计 = sum(____)   # 填：取出所有金额再求和</pre>
+              <p class="hint">提示：列表推导式 [p["金额"] for p in 费用]。</p>
+              <details><summary>参考答案</summary><div class="faq-body">
+                <pre>总计 = sum([p["金额"] for p in 费用])   # 580</pre>
+                <b>解析：</b>列表推导式先收集所有金额，sum 求和。lambda 组合内置函数 = 数据处理的标准姿势。</div></details>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== py-022 ==================== -->
+        <section id="py-022">
+          <div class="part-divider"><small>第 22 课 · py-022</small><h2>阶段综合演练：临床数据小助手</h2></div>
+
+          <h3>知识要点</h3>
+          <div class="term-card">
+            <div class="term-name">1. 完整系统——临床数据小助手</div>
+        <pre>def 分诊(体温, 标准=38):
+            if 体温 >= 标准:
+                return "急"
+            return "慢"
+
+        def 评估(体温, 心率, 血压):
+            是否发热 = 体温 >= 38
+            是否心动过速 = 心率 > 100
+            return 体温, 心率, 血压, 是否发热, 是否心动过速
+
+        病人 = [{"姓名":"张三","体温":38.5,"年龄":45},
+                {"姓名":"李四","体温":37.2,"年龄":38},
+                {"姓名":"王五","体温":39.0,"年龄":52}]
+
+        print("按体温排序：", sorted(病人, key=lambda p: p["体温"]))
+
+        体温列表 = [p["体温"] for p in 病人]
+        print(f"最高：{max(体温列表)}，最低：{min(体温列表)}，平均：{sum(体温列表)/len(体温列表):.1f}")
+
+        for p in 病人:
+            print(p["姓名"], 分诊(p["体温"]))</pre>
+          </div>
+          <div class="term-card">
+            <div class="term-name">2. 各零件回顾</div>
+            <table>
+              <tr><th>零件</th><th>用在哪</th><th>来自哪课</th></tr>
+              <tr><td>默认参数 def f(x, 标准=38)</td><td>分诊函数</td><td>py-019</td></tr>
+              <tr><td>多值 return + 拆包</td><td>评估函数</td><td>py-020</td></tr>
+              <tr><td>lambda + sorted</td><td>按体温排序</td><td>py-021</td></tr>
+              <tr><td>max/min/sum/len</td><td>数据统计</td><td>py-021</td></tr>
+            </table>
+          </div>
+          <div class="tip"><b>一句话总结：</b>临床数据小助手 = def（分诊）+ 参数（默认）+ return（多值）+ lambda（排序）+ 内置函数（统计）——stage-4 全部零件组装成一个真实工具包。</div>
+
+          <h3>练习题</h3>
+          <h4>基础题</h4>
+          <div class="quiz">
+            <span class="qno">1</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">默认参数</span></div>
+              <p>分诊函数里 <code>标准=38</code> 是什么？</p>
+              <p class="hint">A. 位置参数　　B. 默认参数　　C. 关键字参数　　D. lambda</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>定义时 = 是默认参数（调用时用 = 传才是关键字参数，两者不同）。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">2</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">多值返回</span></div>
+              <p>评估函数返回几个值？</p>
+        <pre>def 评估(体温, 心率, 血压):
+            是否发热 = 体温 >= 38
+            是否心动过速 = 心率 > 100
+            return 体温, 心率, 血压, 是否发热, 是否心动过速</pre>
+              <p class="hint">A. 3　　B. 5　　C. 2　　D. 4</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>return 后面跟了 5 个值（3 个参数 + 2 个内部计算出的布尔值）。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">3</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">lambda 排序</span></div>
+              <p><code>sorted(病人, key=lambda p: p["体温"])</code> 是按什么排序？</p>
+              <p class="hint">A. 姓名　　B. 体温　　C. 年龄　　D. 字典顺序</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>key=lambda p: p["体温"] 指定按体温字段排序。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">4</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">找最大值</span></div>
+              <p>想在 <code>体温列表</code> 里找最大值，用哪个？</p>
+              <p class="hint">A. <code>len(体温列表)</code>　　B. <code>sum(体温列表)</code>　　C. <code>max(体温列表)</code>　　D. <code>sorted(体温列表)</code></p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>max 返回最大值。</div></details>
+            </div>
+          </div>
+
+          <h4>进阶题</h4>
+          <div class="quiz">
+            <span class="qno">5</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">筛选急症</span></div>
+              <p>想筛选出分诊结果为"急"的病人，需要：</p>
+              <p class="hint">A. for 遍历 + if 判断 + 打印　　B. sorted + lambda　　C. max + lambda　　D. 内置函数 len</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>for 遍历每个病人，if 判断分诊结果，符合条件的打印——这是"筛选"的标准模式。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">6</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">修改默认标准</span></div>
+              <p>想把分诊标准从 38 改成 38.5，怎么改？</p>
+              <p class="hint">A. 改函数定义 <code>def 分诊(体温, 标准=38.5)</code>　　B. 在调用处写 <code>分诊(体温, 38.5)</code>　　C. 两种都行　　D. 不能改</p>
+              <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>要么改定义处的默认值（全局生效），要么调用时传关键字覆盖（单次生效）。</div></details>
+            </div>
+          </div>
+
+          <h4>运用题</h4>
+          <div class="quiz">
+            <span class="qno">7</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">筛选急症（填空）</span></div>
+              <p>筛选出"急"的病人并打印姓名：</p>
+        <pre>病人 = [{"姓名":"张三","体温":38.5},{"姓名":"李四","体温":37.0}]
+        for p in 病人:
+            if ____:   # 填：分诊结果为"急"时打印
+                print(p["姓名"])</pre>
+              <p class="hint">提示：调用分诊(p["体温"]) == "急"。</p>
+              <details><summary>参考答案</summary><div class="faq-body">
+                <pre>for p in 病人:
+            if 分诊(p["体温"]) == "急":
+                print(p["姓名"])</pre>
+                <b>解析：</b>函数调用放 if 条件里——函数返回"急"就打印，不返回就不打印。函数 = 判断逻辑封装。</div></details>
+            </div>
+          </div>
+          <div class="quiz">
+            <span class="qno">8</span>
+            <div class="qbody">
+              <div class="qmeta"><span class="lvl use">运用</span><span class="lvl tag">降序排序（填空）</span></div>
+              <p>按体温从高到低排序：</p>
+        <pre>排序后 = sorted(病人, key=lambda p: p["体温"], ____)</pre>
+              <p class="hint">提示：reverse=True</p>
+              <details><summary>参考答案</summary><div class="faq-body"><code>reverse=True</code>。sorted 默认升序，reverse=True 就是降序。</div></details>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== 后续课程占位 ==================== -->
+        <section id="next">
+          <div class="part-divider"><small>阶段 04 完成</small><h2>全部课程已上线 ✅</h2></div>
+          <div class="tip" style="margin:10px 0;text-align:center;font-size:0.95rem">
+            stage-4「函数」5/5 课全部完成！<br>
+            下一阶段：stage-5「文件与异常」——开始前可以做阶段 04 考试 100 题。
+          </div>
+        </section>
+
+        <div class="note" id="note">
+          <strong>说明</strong><br>
+          · 本阶段 5 课全部完成：函数基础 → 参数进阶 → 返回值与作用域 → lambda → 综合演练 ✅<br>
+          · 速查卡：<a href="stage-1-exam.html" style="color:#1d4ed8">阶段 01 考试 100 题</a>
+        </div>
+
+        <footer>阶段 04 · 函数 · 5/5 完成 ✅ · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
