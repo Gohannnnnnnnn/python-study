@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>函数公式卡 · 函数 | Python-Study</title>
+<style>
+  :root {
+    --primary:#2563eb; --deep:#172554; --panel:#1e3a8a; --lime:#67e8f9;
+    --paper:#f5f7fb; --ink:#24324a; --muted:#65748b; --line:#dbe4f0;
+    --green:#159568; --amber:#e8a11c; --red:#d64c4c; --code:#172033;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:var(--paper); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px; line-height:1.8;
+    max-width:720px; margin:0 auto; padding:24px 18px 60px;
+  }
+  .progress { position:fixed; top:0; left:0; height:3px; background:var(--primary); width:0; z-index:999; }
+  header { text-align:center; padding:20px 0 16px; }
+  .badge { display:inline-block; background:var(--primary); color:#fff; font-size:0.75rem; padding:3px 14px; border-radius:20px; margin-bottom:8px; }
+  h1 { font-size:1.4rem; color:var(--deep); }
+  h1 span { display:block; font-size:0.95rem; color:var(--muted); font-weight:400; margin-top:4px; }
+  section { background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:14px 0; }
+  .sec-title { font-size:0.95rem; font-weight:700; color:var(--primary); margin-bottom:10px; padding-left:10px; border-left:3px solid var(--primary); }
+  table { width:100%; border-collapse:collapse; font-size:0.88rem; margin:8px 0; }
+  th { background:#eef3fd; padding:8px 10px; text-align:left; color:var(--deep); }
+  td { padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .big { font-weight:700; color:var(--deep); }
+  .tip { background:#eef6f3; border:1px solid #cfe8df; border-radius:10px; padding:12px 14px; margin:10px 0; font-size:0.9rem; }
+  .warn { background:#fdf6e7; border:1px solid #f0e0b8; border-radius:10px; padding:12px 14px; margin:10px 0; font-size:0.9rem; }
+  .flow { background:var(--code); color:#d6e4ff; border-radius:10px; padding:14px 16px; font-family:Consolas,monospace; font-size:0.85rem; white-space:pre; overflow-x:auto; line-height:1.7; }
+  .flow .hl { color:var(--lime); }
+  pre { background:var(--code); color:#d6e4ff; border-radius:10px; padding:12px 14px; font-family:Consolas,monospace; font-size:0.82rem; overflow-x:auto; line-height:1.6; }
+  code { background:#eef3fd; color:var(--primary); padding:1px 6px; border-radius:4px; font-size:0.85em; }
+  pre code { background:none; color:inherit; padding:0; }
+  .formula { border:2px solid var(--primary); border-radius:10px; padding:10px 14px; margin:8px 0; background:#f8faff; }
+  .formula .lbl { font-size:0.78rem; color:var(--muted); font-weight:700; letter-spacing:1px; }
+  .back-btn { position:fixed; left:12px; z-index:100; background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:20px; padding:5px 12px; font-size:0.78rem; color:var(--primary); text-decoration:none; box-shadow:0 1px 4px rgba(34,48,74,.12); }
+  .back-top-left { top:12px; }
+  .back-bottom-left { bottom:12px; }
+  footer { text-align:center; color:var(--muted); font-size:0.8rem; margin-top:24px; }
+</style>
+</head>
+<body>
+<div class="progress" id="pgbar"></div>
+<a class="back-btn back-top-left" href="index.html">← 总览</a>
+<a class="back-btn back-bottom-left" href="index.html">← 总览</a>
+
+<header>
+  <div class="badge">Python-Study · 公式卡</div>
+  <h1>函数公式卡<span>定义 / 参数 / 返回值 / 作用域 / lambda · 写代码时对着查</span></h1>
+</header>
+
+<section>
+  <div class="sec-title">① 核心公式：定义 + 调用</div>
+  <div class="formula">
+    <div class="lbl">定义（写菜谱）</div>
+    <pre>def 函数名(参数):
+    return 结果          # 干活，然后把结果交出去</pre>
+  </div>
+  <div class="formula">
+    <div class="lbl">调用（照菜谱做菜）</div>
+    <pre>结果 = 函数名(实参)     # 喂进去，接住 return 交出来的值</pre>
+  </div>
+  <div class="tip"><b>口诀：</b>def 是「写菜谱」，<code>函数名(实参)</code> 是「照菜谱做菜」。<b>定义了不调用 = 菜谱写完没下锅 = 白写。</b></div>
+</section>
+
+<section>
+  <div class="sec-title">② return vs print（最容易混）</div>
+  <table>
+    <tr><th></th><th>return 值</th><th>print(值)</th></tr>
+    <tr><td>作用</td><td class="big">把值交出去</td><td>只是显示</td></tr>
+    <tr><td>结果能拿到吗</td><td class="big">✅ 结果 = 函数()</td><td>❌ 拿不到</td></tr>
+    <tr><td>类比</td><td>递到你手里</td><td>喊一嗓子</td></tr>
+  </table>
+  <div class="tip"><b>一句话：</b>print 喊一嗓子，return 递给你。想继续用结果，必须 return。</div>
+</section>
+
+<section>
+  <div class="sec-title">③ 参数三件套 + 三条铁律</div>
+  <table>
+    <tr><th>类型</th><th>写法</th><th>规则</th></tr>
+    <tr><td class="big">位置参数</td><td><code>f(1, 2)</code></td><td>按顺序对号入座</td></tr>
+    <tr><td class="big">默认参数</td><td><code>def f(a, b=2)</code></td><td>不填就用默认</td></tr>
+    <tr><td class="big">关键字参数</td><td><code>f(a=1, b=2)</code></td><td>点名传，顺序随便</td></tr>
+  </table>
+  <div class="warn"><b>三条铁律（反复考）：</b><br>
+  ① 定义时：默认参数<b>在后</b> —— <code>def f(a, b=1)</code> ✅ / <code>def f(a=1, b)</code> ❌<br>
+  ② 调用时：位置参数<b>在前</b> —— <code>f(1, b=2)</code> ✅ / <code>f(b=2, 1)</code> ❌<br>
+  ③ 传参时：显式传参<b>覆盖</b>默认 —— <code>f(1, c=10)</code> 里 c=10，不是默认值</div>
+  <div class="tip"><b>一句话：</b>默认值是兜底——你填了用你的，没填用我的。</div>
+</section>
+
+<section>
+  <div class="sec-title">④ 返回值：多值 + 无 return</div>
+  <div class="formula">
+    <div class="lbl">多值 return → 多个盒子接（拆包）</div>
+    <pre>def 评估(体温, 心率):
+    return 体温, 心率        # 一次吐两个值
+
+体, 心 = 评估(38.5, 110)     # 两个盒子接住</pre>
+  </div>
+  <div class="tip"><b>不写 return</b> → 函数返回 <code>None</code>（啥也没有）。要用结果就必须 return。</div>
+</section>
+
+<section>
+  <div class="sec-title">⑤ 作用域（错题重灾区，三连口诀）</div>
+  <table>
+    <tr><th>情况</th><th>能不能</th><th>写法</th></tr>
+    <tr><td>读全局</td><td class="big">✅ 随便读</td><td><code>return 总数 + x</code></td></tr>
+    <tr><td>直接写全局</td><td class="big">❌ 报错</td><td><code>总数 = 总数 + x</code> → UnboundLocalError</td></tr>
+    <tr><td>声明后写</td><td class="big">✅</td><td><code>global 总数; 总数 += x</code></td></tr>
+  </table>
+  <div class="tip"><b>口诀：读可以、写要 global、声明+写成功。</b><br>
+  根源：Python 先扫函数体，<b>见赋值即认定该变量是局部</b>，等号右边读的永远是未定义的局部。</div>
+  <div class="warn"><b>局部变量：</b>函数里创建的变量，函数结束就消失——<b>外面看不见，必须 return 递出来</b>。外面再写同名变量 = 新开一个盒子，跟函数里那个无关。</div>
+</section>
+
+<section>
+  <div class="sec-title">⑥ lambda：一行版函数</div>
+  <div class="formula">
+    <div class="lbl">公式</div>
+    <pre>lambda 参数: 表达式      # 自动 return，不用写 def / return
+
+# 等价于
+def f(参数):
+    return 表达式</pre>
+  </div>
+  <div class="flow">最常见用法：当排序的「临时规则」
+<span class="hl">sorted(病人列表, key=lambda p: p["体温"])</span>     # 按体温排
+<span class="hl">sorted(病人列表, key=lambda p: p["体温"], reverse=True)</span>  # 高→低</div>
+</section>
+
+<section>
+  <div class="sec-title">⑦ 内置函数速查</div>
+  <table>
+    <tr><th>函数</th><th>作用</th><th>例子</th></tr>
+    <tr><td><code>len(x)</code></td><td>数个数</td><td><code>len([1,2,3])</code> → 3</td></tr>
+    <tr><td><code>sum(列表)</code></td><td>求和</td><td><code>sum([1,2,3])</code> → 6</td></tr>
+    <tr><td><code>max / min</code></td><td>最大 / 最小</td><td><code>max([1,2,3])</code> → 3</td></tr>
+    <tr><td><code>sorted(列表, key=..., reverse=...)</code></td><td>按规则排序</td><td><code>key</code> 定规则，<code>reverse=True</code> 倒序</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="sec-title">⑧ 高频报错自检（写代码前扫一眼）</div>
+  <table>
+    <tr><th>症状</th><th>病根</th></tr>
+    <tr><td>报 <code>SyntaxError</code> 却看不出</td><td>中文引号 / 全角标点——切英文输入法</td></tr>
+    <tr><td>调用函数拿到 <code>None</code></td><td>忘了写 return</td></tr>
+    <tr><td>函数写好了没反应</td><td>定义了没调用</td></tr>
+    <tr><td>报 <code>unexpected keyword argument</code></td><td>定义处和调用处参数没同步改</td></tr>
+    <tr><td>报 <code>UnboundLocalError</code></td><td>函数里写全局变量没加 global</td></tr>
+  </table>
+</section>
+
+<footer>Python-Study · 函数公式卡 · 学完 stage-4 后常翻常新</footer>
+<script>
+window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
+</script>
+</body>
+</html>
