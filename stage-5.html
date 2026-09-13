@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-023">py-023 读写文件</a><a href="#py-024">py-024 with+JSON</a><a href="#plan">课程路线</a>
+  <a href="#py-023">py-023 读写文件</a><a href="#py-024">py-024 with+JSON</a><a href="#py-025">py-025 CSV</a><a href="#py-026">py-026 try/except</a><a href="#plan">课程路线</a>
 </nav>
 <header class="hero"><div class="hero-inner">
   <span class="badge">阶段 05 · 进行中</span>
   <h1>文件与异常<br><span>读写与容错</span></h1>
-  <p>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。2/5 课完成。</p>
+  <p>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。4/5 课完成。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:40%"></i></div>
-    <div class="label"><span>py-023 ~ py-027</span><span>2 / 5 完成</span></div>
+    <div class="bar"><i style="width:80%"></i></div>
+    <div class="label"><span>py-023 ~ py-027</span><span>4 / 5 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -28,7 +28,9 @@
   <div class="toc-grid">
     <a href="#py-023">py-023 · 读写文件</a>
     <a href="#py-024">py-024 · with + JSON</a>
-    <a href="#plan">py-025 ~ py-027 · 待学</a>
+    <a href="#py-025">py-025 · CSV 读写</a>
+    <a href="#py-026">py-026 · try / except</a>
+    <a href="#plan">py-027 · 待学</a>
   </div>
 </div>
 
@@ -207,26 +209,204 @@ print(读回[0]["姓名"])   # 王五（先 [0] 取第几个，再 ["姓名"] �
   </div>
 </section>
 
+<!-- ==================== py-025 ==================== -->
+<section id="py-025">
+  <div class="part-divider"><small>第 25 课 · py-025</small><h2>CSV 读写：表格数据</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. CSV 是什么——纯文本的表格</div>
+<pre>date,item,amount
+09-08,coffee,18
+09-09,bus,4
+09-10,book,59</pre>
+    <b>格式：</b>一行一条记录，逗号分列，第一行是表头。本质是纯文本，记事本和 Excel 都能打开——这就是它几十年不死的原因。<br>
+    <b>三种文件格式的分工：</b>txt 存流水文本 / csv 存表格 / json 存嵌套结构。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 写 CSV：csv.writer + writerow</div>
+<pre>import csv
+
+rows = [
+    ["date", "item", "amount"],   # 一行 = 一个列表
+    ["09-08", "coffee", 18],
+]
+with open("expenses.csv", "w", encoding="utf-8", newline="") as f:
+    writer = csv.writer(f)
+    for row in rows:
+        writer.writerow(row)      # 写一行</pre>
+    <b>⚠️ newline="" 是 Windows 上的规矩：</b>不加它，每写一行会多插一个空行，文件变成隔一行空一行。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 读 CSV 的两种读法</div>
+<pre># A. csv.reader：每行给你一个列表
+with open("expenses.csv", "r", encoding="utf-8") as f:
+    for row in csv.reader(f):
+        print(row)          # ['09-08', 'coffee', '18']
+
+# B. csv.DictReader：每行给你一个字典，表头当键（更常用）
+with open("expenses.csv", "r", encoding="utf-8") as f:
+    for row in csv.DictReader(f):
+        print(row)          # {'date': '09-08', 'item': 'coffee', 'amount': '18'}</pre>
+    <b>DictReader 的心智：</b><code>row</code> 是字典，<code>row["amount"]</code> 是从字典里掏出的一格值——<b>问类型要问「最后手上拿到的那个东西」</b>。
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. ⚠️ 最大的坑：读出来的一切都是字符串</div>
+<pre>amount = float(row["amount"])   # '18' → 18.0，算钱必须自己转</pre>
+    <p>写进去的是数字 <code>18</code>，读回来是字符串 <code>'18'</code>——跟 <code>input()</code> 返回字符串一模一样的毛病：<b>从文件/键盘进来的东西，Python 一律当文本。</b></p>
+  </div>
+  <div class="term-card">
+    <div class="term-name">5. ⚠️ 累加必须在同一个循环里</div>
+<pre>total = 0.0                          # 进循环之前先让它存在
+for row in reader:
+    amount = float(row["amount"])
+    total = total + amount            # ✅ 累加：攒住
+    # total = float(row["amount"])    # ❌ 覆盖：循环结束只剩最后一个值</pre>
+    <b>循环里的赋值 = 把上次的扔掉换成这个。</b>想攒东西只能累加；而累加的那个变量必须在进循环之前就存在。
+  </div>
+  <div class="tip"><b>一句话总结：</b>CSV 是逗号分隔的纯文本表格；写用 csv.writer + writerow（Windows 必须加 newline=""），读用 DictReader（表头当键）；读出来全是字符串要 float() 转；累加变量放循环外、用「自己 = 自己 + 新值」攒。</div>
+
+  <h3>练习题</h3>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">CSV 格式</span></div>
+      <p>CSV 文件里的「一行」和「一列」分别靠什么划分？</p>
+      <p class="hint">A. 分号和空格　　B. 换行和逗号　　C. 逗号和换行　　D. 制表符和分号</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>一行一条记录（靠换行分），一条记录里的列靠逗号分。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">newline</span></div>
+      <p>Windows 上写 CSV 漏了 <code>newline=""</code>，会出现什么？</p>
+      <p class="hint">A. 直接报错　　B. 中文乱码　　C. 每行之间多出一个空行　　D. 文件打不开</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>文件变成「隔一行空一行」。newline="" 专治这个毛病。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">类型</span></div>
+      <p>用 DictReader 读，<code>row["amount"]</code> 拿到的类型是？</p>
+      <p class="hint">A. int　　B. str　　C. float　　D. dict</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>CSV 读出来的一切都是字符串，要算数得自己 <code>float()</code>。注意 <code>row</code> 本身是 dict，但 <code>row["amount"]</code> 是掏出来的那一格值。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">累加</span></div>
+      <p><code>for row in reader:</code> 里只写 <code>total = float(row["amount"])</code>，循环结束后 <code>total</code> 是什么？</p>
+      <p class="hint">A. 所有金额之和　　B. 0　　C. 只剩最后一行的金额　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>每一轮都把上一轮的值覆盖掉，循环结束只剩最后一个。要攒住必须写成 <code>total = total + float(...)</code>。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">报错排查</span></div>
+      <p>在 <code>for row in reader:</code> 里又套一层 <code>for n in num:</code>（num 是 <code>float(row["amount"])</code>），报 <code>TypeError: 'float' object is not iterable</code>。该怎么改？</p>
+      <p class="hint">A. 把 num 转成列表　　B. 删掉这层 for，直接 <code>total = total + num</code>　　C. 把 num 转成字符串　　D. 换成 while 循环</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>报错的意思是「这个动作对这类对象不成立」——外层 for 已经在逐行了，num 就是这一行的金额（一个数），不需要也不能再遍历。删掉这层循环就对了。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-026 ==================== -->
+<section id="py-026">
+  <div class="part-divider"><small>第 26 课 · py-026</small><h2>try / except：让程序出错不崩</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 不处理异常 = 程序当场死亡</div>
+    <p>跑到某一行干不了（文件不在、除以 0、键不存在、类型不对），Python <b>当场停在那行，后面的代码一行都不跑</b>。</p>
+    <p>注意准确含义：<b>不是「报个错然后继续跑」，是「整个程序死掉」</b>——后面那句话永远不会被打印。</p>
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. try / except = 安全网</div>
+<pre>try:
+    num = int(input("请输入一个数字："))   # 「我试试干这件事」
+    print("你输入的是", num)
+except ValueError:                       # 「要是炸了，改走这条路」
+    print("这不是数字，请重新输入")</pre>
+    <p>输入 <code>abc</code> → <code>int()</code> 干不了 → 本来要当场死 → 有网接住 → 打印友好提示 → <b>程序继续往下正常跑</b>。<br>
+    <code>ValueError</code> = 「值的类型不对」：<code>int()</code> 想要数字样子的字符串，你给了 abc。</p>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. ⚠️ except 类型写错 = 接不住（本课最容易翻车处）</div>
+<pre>try:
+    with open("不存在.txt", "r", encoding="utf-8") as f:
+        data = f.read()
+except ValueError:            # ❌ 抓不到 FileNotFoundError
+    print("出错了")
+print("程序结束")             # ← 这行根本不会执行</pre>
+    <p>实测结果：照样崩，报 <code>FileNotFoundError: [Errno 2] No such file or directory</code>，<code>print("程序结束")</code> 没打印。</p>
+    <p><b>except 只接住你点名的那个类型，其他一律放行。</b>这不是缺陷，是「精准捕获」——免得真正的 bug 被你的友好提示藏起来。</p>
+  </div>
+  <div class="term-card">
+    <div class="term-name">4. 读报错（Traceback）的方法</div>
+    <p><b>从最后一行往上读：</b>最后一行 = <b>什么错</b>（<code>FileNotFoundError</code>），往上一行 = <b>错在哪</b>（哪一行干了什么）。中间那堆「谁调用了谁」的层级，新手先忽略。</p>
+  </div>
+  <div class="tip"><b>一句话总结：</b>try 里放「可能出事的动作」，except 里写「出事后走哪条路」；except 后面必须点准异常类型，点错等于没写；读报错从最后一行往上读。</div>
+
+  <h3>练习题</h3>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">try 的作用</span></div>
+      <p>try 块里该放什么代码？</p>
+      <p class="hint">A. 一定不会出错的代码　　B. 可能出错的代码　　C. 出错后要执行的代码　　D. 函数定义</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>try 包住「可能出事的动作」，出事后的处理写在 except 里。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">ValueError</span></div>
+      <p><code>int("abc")</code> 会抛出哪种异常？</p>
+      <p class="hint">A. FileNotFoundError　　B. ZeroDivisionError　　C. ValueError　　D. KeyError</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>值的形式不对 → ValueError。ZeroDivisionError 是除以 0，KeyError 是字典里没这个键。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">结构</span></div>
+      <p>try 后面必须配什么？</p>
+      <p class="hint">A. 什么都不用配　　B. except（写对类型）　　C. close　　D. return</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>try 和 except 是配对出现的：缩进 + 冒号都要写，except 后面点明异常类型。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">接不住</span></div>
+      <p>文件不存在时抛 FileNotFoundError，但你写的是 <code>except ValueError:</code>，结果是什么？</p>
+      <p class="hint">A. 打印 except 里的提示，程序继续　　B. 照样崩，except 后面的代码都不执行　　C. 自动重试　　D. 打印空行</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>类型不匹配就接不住，程序照死。这是最容易误以为「我已经兜住了」的坑。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">实用场景</span></div>
+      <p>写一个「读 CSV 算总计」的脚本，要保证 CSV 不存在时给出友好提示而不崩，应该把什么放进 try 里？</p>
+      <p class="hint">A. 只放 <code>open(...)</code> 那一行　　B. 整个「打开 + 读取 + 循环 + 累加」段落　　C. 只放最后的 print　　D. 整个程序</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>危险的是「打开 + 读 + 算」这一整条链路，全都包进 try；except FileNotFoundError 里打印友好提示。</div></details>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== 剩余课程路线 ==================== -->
 <section id="plan">
   <div class="part-divider"><small>阶段 05 · 学习路线图</small><h2>剩余课程（预计内容，以实际教学为准）</h2></div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-025</span>
-      <span class="rtitle">CSV 读写</span>
-      <span class="rdesc">表格数据：逗号分隔的行列，读写 csv 文件</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
-      <span class="rid">py-026</span>
-      <span class="rtitle">try / except</span>
-      <span class="rdesc">容错：程序出错不崩溃，给出友好提示</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-027</span>
-      <span class="rtitle">else/finally 与常见异常</span>
-      <span class="rdesc">异常处理的完整结构，认识 ValueError / FileNotFoundError</span>
+      <span class="rtitle">else / finally 与常见异常</span>
+      <span class="rdesc">异常处理的完整结构（try / except / else / finally），认识 ValueError / FileNotFoundError / ZeroDivisionError / KeyError</span>
       <span class="rst wait">未开始</span>
     </li>
   </ul>
@@ -235,11 +415,11 @@ print(读回[0]["姓名"])   # 王五（先 [0] 取第几个，再 ["姓名"] �
 
 <div class="note" id="note">
   <strong>说明</strong><br>
-  · 已完成 py-023（读写文件）、py-024（with + JSON）；剩余 3 课学完本页变为完整知识页。<br>
+  · 已完成 py-023（读写文件）、py-024（with + JSON）、py-025（CSV）、py-026（try/except）；只剩 py-027 一课，学完本页变为完整知识页。<br>
   · 想提前了解任何概念，随时在课上问，也可以让老师先出一两道「预习选择题」。
 </div>
 
-<footer>阶段 05 · 文件与异常 · 进行中 2/5 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 05 · 文件与异常 · 进行中 4/5 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
