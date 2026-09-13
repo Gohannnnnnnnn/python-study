@@ -10,42 +10,211 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#plan">课程路线</a><a href="#note">说明</a>
+  <a href="#py-023">py-023 读写文件</a><a href="#py-024">py-024 with+JSON</a><a href="#plan">课程路线</a>
 </nav>
 <header class="hero"><div class="hero-inner">
-  <span class="badge">阶段 05 · 未开始</span>
+  <span class="badge">阶段 05 · 进行中</span>
   <h1>文件与异常<br><span>读写与容错</span></h1>
-  <p>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型</p>
+  <p>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。2/5 课完成。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:0%"></i></div>
-    <div class="label"><span>py-023 ~ py-027</span><span>0 / 5 完成</span></div>
+    <div class="bar"><i style="width:40%"></i></div>
+    <div class="label"><span>py-023 ~ py-027</span><span>2 / 5 完成</span></div>
   </div>
 </div></header>
 <main class="container">
 
-<section id="plan">
-  <div class="part-divider"><small>阶段 05 · 学习路线图</small><h2>课程计划（预计内容，以实际教学为准）</h2></div>
-  <div class="placeholder">
-    <div class="p-title">本阶段尚未开始</div>
-    <p>先展示学习路线图。每天一课 15-20 分钟，课程进行到本阶段后，这里会补上知识要点、分层练习题与运用题。</p>
+<div class="toc">
+  <h3>本阶段目录</h3>
+  <div class="toc-grid">
+    <a href="#py-023">py-023 · 读写文件</a>
+    <a href="#py-024">py-024 · with + JSON</a>
+    <a href="#plan">py-025 ~ py-027 · 待学</a>
   </div>
+</div>
+
+<!-- ==================== py-023 ==================== -->
+<section id="py-023">
+  <div class="part-divider"><small>第 23 课 · py-023</small><h2>读写文件：把数据存进硬盘</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. open 三种模式——r / w / a</div>
+<pre>f = open("记录.txt", "r")   # r=读，文件必须存在
+f = open("记录.txt", "w")   # w=覆盖写，原有内容全没
+f = open("记录.txt", "a")   # a=追加写，保留原有，从末尾加</pre>
+    <b>医生类比：</b>r = 翻病历看；w = 撕掉重写一页；a = 翻开最后一页继续记。<b>a 是「打开模式」不是方法</b>——append 是列表的方法，别混。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. 读文件三步 + 逐行读</div>
+<pre>f = open("记录.txt", "r", encoding="utf-8")
+内容 = f.read()          # 一次性全读进来
+f.close()
+
+# 大文件逐行读（省内存）：
+f = open("记录.txt", "r", encoding="utf-8")
+for 行 in f:            # 一行一行取
+    print(行.strip())
+f.close()</pre>
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. ⚠️ encoding 必须写 + 不 close 的后果</div>
+    <p>中文文件必须写 <code>encoding="utf-8"</code>，否则 Windows 默认按 gbk 读 → 乱码。</p>
+    <p>不 <code>close()</code> → ① 数据还在缓冲区没落盘；② 文件被占用别人打不开。</p>
+  </div>
+  <div class="tip"><b>一句话总结：</b>r 读、w 覆盖、a 追加；读文件 open → read/for 行 → close；中文必须 encoding="utf-8"；忘 close 数据不落盘还占着文件。</div>
+
+  <h3>练习题</h3>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">打开模式</span></div>
+      <p>想在文件末尾接着写、不清空原有内容，用哪个模式？</p>
+      <p class="hint">A. r　　B. w　　C. a　　D. rw</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>a = 追加（append），保留原有内容从末尾加；w 会覆盖清空。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">编码</span></div>
+      <p>读一个含中文的 txt 文件，打开时漏写 encoding="utf-8"，会发生什么？</p>
+      <p class="hint">A. 正常　　B. 中文乱码　　C. 直接报错　　D. 文件打不开</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>Windows 默认 gbk 解码，utf-8 文件的中文会变成乱码。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">close</span></div>
+      <p>写文件后不调用 close()，下面哪个后果是真的？</p>
+      <p class="hint">A. 数据立刻丢失　　B. 数据可能没落盘 + 文件被占用　　C. 程序报错　　D. 没有任何影响</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>不 close，数据停在缓冲区没真正写进硬盘，文件还被占用着。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">逐行读</span></div>
+      <p>读一个 10 万行的日志文件，下面哪种方式最省内存？</p>
+      <p class="hint">A. <code>f.read()</code> 一次性全读　　B. <code>for 行 in f</code> 逐行读　　C. 都差不多　　D. 都没法读大文件</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>read() 会把 10 万行全塞进内存；for 行 in f 一次只读一行。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">模式语义</span></div>
+      <p><code>open("x.txt", "w")</code> 再写一句话，会怎样？</p>
+      <p class="hint">A. 追加到末尾　　B. 覆盖掉原文件内容　　C. 报错（文件已存在）　　D. 什么也不写</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>w = 覆盖写，先清空再写，原有内容全没。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== py-024 ==================== -->
+<section id="py-024">
+  <div class="part-divider"><small>第 24 课 · py-024</small><h2>with 语句 + JSON 读写</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. with 语句——自动关门</div>
+<pre># 以前：手动关，忘写 f.close() 就出事
+f = open("记录.txt", "a", encoding="utf-8")
+f.write("张三 36.8\n")
+f.close()
+
+# 现在：with 自动关
+with open("记录.txt", "a", encoding="utf-8") as f:
+    f.write("张三 36.8\n")
+# 缩进一结束，Python 自动 close</pre>
+    <b>医生类比：</b>with = 进病房门设成「自动关」，缩进里做事，离开自动锁门——再也不用记 f.close()。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. json.dump 存 / json.load 读——类型不变</div>
+<pre>import json
+
+病人 = {"姓名": "王五", "体温": 39.0}
+with open("病人.json", "w", encoding="utf-8") as f:
+    json.dump(病人, f, ensure_ascii=False)   # 存
+
+with open("病人.json", "r", encoding="utf-8") as f:
+    读回 = json.load(f)                        # 读
+print(读回["体温"])   # 39.0</pre>
+    <b>方向别记反：</b>dump = 倒进去存，load = 装出来读。存的是字典，读回来还是字典（类型不变）。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. ⚠️ 存多个记录用「列表套字典」</div>
+<pre># 一个字典装不下两个病人（一个键一个值）——外层要用列表
+病人 = [
+    {"姓名": "王五", "体温": 39.0},
+    {"姓名": "赵大", "体温": 38.8}
+]
+with open("病人.json", "w", encoding="utf-8") as f:
+    json.dump(病人, f, ensure_ascii=False)
+
+# 读回来是列表，取值要剥两层：
+读回 = json.load(open("病人.json", "r", encoding="utf-8"))
+print(读回[0]["姓名"])   # 王五（先 [0] 取第几个，再 ["姓名"] 取字段）</pre>
+    <b>ensure_ascii=False：</b>中文原样存，不转成 \u 乱码。
+  </div>
+  <div class="tip"><b>一句话总结：</b>with 自动关门省心；json.dump 存、json.load 读、类型不变；存多个记录用列表套字典；方法调用永远用 () 不是 {}。</div>
+
+  <h3>练习题</h3>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">with</span></div>
+      <p>with 语句最大的好处是什么？</p>
+      <p class="hint">A. 读写更快　　B. 自动关闭文件，不用写 close()　　C. 能读大文件　　D. 不用写 encoding</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>with 缩进结束后自动 close，防忘关文件。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">dump/load</span></div>
+      <p>把字典存进 json 文件用哪个？从文件读回用哪个？</p>
+      <p class="hint">A. 存 json.load / 读 json.dump　　B. 存 json.dump / 读 json.load　　C. 都 json.dump　　D. 都 json.load</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>dump = 倒进去存，load = 装出来读。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">类型</span></div>
+      <p>把「列表套字典」用 json.dump 存进文件，json.load 读回来是什么类型？</p>
+      <p class="hint">A. 字符串　　B. 字典　　C. 列表（元素是字典）　　D. 报错</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>存什么读回什么——存列表套字典，读回还是列表套字典。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">嵌套取值</span></div>
+      <p><code>读回 = [{"姓名":"王五"},{"姓名":"赵大"}]</code>，取「赵大」怎么写？</p>
+      <p class="hint">A. <code>读回[1]["姓名"]</code>　　B. <code>读回["姓名"][1]</code>　　C. <code>读回[0]["姓名"]</code>　　D. <code>读回[2]</code></p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>先 [1] 取第二个字典，再 ["姓名"] 取字段。索引从 0 起，赵大是第 1 个。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">报错排查</span></div>
+      <p><code>病人 = {"姓名":"王五"}; 病人.append({"姓名":"赵大"})</code> 会怎样？</p>
+      <p class="hint">A. 正常，病人变两个　　B. 报错：dict 没有 append　　C. 报错：语法错　　D. 病人变列表</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>病人是字典，append 是列表专属方法，字典没有。存多个要用列表套字典。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 剩余课程路线 ==================== -->
+<section id="plan">
+  <div class="part-divider"><small>阶段 05 · 学习路线图</small><h2>剩余课程（预计内容，以实际教学为准）</h2></div>
   <ul class="roadmap-list">
     <li>
-      <span class="rid">py-023</span>
-      <span class="rtitle">读取文件</span>
-      <span class="rdesc">open + read 系列，把硬盘上的文本读进程序</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
-      <span class="rid">py-024</span>
-      <span class="rtitle">写入文件</span>
-      <span class="rdesc">write / 追加模式，把结果存盘</span>
-      <span class="rst wait">未开始</span>
-    </li>
-    <li>
       <span class="rid">py-025</span>
-      <span class="rtitle">with 语句</span>
-      <span class="rdesc">自动关门：用完文件自动关闭，防资源泄漏</span>
+      <span class="rtitle">CSV 读写</span>
+      <span class="rdesc">表格数据：逗号分隔的行列，读写 csv 文件</span>
       <span class="rst wait">未开始</span>
     </li>
     <li>
@@ -61,16 +230,16 @@
       <span class="rst wait">未开始</span>
     </li>
   </ul>
-  <div class="tip"><b>阶段目标：</b>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。全部学完后，本页将变为完整知识页。</div>
+  <div class="tip"><b>阶段目标：</b>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。每完成一课，本页会补上知识要点与练习题。</div>
 </section>
 
 <div class="note" id="note">
   <strong>说明</strong><br>
-  · 占位页仅展示课程计划；每完成一课，老师会把知识要点和练习题填充进对应位置。<br>
+  · 已完成 py-023（读写文件）、py-024（with + JSON）；剩余 3 课学完本页变为完整知识页。<br>
   · 想提前了解任何概念，随时在课上问，也可以让老师先出一两道「预习选择题」。
 </div>
 
-<footer>阶段 05 · 文件与异常 · 未开始 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 05 · 文件与异常 · 进行中 2/5 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
