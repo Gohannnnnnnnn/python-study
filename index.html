@@ -96,12 +96,12 @@
     <div class="stage-card">
       <div class="card-top">
         <span class="card-num">05</span>
-        <div class="card-title-wrap"><h3>文件与异常</h3><span class="card-badge now">进行中 2/5</span></div>
+        <div class="card-title-wrap"><h3>文件与异常</h3><span class="card-badge now">进行中 4/5</span></div>
       </div>
-      <div class="card-bar"><i style="width:40%"></i></div>
+      <div class="card-bar"><i style="width:80%"></i></div>
       <p class="card-tags">读写与容错：txt/JSON/CSV、with 语句、try/except/else/finally、常见异常</p>
       <a class="card-btn" href="stage-5.html">打开阶段 05 <span>→</span></a>
-      <div class="task-chips"><span class="chip done">py-023</span><span class="chip done">py-024</span><span class="chip now">py-025</span><span class="chip">py-026</span><span class="chip">py-027</span></div>
+      <div class="task-chips"><span class="chip done">py-023</span><span class="chip done">py-024</span><span class="chip done">py-025</span><span class="chip done">py-026</span><span class="chip now">py-027</span></div>
     </div>
 
     <div class="stage-card">
@@ -139,37 +139,64 @@
 
   </div>
 
-  <h2 class="section-title" id="mistakes">错题本 · 4 个主题</h2>
+  <h2 class="section-title" id="mistakes">错题本 · 8 个主题</h2>
 
   <div class="mistake-card">
-    <span class="status">learning · 复现 1 次</span>
-    <h4>主题：变量赋值 = 复制，不是绑定</h4>
-    <p><code>b = a</code> 之后修改 a，以为 b 也跟着变。首次 2026-08-20 py-001；反事实验证已通过。</p>
-    <span class="mm"><b>一句话心智模型：</b><code>b = a</code> 是复制一份给 b；之后 a 换成新东西，b 不受影响。</span>
+    <span class="status">复现 4 次</span>
+    <h4>主题：局部变量：函数里创建的变量，外面看不见</h4>
+    <p><code>def f(): score = 100; return score</code>，<code>f()</code> 之后外面 <code>print(score)</code> 报 NameError。<b>return 递的是「值」，不是「名字」</b>——外面必须 <code>结果 = f()</code> 接住才有。</p>
+    <span class="mm"><b>一句话心智模型：</b>函数 = 独立房间，门一关里面的东西就消失；要靠 return 递出来，并且在外面接住。</span>
   </div>
 
   <div class="mistake-card">
-    <span class="status">learning · 复现 1 次</span>
-    <h4>主题：int() 转换——物理截断 vs 读文本</h4>
-    <p>以为 <code>int("3.5")</code> 返回 3，把 float→int 截断迁移到 str→int。首次 2026-08-23 py-003。</p>
-    <span class="mm"><b>一句话心智模型：</b>float→int 是物理截断（倒掉小数）；str→int 是读文本（内容必须是整数写法，否则报错）。</span>
+    <span class="status">复现 4 次</span>
+    <h4>主题：集合：能改但不能按号取，加元素用 add</h4>
+    <p>把 <code>append</code> 套到集合上（<code>s.append(4)</code>）→ AttributeError。<b>append 是列表专属</b>，集合加元素用 <code>add</code>；集合无序，不能用 <code>s[0]</code>。</p>
+    <span class="mm"><b>一句话心智模型：</b>列表用 append（有位置），集合用 add（没位置）；能按编号取的是列表和元组。</span>
   </div>
 
   <div class="mistake-card">
-    <span class="status">learning · 复现 1 次</span>
-    <h4>主题：== 不报错 vs &gt; 报错</h4>
-    <p>以为 <code>"3" == 3</code> 会报错。首次 2026-08-25 py-005 课前回顾。</p>
-    <span class="mm"><b>一句话心智模型：</b>== 是验明正身（不同类型→False 不报错）；&gt; 是比个子（不同类型→报错）。</span>
+    <span class="status">复现 4 次</span>
+    <h4>主题：统计「每个 X 的次数」= 字典模式</h4>
+    <p>选「列表 + count()」——能跑但慢，每数一个词就扫一遍全表。正解：X 做键、次数做值，遍历时累加。</p>
+    <span class="mm"><b>一句话心智模型：</b>统计次数一律用字典：X 为键、次数为值；一遍过，不回头扫第二遍。</span>
   </div>
 
   <div class="mistake-card">
-    <span class="status">learning · 复现 1 次</span>
-    <h4>主题：range(n) 的循环次数 = n</h4>
-    <p>以为 <code>for i in range(3)</code> 循环 2 次，被"最后打印第 2 次"迷惑。首次 2026-08-26 py-006。</p>
-    <span class="mm"><b>一句话心智模型：</b>range(n) 有 n 个数（0 到 n-1），循环就跑 n 次。</span>
+    <span class="status">复现 3 次</span>
+    <h4>主题：字典重复键 = 覆盖</h4>
+    <p>以为字典保留第一次的值，实际后写覆盖先写。<b>每个键永远只有一个值。</b>想留多个值就把它当列表用。</p>
+    <span class="mm"><b>一句话心智模型：</b>统计次数用字典，重复键会覆盖——「每个键一个值」是字典的铁律。</span>
   </div>
 
-  <h2 class="section-title" id="records">每日记录</h2>
+  <div class="mistake-card">
+    <span class="status">复现 3 次</span>
+    <h4>主题：函数里写全局变量要先 global</h4>
+    <p>函数内 <code>x = x + 1</code> → UnboundLocalError。<b>Python 见赋值即认定该名字是局部的</b>，右边那个 x 反而没定义。</p>
+    <span class="mm"><b>一句话心智模型：</b>函数里「读」全局随便读，「写」必须先 global——不声明就报错。</span>
+  </div>
+
+  <div class="mistake-card">
+    <span class="status">2026-09-13 新</span>
+    <h4>主题：循环里赋值 = 覆盖，攒不住东西</h4>
+    <p><code>total = float(row["amount"])</code> 写在循环里，每轮都把上轮的值扔掉，循环结束只剩最后一个。累加变量必须在进循环之前就存在。</p>
+    <span class="mm"><b>一句话心智模型：</b>循环里的赋值不是新增，是换掉；想攒东西只能「自己 = 自己 + 新值」。</span>
+  </div>
+
+  <div class="mistake-card">
+    <span class="status">2026-09-13 新</span>
+    <h4>主题：方法调用用 ()，不是 {}</h4>
+    <p><code>病人.append{...}</code> → SyntaxError。<code>[]</code> 取索引、<code>{}</code> 造容器，<b>只有 () 能「调用」</b>。</p>
+    <span class="mm"><b>一句话心智模型：</b>调用永远是 <code>名字(...)</code>——圆括号才是动作，方括号花括号都是装东西的。</span>
+  </div>
+
+  <div class="mistake-card">
+    <span class="status">2026-09-13 新</span>
+    <h4>主题：CSV / 文件读出来的一切都是字符串</h4>
+    <p>写进去是数字 <code>18</code>，DictReader 读回来是 <code>'18'</code>，直接算数就错。要先 <code>float()</code> 转。</p>
+    <span class="mm"><b>一句话心智模型：</b>从文件 / 键盘进来的东西，Python 一律当文本（跟 <code>input()</code> 一个毛病）。</span>
+  </div>
+<h2 class="section-title" id="records">每日记录</h2>
   <ul style="columns:2;gap:8px 30px;list-style:none;margin:14px 0">
     <li><a href="每日记录/2026-08-20.md" style="color:#1d4ed8;text-decoration:none">2026-08-20 · py-001 代码是什么</a></li>
     <li><a href="每日记录/2026-08-21.md" style="color:#1d4ed8;text-decoration:none">2026-08-21 · py-002 数据类型</a></li>
@@ -182,13 +209,13 @@
 
   <div class="note" id="note">
     <strong>使用说明</strong><br>
-    · 阶段 01、02 为<b>完整知识页</b>：每课含知识要点、分层练习题（基础 / 进阶 / 运用）与参考答案，可反复自测。<br>
-    · 阶段 03-08 为<b>占位页</b>：先展示学习路线图，课程进行到该阶段后逐步填充。<br>
+    · 阶段 01-04 为<b>完整知识页</b>；阶段 05 <b>进行中</b>（py-023 ~ py-026 已补知识要点 + 练习题）。每课含知识要点、分层练习题（基础 / 进阶）与参考答案，可反复自测。<br>
+    · 阶段 06-08 为<b>占位页</b>：先展示学习路线图，课程进行到该阶段后逐步填充。<br>
     · 错题本按主题归档（不按日期），已掌握的主题会保留历史。<br>
     · 本目录为静态 HTML，整个 <code>site/</code> 文件夹可整体移动，链接均为相对路径。
   </div>
 
-  <footer>Python-Study 学习站点 · 生成于 2026-08-27 · 从零开始，全面掌握 Python</footer>
+  <footer>Python-Study 学习站点 · 生成于 2026-09-13 · 从零开始，全面掌握 Python</footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
