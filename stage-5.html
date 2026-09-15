@@ -10,15 +10,15 @@
 <div class="progress" id="pgbar"></div>
 <nav class="topnav">
   <a class="back" href="index.html">← 总览</a>
-  <a href="#py-023">py-023 读写文件</a><a href="#py-024">py-024 with+JSON</a><a href="#py-025">py-025 CSV</a><a href="#py-026">py-026 try/except</a><a href="#plan">课程路线</a>
+  <a href="#py-023">py-023 读写文件</a><a href="#py-024">py-024 with+JSON</a><a href="#py-025">py-025 CSV</a><a href="#py-026">py-026 try/except</a><a href="#py-027">py-027 else/finally</a>
 </nav>
 <header class="hero"><div class="hero-inner">
-  <span class="badge">阶段 05 · 进行中</span>
+  <span class="badge">阶段 05 · 已完成</span>
   <h1>文件与异常<br><span>读写与容错</span></h1>
-  <p>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。4/5 课完成。</p>
+  <p>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。5/5 课完成。</p>
   <div class="stage-progress">
-    <div class="bar"><i style="width:80%"></i></div>
-    <div class="label"><span>py-023 ~ py-027</span><span>4 / 5 完成</span></div>
+    <div class="bar"><i style="width:100%"></i></div>
+    <div class="label"><span>py-023 ~ py-027</span><span>5 / 5 完成</span></div>
   </div>
 </div></header>
 <main class="container">
@@ -30,7 +30,7 @@
     <a href="#py-024">py-024 · with + JSON</a>
     <a href="#py-025">py-025 · CSV 读写</a>
     <a href="#py-026">py-026 · try / except</a>
-    <a href="#plan">py-027 · 待学</a>
+    <a href="#py-027">py-027 · else/finally + 常见异常</a>
   </div>
 </div>
 
@@ -399,27 +399,98 @@ print("程序结束")             # ← 这行根本不会执行</pre>
   </div>
 </section>
 
-<!-- ==================== 剩余课程路线 ==================== -->
-<section id="plan">
-  <div class="part-divider"><small>阶段 05 · 学习路线图</small><h2>剩余课程（预计内容，以实际教学为准）</h2></div>
-  <ul class="roadmap-list">
-    <li>
-      <span class="rid">py-027</span>
-      <span class="rtitle">else / finally 与常见异常</span>
-      <span class="rdesc">异常处理的完整结构（try / except / else / finally），认识 ValueError / FileNotFoundError / ZeroDivisionError / KeyError</span>
-      <span class="rst wait">未开始</span>
-    </li>
-  </ul>
-  <div class="tip"><b>阶段目标：</b>读写 txt/JSON/CSV、with 语句、try/except/else/finally 异常处理、常见异常类型。每完成一课，本页会补上知识要点与练习题。</div>
+<!-- ==================== py-027 ==================== -->
+<section id="py-027">
+  <div class="part-divider"><small>第 27 课 · py-027</small><h2>else / finally + 常见异常类型</h2></div>
+
+  <h3>知识要点</h3>
+  <div class="term-card">
+    <div class="term-name">1. 异常处理的完整结构：try / except / else / finally</div>
+<pre>try:
+    open("没有的文件.txt")
+except FileNotFoundError:
+    print("1")      # 出错才跑
+else:
+    print("2")      # 没出错才跑
+finally:
+    print("3")      # 一定跑</pre>
+    <b>三句话规则：</b>except = 出了事接住；else = 顺顺利利才轮到我；finally = 天塌下来也跑。<br>
+    <b>顺序永远是：</b>try → except/else → finally。要么 except 跑、要么 else 跑（二选一），finally 永远殿后。
+  </div>
+  <div class="term-card">
+    <div class="term-name">2. else 和 finally 的分工</div>
+    <p><b>else：</b>try 没出错才跑，放「只有成功才需要做的收尾」（如打印结果）。<br>
+    <b>finally：</b>无论成败都跑，放「必须做的清理」（关文件、关数据库连接、打印结束提示）。</p>
+    <b>医生类比：</b>try = 手术，except = 并发症预案，else = 手术顺利才做的收尾，finally = 无论成败都要清点纱布、关腹。
+  </div>
+  <div class="term-card">
+    <div class="term-name">3. 常见异常类型全家福（9 个）</div>
+    <p><b>值不对 vs 类型不对（最易混）：</b></p>
+    <p>· TypeError = 类型本身不对（<code>"3" + 3</code> 字符串不能直接加数字）<br>
+    · ValueError = 类型对、值的内容格式不对（<code>int("abc")</code>，str 能转 int 但 "abc" 不是数字写法）</p>
+    <p><b>找不到（键 vs 下标）：</b></p>
+    <p>· KeyError = 字典按名字找，没这个键（<code>d["x"]</code>）<br>
+    · IndexError = 列表按下标找，越界（<code>lst[10]</code> 只有 3 个元素）</p>
+    <p><b>其他：</b>ZeroDivisionError（除以 0）、FileNotFoundError（文件不存在）、NameError（名字不认识）、IndentationError（缩进错）、SyntaxError（语法错）。</p>
+    <b>记法：</b>字典用 Key、列表用 Index；类型不对 TypeError、值不对 ValueError。
+  </div>
+  <div class="tip"><b>一句话总结：</b>try/except 是「出了事走哪条」，加 else（没出错才跑）和 finally（一定跑）；异常 9 个，KeyError 管字典、IndexError 管列表、TypeError 管类型、ValueError 管值。</div>
+
+  <h3>练习题</h3>
+  <div class="quiz">
+    <span class="qno">1</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">else</span></div>
+      <p>try 里的代码没出错，else 会怎样？</p>
+      <p class="hint">A. 不跑　　B. 跑（没出错才轮到我）　　C. 报错　　D. 跑两次</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>else 只在 try 没出错时执行；出错就走 except，不碰 else。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">2</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">finally</span></div>
+      <p>finally 什么时候执行？</p>
+      <p class="hint">A. 只出错时　　B. 只没出错时　　C. 无论成败一定执行　　D. 都不执行</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>C。</b>finally 永远殿后，出错没出错都跑——用来关文件、收尾。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">3</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl base">基础</span><span class="lvl tag">ValueError</span></div>
+      <p><code>int("abc")</code> 会抛出哪种异常？</p>
+      <p class="hint">A. TypeError　　B. ValueError　　C. KeyError　　D. ZeroDivisionError</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>str 能转 int，但 "abc" 不是数字写法 → 值不对 = ValueError（类型本身没错，错在内容）。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">4</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">KeyError</span></div>
+      <p><code>d = {"name": "Leo"}</code>，执行 <code>d["age"]</code> 会怎样？</p>
+      <p class="hint">A. KeyError　　B. IndexError　　C. 返回 None　　D. 返回 0</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>字典按键找，键 "age" 不存在 → KeyError。想安全取值用 <code>d.get("age")</code> 返回 None。</div></details>
+    </div>
+  </div>
+  <div class="quiz">
+    <span class="qno">5</span>
+    <div class="qbody">
+      <div class="qmeta"><span class="lvl adv">进阶</span><span class="lvl tag">IndexError</span></div>
+      <p><code>lst = [1, 2, 3]</code>，执行 <code>lst[5]</code> 会怎样？</p>
+      <p class="hint">A. KeyError　　B. IndexError　　C. 返回 None　　D. 返回 3</p>
+      <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>列表按下标取，只有 3 个元素（0~2），下标 5 越界 → IndexError。</div></details>
+    </div>
+  </div>
 </section>
 
 <div class="note" id="note">
   <strong>说明</strong><br>
-  · 已完成 py-023（读写文件）、py-024（with + JSON）、py-025（CSV）、py-026（try/except）；只剩 py-027 一课，学完本页变为完整知识页。<br>
-  · 想提前了解任何概念，随时在课上问，也可以让老师先出一两道「预习选择题」。
+  · 阶段 05（文件与异常）已全部完成：py-023 读写文件、py-024 with+JSON、py-025 CSV、py-026 try/except、py-027 else/finally+常见异常。<br>
+  · 下一阶段 06「模块与标准库」：import 机制、os/pathlib、datetime、random 等，继续以「每天 15-20 分钟」节奏推进。
 </div>
 
-<footer>阶段 05 · 文件与异常 · 进行中 4/5 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
+<footer>阶段 05 · 文件与异常 · 已完成 5/5 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
