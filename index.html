@@ -40,8 +40,8 @@
   <div class="stat-row">
     <div class="stat"><b>8</b><small>学习阶段</small></div>
     <div class="stat"><b>45</b><small>课程任务</small></div>
-    <div class="stat"><b>25</b><small>已完成</small></div>
-    <div class="stat"><b>5</b><small>当前阶段</small></div>
+    <div class="stat"><b>26</b><small>已完成</small></div>
+    <div class="stat"><b>6</b><small>当前阶段</small></div>
   </div>
 
   <h2 class="section-title" id="stages">学习进度 · 8 个阶段</h2>
@@ -96,12 +96,12 @@
     <div class="stage-card">
       <div class="card-top">
         <span class="card-num">05</span>
-        <div class="card-title-wrap"><h3>文件与异常</h3><span class="card-badge now">进行中 4/5</span></div>
+        <div class="card-title-wrap"><h3>文件与异常</h3><span class="card-badge done">已完成</span></div>
       </div>
-      <div class="card-bar"><i style="width:80%"></i></div>
+      <div class="card-bar"><i style="width:100%"></i></div>
       <p class="card-tags">读写与容错：txt/JSON/CSV、with 语句、try/except/else/finally、常见异常</p>
       <a class="card-btn" href="stage-5.html">打开阶段 05 <span>→</span></a>
-      <div class="task-chips"><span class="chip done">py-023</span><span class="chip done">py-024</span><span class="chip done">py-025</span><span class="chip done">py-026</span><span class="chip now">py-027</span></div>
+      <div class="task-chips"><span class="chip done">py-023</span><span class="chip done">py-024</span><span class="chip done">py-025</span><span class="chip done">py-026</span><span class="chip done">py-027</span></div>
     </div>
 
     <div class="stage-card">
@@ -142,7 +142,7 @@
   <h2 class="section-title" id="mistakes">错题本 · 高频 8 个主题（完整版见 错题本.md，共 19 条）</h2>
 
   <div class="mistake-card">
-    <span class="status">复现 4 次</span>
+    <span class="status">复现 5 次</span>
     <h4>主题：局部变量：函数里创建的变量，外面看不见</h4>
     <p><code>def f(): score = 100; return score</code>，<code>f()</code> 之后外面 <code>print(score)</code> 报 NameError。<b>return 递的是「值」，不是「名字」</b>——外面必须 <code>结果 = f()</code> 接住才有。</p>
     <span class="mm"><b>一句话心智模型：</b>函数 = 独立房间，门一关里面的东西就消失；要靠 return 递出来，并且在外面接住。</span>
@@ -215,7 +215,7 @@
     · 本目录为静态 HTML，整个 <code>site/</code> 文件夹可整体移动，链接均为相对路径。
   </div>
 
-  <footer>Python-Study 学习站点 · 生成于 2026-09-13 · 从零开始，全面掌握 Python</footer>
+  <footer>Python-Study 学习站点 · 生成于 2026-09-15 · 从零开始，全面掌握 Python</footer>
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
