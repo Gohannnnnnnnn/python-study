@@ -806,6 +806,80 @@ if 文件名.endswith(".csv"):
       <p><code>"hello world".find("o")</code> 的结果是？（找第一个出现的位置）</p>
       <p class="hint">A. 4　　B. 5　　C. -1　　D. 报错</p>
       <details><summary>参考答案</summary><div class="faq-body"><b>A。</b>h=0,e=1,l=2,l=3,o=4——第一个 "o" 在位置 4。find 从 0 数。</div></details>
+<div class="my-note-archived">
+  <div class="mna-head">我的笔记 &middot; 已归档（2026-09-29）</div>
+  <div class="mna-body">
+    <p class="mna-sub">Python 各类型切片总结 [start:end:step]</p>
+    <p>切片语法本身是<b>序列类型</b>的能力；非序列类型不支持切片。</p>
+    <p>切片：<code>obj[start:end:step]</code>，左闭右开，end 位置取不到；step 默认 = 1。</p>
+
+    <p class="mna-sub">✅ 支持切片（序列）</p>
+
+    <p><b>1. str 字符串（序列容器）</b></p>
+<pre>s = "abcde"
+s[1:3]   # 'bc'
+s[::2]   # 'ace'</pre>
+    <p>特点：切片结果<b>还是字符串</b>；元素是字符；有 <code>.find()</code> / <code>.index()</code>。</p>
+
+    <p><b>2. list 列表（可变序列）</b></p>
+<pre>lst = [10,20,30,40,50]
+lst[1:3]  # [20,30]
+lst[::-1] # [50,40,30,20,10] 反转</pre>
+    <p>特点：切片返回<b>新列表</b>；原列表不改动；可以修改元素。</p>
+
+    <p><b>3. tuple 元组（不可变序列）</b></p>
+<pre>t = (1,2,3,4)
+t[1:3]  # (2,3)</pre>
+    <p>特点：切片返回<b>新元组</b>；元组本身不可修改。</p>
+
+    <p><b>4. range 对象（序列）</b></p>
+<pre>r = range(1,10)
+r[2:5]  # range(3,6)</pre>
+    <p>特点：切片依旧返回 range 对象，不一次性生成全部数据，节省内存。</p>
+
+    <p class="mna-sub">❌ 不支持切片</p>
+
+    <p><b>1. dict 字典（映射类型，不是序列）</b></p>
+    <p><code>dict</code> 没有顺序下标（Python3.7+ 只是保留插入顺序，但<b>不支持数字下标切片</b>）</p>
+<pre>d = {"a":1,"b":2}
+d[0:2]  # ❌ TypeError</pre>
+    <p>取值只能按键：<code>d["a"]</code></p>
+
+    <p><b>2. set 集合（无序，无下标）</b></p>
+<pre>s = {1,2,3}
+s[0:2]  # ❌ TypeError</pre>
+    <p>没有索引概念，完全不能切片。</p>
+
+    <p><b>3. int / float / bool 单个值（不是容器）</b></p>
+<pre>n = 1234
+n[0:2]  # ❌ TypeError</pre>
+    <p>单个数字不是容器，没有元素，不能切片。</p>
+
+    <p class="mna-sub">补充：查找配套方法（和切片搭配使用）</p>
+    <table class="mna-table">
+      <tr><th>类型</th><th>查找方法</th><th>找不到时</th></tr>
+      <tr><td>str</td><td><code>s.find(sub)</code></td><td>返回 <code>-1</code></td></tr>
+      <tr><td>str</td><td><code>s.index(sub)</code></td><td>抛 ValueError</td></tr>
+      <tr><td>list/tuple</td><td><code>.index(item)</code></td><td>抛 ValueError</td></tr>
+      <tr><td>range</td><td><code>.index(item)</code></td><td>抛 ValueError</td></tr>
+      <tr><td>dict</td><td>无 index/find，只能查 key</td><td></td></tr>
+      <tr><td>set</td><td>无 index/find，只能用 <code>in</code> 判断</td><td></td></tr>
+    </table>
+
+    <p class="mna-sub">一句话核心总结</p>
+    <p>1. <b>只有序列：str / list / tuple / range 支持切片 [start:end:step]</b></p>
+    <p>2. 字典、集合、数字：<b>不能切片</b></p>
+    <p>3. 切片会生成<b>新对象</b>（不会修改原序列）</p>
+    <p>4. <code>find()</code> 只有字符串才有；list/tuple 只能用 <code>.index()</code>，且会报错</p>
+
+    <p class="mna-add">补充（Hermes 实测核对，Python 3.11.15）：上面 16 项断言全部跑通，无错误。三处精度修正——</p>
+    <p class="mna-add">① 「切片会生成新对象」严格说只对 list / range 成立：<code>(1,2,3)[:]</code> 和 <code>"abc"[:]</code> 拿到的其实是<b>同一个原对象</b>（Python 对不可变序列的整段切片直接返回原对象，省内存）。你感觉不到差别，因为不可变，改不了。</p>
+    <p class="mna-add">② 「find() 只有字符串才有」——<code>bytes</code> 也有 <code>find()</code>，以后用 <code>"rb"</code> 读文件时会碰到。</p>
+    <p class="mna-add">③ 实战例外要记牢：<b>读切片不改原序列，但切片赋值会改</b>——<code>l = [1,2,3,4]</code> 后 <code>l[1:3] = [9,9]</code>，结果是 <code>[1,9,9,4]</code>（原列表被改了）。</p>
+    <p class="mna-add">一个辨错线索：dict 切片的报错是 <code>unhashable type: 'slice'</code>（它把切片当「键」去找，键不能是切片），而 set / int / float / bool 报的是 <code>not subscriptable</code>（根本不给用下标）。报错文案不同，说明机制不同——看报错就知道它在哪一步拒绝的。</p>
+  </div>
+</div>
+
     </div>
   </div>
   <div class="quiz">
