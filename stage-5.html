@@ -65,7 +65,9 @@ f.close()</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>r 读、w 覆盖、a 追加；读文件 open → read/for 行 → close；中文必须 encoding="utf-8"；忘 close 数据不落盘还占着文件。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 5 道（点击展开）</summary>
+
   <div class="quiz">
     <span class="qno">1</span>
     <div class="qbody">
@@ -111,6 +113,17 @@ f.close()</pre>
       <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>w = 覆盖写，先清空再写，原有内容全没。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-023" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-024 ==================== -->
@@ -161,7 +174,9 @@ print(读回[0]["姓名"])   # 王五（先 [0] 取第几个，再 ["姓名"] �
   </div>
   <div class="tip"><b>一句话总结：</b>with 自动关门省心；json.dump 存、json.load 读、类型不变；存多个记录用列表套字典；方法调用永远用 () 不是 {}。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 5 道（点击展开）</summary>
+
   <div class="quiz">
     <span class="qno">1</span>
     <div class="qbody">
@@ -207,6 +222,17 @@ print(读回[0]["姓名"])   # 王五（先 [0] 取第几个，再 ["姓名"] �
       <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>病人是字典，append 是列表专属方法，字典没有。存多个要用列表套字典。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-024" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-025 ==================== -->
@@ -266,7 +292,9 @@ for row in reader:
   </div>
   <div class="tip"><b>一句话总结：</b>CSV 是逗号分隔的纯文本表格；写用 csv.writer + writerow（Windows 必须加 newline=""），读用 DictReader（表头当键）；读出来全是字符串要 float() 转；累加变量放循环外、用「自己 = 自己 + 新值」攒。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 5 道（点击展开）</summary>
+
   <div class="quiz">
     <span class="qno">1</span>
     <div class="qbody">
@@ -312,6 +340,17 @@ for row in reader:
       <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>报错的意思是「这个动作对这类对象不成立」——外层 for 已经在逐行了，num 就是这一行的金额（一个数），不需要也不能再遍历。删掉这层循环就对了。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-025" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-026 ==================== -->
@@ -351,7 +390,9 @@ print("程序结束")             # ← 这行根本不会执行</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>try 里放「可能出事的动作」，except 里写「出事后走哪条路」；except 后面必须点准异常类型，点错等于没写；读报错从最后一行往上读。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 5 道（点击展开）</summary>
+
   <div class="quiz">
     <span class="qno">1</span>
     <div class="qbody">
@@ -397,6 +438,17 @@ print("程序结束")             # ← 这行根本不会执行</pre>
       <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>危险的是「打开 + 读 + 算」这一整条链路，全都包进 try；except FileNotFoundError 里打印友好提示。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-026" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-027 ==================== -->
@@ -436,7 +488,9 @@ finally:
   </div>
   <div class="tip"><b>一句话总结：</b>try/except 是「出了事走哪条」，加 else（没出错才跑）和 finally（一定跑）；异常 9 个，KeyError 管字典、IndexError 管列表、TypeError 管类型、ValueError 管值。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 5 道（点击展开）</summary>
+
   <div class="quiz">
     <span class="qno">1</span>
     <div class="qbody">
@@ -482,6 +536,17 @@ finally:
       <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>列表按下标取，只有 3 个元素（0~2），下标 5 越界 → IndexError。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-027" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <div class="note" id="note">
@@ -494,6 +559,39 @@ finally:
 </main>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
+</script>
+
+<script>
+(function () {
+  function initNotes() {
+    document.querySelectorAll('.note-input').forEach(function (t) {
+      var key = 'pystudy_note_' + (t.dataset.noteId || 'x');
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved) t.value = saved;
+      } catch (e) {}
+      t.addEventListener('input', function () {
+        try { localStorage.setItem(key, t.value); } catch (e) {}
+      });
+    });
+  }
+  window.copyNote = function (btn) {
+    var wrap = btn.closest('.note-wrap');
+    var ta = wrap.querySelector('.note-input');
+    var id = ta.dataset.noteId || '';
+    var txt = '【' + id + ' 我的笔记】\n' + (ta.value || '');
+    var done = function () { btn.textContent = '已复制 ✓'; setTimeout(function () { btn.textContent = '复制笔记'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallback(ta, done); });
+    } else { fallback(ta, done); }
+  };
+  function fallback(ta, done) {
+    ta.select(); ta.setSelectionRange(0, 99999);
+    try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动选择文本复制'); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotes);
+  else initNotes();
+})();
 </script>
 </body>
 </html>
