@@ -145,3 +145,79 @@ footer{text-align:center;color:#77859a;border-top:1px solid var(--line);padding-
 
 @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}.toc-grid{grid-template-columns:1fr 1fr}.compare{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr}.pipeline div:not(:last-child):after{content:"↓";right:50%;bottom:-20px;top:auto}}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.container{padding:18px 16px 52px}.hero-inner{padding:52px 20px}.toc-grid{grid-template-columns:1fr}.part-divider{margin-left:-16px;margin-right:-16px;padding:24px 16px}.h2{font-size:23px}.h3{font-size:18px}.topnav{padding-left:10px}.quiz{padding:12px 13px}.quiz .qno{flex-basis:26px;height:26px;font-size:12px}table{display:block;overflow-x:auto}}
+
+/* ===== 我的笔记（每课折叠块）===== */
+details.note-fold{margin:12px 0 6px}
+details.note-fold>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;padding:12px 16px;background:#f0faf5;border:1px solid #cfe8df;border-radius:10px;font-size:1rem;font-weight:700;color:#159568;-webkit-user-select:none;user-select:none}
+details.note-fold>summary::-webkit-details-marker{display:none}
+details.note-fold>summary::after{content:"\25BE";margin-left:auto;font-size:.8rem;transition:transform .2s}
+details.note-fold[open]>summary{border-radius:10px 10px 0 0}
+details.note-fold[open]>summary::after{transform:rotate(180deg)}
+.note-wrap{border:1px solid #cfe8df;border-top:none;border-radius:0 0 10px 10px;padding:14px;background:#fff}
+.note-input{display:block;width:100%;min-height:260px;resize:vertical;overflow-y:auto;border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-size:15px;line-height:1.8;color:var(--ink);background:#fcfdff;font-family:inherit;box-sizing:border-box}
+.note-input:focus{outline:none;border-color:#159568;background:#fff;box-shadow:0 0 0 3px #15956814}
+.note-actions{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.note-copy{border:1px solid #cfe8df;background:#f0faf5;color:#159568;font-size:.85rem;font-weight:600;padding:8px 15px;border-radius:8px;cursor:pointer;font-family:inherit}
+.note-copy:active{transform:scale(.97)}
+.note-tip{font-size:.76rem;color:var(--ink-soft,rgba(101,116,139,1))}
+/* 全屏写（手机上写长笔记用） */
+.note-fs{margin-left:auto;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;font-size:.85rem;font-weight:600;padding:8px 15px;border-radius:8px;cursor:pointer;font-family:inherit}
+.note-fs:active{transform:scale(.97)}
+.note-wrap.fs{position:fixed;inset:0;z-index:400;border:0;border-radius:0;padding:14px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.note-wrap.fs .note-input{flex:1;min-height:0;font-size:16px}
+.note-wrap.fs .note-actions{margin-top:0}
+body.note-fs-open{overflow:hidden}
+@media(max-width:600px){
+  .note-wrap{padding:10px}
+  .note-input{min-height:240px;font-size:16px;padding:12px 13px}
+  .note-copy,.note-fs{padding:9px 14px}
+  .note-tip{width:100%}
+}
+  /* ===== 已归档笔记（Hermes 收录）===== */
+  .my-note-archived {
+    margin: 18px 0 10px;
+    padding: 14px 18px 16px;
+    background: #f8f6ff;
+    border-left: 4px solid #6c5ce7;
+    border-radius: 0 12px 12px 0;
+  }
+  .my-note-archived .mna-head {
+    font-size: 0.76rem; font-weight: 700; color: #6c5ce7;
+    letter-spacing: 1.2px; margin-bottom: 10px;
+  }
+  .my-note-archived .mna-body {
+    font-family: "Kaiti SC", "STKaiti", "KaiTi", "977f53", serif;
+    font-size: 0.98rem; line-height: 1.95; color: #37306b;
+  }
+  .my-note-archived .mna-body p { margin: 9px 0; }
+  .my-note-archived .mna-body b { color: #5b4bd6; }
+  .my-note-archived .mna-body code {
+    background: #ece7ff; color: #5b4bd6; padding: 1px 5px;
+    border-radius: 4px; font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.88em;
+  }
+  .my-note-archived .mna-sub {
+    font-weight: 700; color: #5b4bd6; margin: 14px 0 4px;
+    font-size: 1rem;
+  }
+  .my-note-archived .mna-body pre {
+    background: #fff; border: 1px solid #e3dcff; border-radius: 8px;
+    padding: 10px 12px; margin: 8px 0;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.84rem; line-height: 1.62; color: #443c73;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .mna-table {
+    width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.86rem;
+    display: block; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .mna-table th, .mna-table td {
+    border: 1px solid #e3dcff; padding: 6px 9px; text-align: left;
+    white-space: nowrap; color: #443c73;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.82rem;
+  }
+  .mna-table th { background: #f0ecff; color: #5b4bd6; font-weight: 700; }
+  .my-note-archived .mna-add {
+    font-size: 0.88rem; color: #7a72a8; background: #f2eeff;
+    border-radius: 7px; padding: 8px 11px; margin: 8px 0 0; line-height: 1.8;
+  }
