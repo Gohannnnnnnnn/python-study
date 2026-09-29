@@ -63,7 +63,9 @@ print(b)   # 1   ← b 不受影响</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>代码从上到下逐行执行；引号让内容变文字；变量是贴标签的盒子；<code>=</code> 是把右边装进左边，<code>b = a</code> 是复制不是绑定。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 7 道（点击展开）</summary>
+
   <div class="case-intro">先自己做，再点开参考答案。做错没关系，把错题告诉老师，进错题本。</div>
 
   <h4>基础题</h4>
@@ -159,6 +161,17 @@ print(b)   # 输出 1</pre>
         <b>检查清单：</b>① 每行执行后把每个变量的值写下来；② print 那一行，写的是「当时」盒子里装的值。如果你 7 题全部写出且 5 题答对，说明这一课真正过了。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-001" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-002 ==================== -->
@@ -190,7 +203,9 @@ print(3 + 4.0)    # 7.0 整数+小数 → 自动升级成小数，防丢精度</
   </div>
   <div class="tip"><b>一句话总结：</b>每个值都有类型；<code>+</code> 遇到数字相加、遇到文本拼接、遇到 int+float 自动升级；类型混用会报 TypeError。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 7 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -269,6 +284,17 @@ print("WBC:", wbc, unit)   # WBC: 6.8 x10^9/L</pre>
         <b>解析：</b>print 用逗号隔开多个值，会把它们按顺序打印并用空格连接，自动把数字转成文字显示。这是「数字和文本要一起显示」时最省事的办法。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-002" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-003 ==================== -->
@@ -303,7 +329,9 @@ print("你好", name)</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>input 拿到的一律是文本；要算数必须先转换；float→int 是倒掉小数，str→int 是读文本（内容必须整数写法，否则报错）。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 7 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -383,6 +411,17 @@ print("明年你就", age + 1, "岁了")</pre>
         <b>解析：</b>必须 int() 是因为 input 拿到的是文本 "35"，"35" + 1 是 str + int，报 TypeError（文本只能拼文本）。转成 int 后 35 + 1 = 36，是正常加法。如果直接 <code>"35" + "1"</code>，得到的是 "351"——拼接不是加法，这是文本和数字的本质区别。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-003" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-004 ==================== -->
@@ -415,7 +454,9 @@ print("明年你就", age + 1, "岁了")</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>比较符号产出的永远是 True/False；== 验明正身（类型不同→False），&gt; 比个子（类型不同→报错）；数字和文本必须先转换再比。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 7 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -496,6 +537,17 @@ print("血型一致：", reg == retest)   # False</pre>
         <b>延伸：</b>"A" &gt; "B" 不报错——因为两个都是文本，文本之间可以比（按字母顺序，A 在 B 前所以 False）。但文本和数字不能比。规则总结：同类型能比，== 例外（不同类型也能答「不是」）。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-004" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <footer>阶段 01 · 代码是什么 · 4 课全量完成 · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
@@ -503,6 +555,39 @@ print("血型一致：", reg == retest)   # False</pre>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
 document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
+</script>
+
+<script>
+(function () {
+  function initNotes() {
+    document.querySelectorAll('.note-input').forEach(function (t) {
+      var key = 'pystudy_note_' + (t.dataset.noteId || 'x');
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved) t.value = saved;
+      } catch (e) {}
+      t.addEventListener('input', function () {
+        try { localStorage.setItem(key, t.value); } catch (e) {}
+      });
+    });
+  }
+  window.copyNote = function (btn) {
+    var wrap = btn.closest('.note-wrap');
+    var ta = wrap.querySelector('.note-input');
+    var id = ta.dataset.noteId || '';
+    var txt = '【' + id + ' 我的笔记】\n' + (ta.value || '');
+    var done = function () { btn.textContent = '已复制 ✓'; setTimeout(function () { btn.textContent = '复制笔记'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallback(ta, done); });
+    } else { fallback(ta, done); }
+  };
+  function fallback(ta, done) {
+    ta.select(); ta.setSelectionRange(0, 99999);
+    try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动选择文本复制'); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotes);
+  else initNotes();
+})();
 </script>
 </body>
 </html>
