@@ -69,7 +69,9 @@ else:
   </div>
   <div class="tip"><b>一句话总结：</b>if 按条件分路，缩进决定代码归属；elif 是「否则如果」、else 是兜底；从上往下第一个成立的就执行，后面不看。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -188,6 +190,17 @@ else:
         <b>解析：</b>从小到大排——先问最少的（<= 10），再往上加。因为 elif 是「前面的不成立才轮到」，排反了（先问 &lt;= 50）会导致后面的分支永远没机会执行。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-005" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-006 ==================== -->
@@ -219,7 +232,9 @@ for name in names:
   </div>
   <div class="tip"><b>一句话总结：</b>for 逐个处理名单或 range 的数；循环变量每轮换新值；range(n) 有 n 个数所以循环 n 次；range 含起点不含终点。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -315,6 +330,17 @@ for i in range(4):
         <b>解析：</b>range(4) 给出下标 0~3，drugs[i] 按下标取药；编号要显示 1 开头，所以打印 i+1。<code>sep=""</code> 是 print 的「分隔符」参数，设成空字符串就不会在数字和点之间加空格。<br><b>注意：</b>这种「用下标配 range」的写法要小心，下标和长度必须对得上——这也是下一课列表进阶要重点讲的索引规则。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-006" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-007 ==================== -->
@@ -357,7 +383,9 @@ while True:
   </div>
   <div class="tip"><b>一句话总结：</b>while 条件成立就一直循环，必须让条件走向不成立；break 整个循环下班，continue 只跳过当前这一轮。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -491,6 +519,17 @@ print("程序结束")</pre>
         <b>解析：</b>填 1 是 break（成功就下班，别继续要密码）；填 2 是 times + 1（每次失败消耗一次机会）。times 从 0 长到 3 时条件不成立，while 自然退出。这个程序同时用到了 while 的条件控制（次数限制）和 break（提前退出），是两者的合体。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-007" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-008 ==================== -->
@@ -528,7 +567,9 @@ del 病人[1]             # 按编号删 → ["张三","王五"]</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>索引是「按编号开柜子」（0 起、-1 结尾），切片是「复印一段」（起点算、终点不算），append/insert/remove/del 四把钥匙管增删改。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 12 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -662,6 +703,17 @@ print(mid)            # [37.2, 38.1, 37.0]</pre>
       <details><summary>参考答案</summary><div class="faq-body"><b>B。</b>切片超出范围不报错——[1:99] 只取到末尾 ["b","c"]（切片自动「截断」）。但单独取值 x[5] 或 x[-5] 超出范围会报 IndexError。记住：切片宽容，取值严格。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-008" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-009 ==================== -->
@@ -695,7 +747,9 @@ for 键, 值 in 患者.items():  # 方式2：键和值一起
   </div>
   <div class="tip"><b>一句话总结：</b>字典按「键」干活——取值用 字典[键]，赋值自动分「改/加」，删除用 del；items() 一次递出键值对。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 9 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -800,6 +854,17 @@ print(stock)   # {"阿司匹林": 45, "二甲双胍": 30}</pre>
         <b>解析：</b>等号右边先取值（50）再减 5（45），然后赋回去。键已存在 → 覆盖成 45。这种「取值-运算-赋值」是字典最常见的操作模式。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-009" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-010 ==================== -->
@@ -844,7 +909,9 @@ for 病人 in 候诊列表:
   </div>
   <div class="tip"><b>一句话总结：</b>候诊分诊系统 = 录入（while+input）→ 分诊（if/elif/else）→ 存储（列表套字典）→ 叫号（for 按等级筛）——一个真实小系统的完整闭环。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -943,6 +1010,17 @@ print("共", len(候诊列表), "位病人，其中急症", 急症数, "位")</p
         <b>解析：</b>嵌套 if——先判断是不是"急"，是的话再判断体温是否够高。缩进层层往里，就是层层条件。字典取值 病人["体温"] 直接拿数字比较。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-010" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <footer>阶段 02 · 控制流 · 6/6 完成 ✅ · 返回<a href="index.html" style="color:#1d4ed8">总览</a></footer>
@@ -950,6 +1028,39 @@ print("共", len(候诊列表), "位病人，其中急症", 急症数, "位")</p
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
 document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
+</script>
+
+<script>
+(function () {
+  function initNotes() {
+    document.querySelectorAll('.note-input').forEach(function (t) {
+      var key = 'pystudy_note_' + (t.dataset.noteId || 'x');
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved) t.value = saved;
+      } catch (e) {}
+      t.addEventListener('input', function () {
+        try { localStorage.setItem(key, t.value); } catch (e) {}
+      });
+    });
+  }
+  window.copyNote = function (btn) {
+    var wrap = btn.closest('.note-wrap');
+    var ta = wrap.querySelector('.note-input');
+    var id = ta.dataset.noteId || '';
+    var txt = '【' + id + ' 我的笔记】\n' + (ta.value || '');
+    var done = function () { btn.textContent = '已复制 ✓'; setTimeout(function () { btn.textContent = '复制笔记'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallback(ta, done); });
+    } else { fallback(ta, done); }
+  };
+  function fallback(ta, done) {
+    ta.select(); ta.setSelectionRange(0, 99999);
+    try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动选择文本复制'); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotes);
+  else initNotes();
+})();
 </script>
 </body>
 </html>
