@@ -1044,11 +1044,20 @@ document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navi
       });
     });
   }
+  function noteHeader(ta) {
+    var id = ta.dataset.noteId || 'x';
+    var sec = ta.closest('section');
+    var title = '';
+    if (sec) {
+      var h2 = sec.querySelector('h2');
+      if (h2) title = (h2.textContent || '').trim();
+    }
+    return title ? ('【' + id + ' ' + title + '】') : ('【' + id + '】');
+  }
   window.copyNote = function (btn) {
     var wrap = btn.closest('.note-wrap');
     var ta = wrap.querySelector('.note-input');
-    var id = ta.dataset.noteId || '';
-    var txt = '【' + id + ' 我的笔记】\n' + (ta.value || '');
+    var txt = noteHeader(ta) + '\n' + (ta.value || '');
     var done = function () { btn.textContent = '已复制 ✓'; setTimeout(function () { btn.textContent = '复制笔记'; }, 1500); };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(txt).then(done, function () { fallback(ta, done); });
