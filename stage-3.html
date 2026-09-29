@@ -176,6 +176,103 @@ print(共同)     # {"二甲双胍"}</pre>
     </div>
   </div>
 </details>
+<div class="my-note-archived">
+  <div class="mna-head">我的笔记 &middot; 已归档（2026-09-29）</div>
+  <div class="mna-body">
+    <p>四个容器可以相互转换。</p>
+    <p>四大容器：<b>list 列表、tuple 元组、set 集合、dict 字典</b>；转换函数：<code>list()</code>、<code>tuple()</code>、<code>set()</code>、<code>dict()</code>。</p>
+    <p>重点：dict 转换比较特殊，只能由包含成对元素的可迭代对象生成，普通 list/tuple/set 不能直接转 dict。</p>
+
+    <p class="mna-sub">一、list 列表 转其他容器</p>
+<pre>lst = [1, 2, 3]
+
+# list -> tuple
+t = tuple(lst)
+print(t)   # (1, 2, 3)
+
+# list -> set（自动去重，无序）
+s = set(lst)
+print(s)   # {1, 2, 3}
+
+# list -> dict：要求列表里每个元素是长度为 2 的子序列
+lst2 = [("name", "Tom"), ("age", 20)]
+d = dict(lst2)
+print(d)   # {'name': 'Tom', 'age': 20}</pre>
+
+    <p class="mna-sub">二、tuple 元组 转其他容器</p>
+<pre>t = (10, 20, 30)
+
+# tuple -> list
+lst = list(t)
+print(lst)   # [10, 20, 30]
+
+# tuple -> set
+s = set(t)
+print(s)   # {10, 20, 30}
+
+# tuple -> dict：元组内每个元素必须是二元组
+t2 = ("a", 1), ("b", 2)
+d = dict(t2)
+print(d)   # {'a': 1, 'b': 2}</pre>
+
+    <p class="mna-sub">三、set 集合 转其他容器</p>
+    <p>集合无序，转换后顺序不保证；集合元素不能重复。</p>
+<pre>s = {5, 6, 7}
+
+# set -> list
+lst = list(s)
+print(lst)   # [5, 6, 7] 顺序不一定
+
+# set -> tuple
+t = tuple(s)
+print(t)   # (5, 6, 7) 顺序不一定
+
+# set -> dict：集合里每个元素必须是成对的
+s2 = {("x", 100), ("y", 200)}
+d = dict(s2)
+print(d)   # {'x': 100, 'y': 200}</pre>
+
+    <p class="mna-sub">四、dict 字典 转其他容器</p>
+    <p><code>list(dict)</code> / <code>tuple(dict)</code> / <code>set(dict)</code> 默认只取字典的 key。</p>
+<pre>d = {"name": "Jack", "age": 18}
+
+# dict -> list：只拿 key
+lst1 = list(d)
+print(lst1)   # ['name', 'age']
+# 拿 value
+lst2 = list(d.values())
+print(lst2)   # ['Jack', 18]
+# 拿键值对（元组形式）
+lst3 = list(d.items())
+print(lst3)   # [('name', 'Jack'), ('age', 18)]
+
+# dict -> tuple：只拿 key
+t1 = tuple(d)
+print(t1)   # ('name', 'age')
+t2 = tuple(d.items())
+print(t2)   # (('name', 'Jack'), ('age', 18))
+
+# dict -> set：只拿 key，自动去重
+s = set(d)
+print(s)   # {'name', 'age'}</pre>
+
+    <p class="mna-sub">转换速记表</p>
+    <table class="mna-table">
+      <tr><th>源类型</th><th>转 list</th><th>转 tuple</th><th>转 set</th><th>转 dict</th></tr>
+      <tr><td>list</td><td>—</td><td>tuple(lst)</td><td>set(lst)</td><td>dict(二元元素列表)</td></tr>
+      <tr><td>tuple</td><td>list(t)</td><td>—</td><td>set(t)</td><td>dict(二元元组)</td></tr>
+      <tr><td>set</td><td>list(s)</td><td>tuple(s)</td><td>—</td><td>dict(二元元素集合)</td></tr>
+      <tr><td>dict</td><td>list(d) 取 key<br>list(d.items())</td><td>tuple(d) 取 key</td><td>set(d) 取 key</td><td>—</td></tr>
+    </table>
+
+    <p class="mna-sub">易错坑总结</p>
+    <p>1. set 会丢失重复元素，并且无序。</p>
+    <p>2. <code>dict()</code> 不能直接转普通 <code>[1,2,3]</code> 这种一维序列，必须是成对元素。</p>
+    <p>3. 字典直接丢进 list/tuple/set，默认只提取 key，不是 value。</p>
+    <p>4. 数字 int、浮点数 float 不属于容器，不能用 list/tuple/set 转换。</p>
+    <p class="mna-add">补充：判断标准其实是"能不能被遍历"——int/float 不可遍历，所以报错；字符串、range 虽然不是容器，但可遍历，能被 list() 转换。</p>
+  </div>
+</div>
 <details class="note-fold">
   <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
   <div class="note-wrap">
@@ -314,6 +411,17 @@ print("诊断：", 字段[2])   # 肺炎</pre>
     </div>
   </div>
 </details>
+<div class="my-note-archived">
+  <div class="mna-head">我的笔记 &middot; 已归档（2026-09-29）</div>
+  <div class="mna-body">
+    <p>1. <b>split() 只属于字符串</b>，列表、元组、集合、字典没有 split()，调用会报错。</p>
+    <p>2. split 切出来的<b>所有元素都是字符串类型</b>，不会自动转数字。</p>
+    <p>3. 字符串 <code>.split()</code> 永远返回 <b>list（列表）</b>，切出来每一项都是字符串。</p>
+    <p><b>str(容器)</b>：打包整个容器，括号保留。<br>
+       <b>分隔符.join(容器)</b>：只取里面元素拼接，括号扔掉。</p>
+    <p class="mna-add">补充：join 的元素必须全是字符串，否则报错——<code>",".join([1,2,3])</code> 报 TypeError。数字列表要先转：<code>",".join(str(x) for x in nums)</code>。</p>
+  </div>
+</div>
 <details class="note-fold">
   <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
   <div class="note-wrap">
@@ -1162,3 +1270,52 @@ document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navi
 </script>
 </body>
 </html>
+  /* ===== 已归档笔记（Hermes 收录）===== */
+  .my-note-archived {
+    margin: 18px 0 10px;
+    padding: 14px 18px 16px;
+    background: #f8f6ff;
+    border-left: 4px solid #6c5ce7;
+    border-radius: 0 12px 12px 0;
+  }
+  .my-note-archived .mna-head {
+    font-size: 0.76rem; font-weight: 700; color: #6c5ce7;
+    letter-spacing: 1.2px; margin-bottom: 10px;
+  }
+  .my-note-archived .mna-body {
+    font-family: "Kaiti SC", "STKaiti", "KaiTi", "977f53", serif;
+    font-size: 0.98rem; line-height: 1.95; color: #37306b;
+  }
+  .my-note-archived .mna-body p { margin: 9px 0; }
+  .my-note-archived .mna-body b { color: #5b4bd6; }
+  .my-note-archived .mna-body code {
+    background: #ece7ff; color: #5b4bd6; padding: 1px 5px;
+    border-radius: 4px; font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.88em;
+  }
+  .my-note-archived .mna-sub {
+    font-weight: 700; color: #5b4bd6; margin: 14px 0 4px;
+    font-size: 1rem;
+  }
+  .my-note-archived .mna-body pre {
+    background: #fff; border: 1px solid #e3dcff; border-radius: 8px;
+    padding: 10px 12px; margin: 8px 0;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.84rem; line-height: 1.62; color: #443c73;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .mna-table {
+    width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.86rem;
+    display: block; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .mna-table th, .mna-table td {
+    border: 1px solid #e3dcff; padding: 6px 9px; text-align: left;
+    white-space: nowrap; color: #443c73;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.82rem;
+  }
+  .mna-table th { background: #f0ecff; color: #5b4bd6; font-weight: 700; }
+  .my-note-archived .mna-add {
+    font-size: 0.88rem; color: #7a72a8; background: #f2eeff;
+    border-radius: 7px; padding: 8px 11px; margin: 8px 0 0; line-height: 1.8;
+  }
+
