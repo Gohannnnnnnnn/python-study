@@ -76,7 +76,9 @@ print(y * 2)             # 12</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>函数 = 把重复逻辑打包成菜谱（SOP）——def 写流程、参数收输入、return 交结果；print 是显示、return 是递交，没 return 返回 None。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -191,6 +193,17 @@ print(病历行("张三", 38.5))   # 张三：38.5度</pre>
         <b>解析：</b>return 返回 f-string 结果。函数把"格式规则"封起来——要改格式只改这一处。参数从外传进，结果从 return 递出。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-018" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-019 ==================== -->
@@ -226,7 +239,9 @@ print(病历行("张三", 38.5))   # 张三：38.5度</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>位置按顺序对号入座、默认不填用兜底（必须在无默认后面）、关键字点名传参顺序随意（位置在前关键字在后）。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -320,6 +335,17 @@ print(开医嘱("二甲双胍", "500mg", "每日两次", "餐后服用"))</pre>
       <details><summary>参考答案</summary><div class="faq-body">频次="每日一次"（默认），备注=""（默认）。调用时不传的参数自动用定义时的默认值——这就是"默认参数"的意义。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-019" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-020 ==================== -->
@@ -371,7 +397,9 @@ print(总发药量)              # 30</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>return a,b 返回元组可拆包；函数是独立房间——读全局随便读、写全局要 global（否则报错）、局部变量外面看不见。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -492,7 +520,18 @@ print(发药次数)   # 3</pre>
         <b>解析：</b>全局计数器 + global = 跨函数累计状态的标准写法。但记住：能用 return 传递就别用 global。</div></details>
             </div>
           </div>
-        </section>
+        </details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-020" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
+</section>
 
         <!-- ==================== py-021 ==================== -->
         <section id="py-021">
@@ -529,7 +568,9 @@ print(发药次数)   # 3</pre>
           </div>
           <div class="tip"><b>一句话总结：</b>lambda = 一行版函数（自动 return），最常用作 sorted 的 key 参数——"临时规则用完就丢"。</div>
 
-          <h3>练习题</h3>
+          <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
           <h4>基础题</h4>
           <div class="quiz">
             <span class="qno">1</span>
@@ -621,7 +662,18 @@ print(发药次数)   # 3</pre>
                 <b>解析：</b>列表推导式先收集所有金额，sum 求和。lambda 组合内置函数 = 数据处理的标准姿势。</div></details>
             </div>
           </div>
-        </section>
+        </details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-021" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
+</section>
 
         <!-- ==================== py-022 ==================== -->
         <section id="py-022">
@@ -664,7 +716,9 @@ print(发药次数)   # 3</pre>
           </div>
           <div class="tip"><b>一句话总结：</b>临床数据小助手 = def（分诊）+ 参数（默认）+ return（多值）+ lambda（排序）+ 内置函数（统计）——stage-4 全部零件组装成一个真实工具包。</div>
 
-          <h3>练习题</h3>
+          <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
           <h4>基础题</h4>
           <div class="quiz">
             <span class="qno">1</span>
@@ -755,7 +809,18 @@ print(发药次数)   # 3</pre>
               <details><summary>参考答案</summary><div class="faq-body"><code>reverse=True</code>。sorted 默认升序，reverse=True 就是降序。</div></details>
             </div>
           </div>
-        </section>
+        </details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-022" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
+</section>
 
         <!-- ==================== 后续课程占位 ==================== -->
         <section id="next">
@@ -777,6 +842,39 @@ print(发药次数)   # 3</pre>
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
 document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
+</script>
+
+<script>
+(function () {
+  function initNotes() {
+    document.querySelectorAll('.note-input').forEach(function (t) {
+      var key = 'pystudy_note_' + (t.dataset.noteId || 'x');
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved) t.value = saved;
+      } catch (e) {}
+      t.addEventListener('input', function () {
+        try { localStorage.setItem(key, t.value); } catch (e) {}
+      });
+    });
+  }
+  window.copyNote = function (btn) {
+    var wrap = btn.closest('.note-wrap');
+    var ta = wrap.querySelector('.note-input');
+    var id = ta.dataset.noteId || '';
+    var txt = '【' + id + ' 我的笔记】\n' + (ta.value || '');
+    var done = function () { btn.textContent = '已复制 ✓'; setTimeout(function () { btn.textContent = '复制笔记'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallback(ta, done); });
+    } else { fallback(ta, done); }
+  };
+  function fallback(ta, done) {
+    ta.select(); ta.setSelectionRange(0, 99999);
+    try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动选择文本复制'); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotes);
+  else initNotes();
+})();
 </script>
 </body>
 </html>
