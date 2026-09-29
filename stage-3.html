@@ -279,6 +279,7 @@ print(s)   # {'name', 'age'}</pre>
     <textarea class="note-input" data-note-id="py-011" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -428,6 +429,7 @@ print("诊断：", 字段[2])   # 肺炎</pre>
     <textarea class="note-input" data-note-id="py-012" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -594,6 +596,7 @@ print(回复)   # 你好！</pre>
     <textarea class="note-input" data-note-id="py-013" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -750,6 +753,7 @@ print("肺炎人数：", 计数)   # 2</pre>
     <textarea class="note-input" data-note-id="py-014" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -897,6 +901,7 @@ else:
     <textarea class="note-input" data-note-id="py-015" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -1052,6 +1057,7 @@ print(人数)   # {'胸外': 2, '心内': 1, '神外': 1}</pre>
     <textarea class="note-input" data-note-id="py-016" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -1208,6 +1214,7 @@ for 文献 in 文献列表:
     <textarea class="note-input" data-note-id="py-017" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -1264,58 +1271,36 @@ document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navi
     ta.select(); ta.setSelectionRange(0, 99999);
     try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动选择文本复制'); }
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotes);
-  else initNotes();
+  /* 笔记框高度自适应 + 手机全屏写 */
+  function autoGrow(t) {
+    if (!t || !t.offsetParent) return;
+    var max = Math.round(window.innerHeight * 0.7);
+    t.style.height = 'auto';
+    t.style.height = Math.min(Math.max(t.scrollHeight, 120), max) + 'px';
+  }
+  window.toggleNoteFs = function (btn) {
+    var wrap = btn.closest('.note-wrap');
+    var on = wrap.classList.toggle('fs');
+    document.body.classList.toggle('note-fs-open', on);
+    btn.textContent = on ? '收起' : '全屏写';
+    var ta = wrap.querySelector('.note-input');
+    if (on) { autoGrow(ta); ta.focus(); } else { ta.style.height = ''; }
+  };
+  function initNoteGrow() {
+    document.querySelectorAll('details.note-fold').forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (d.open) d.querySelectorAll('.note-input').forEach(autoGrow);
+      });
+    });
+    document.querySelectorAll('.note-input').forEach(function (t) {
+      t.addEventListener('input', function () { autoGrow(t); });
+      autoGrow(t);
+    });
+  }
+  function boot() { initNotes(); initNoteGrow(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
 </script>
 </body>
 </html>
-  /* ===== 已归档笔记（Hermes 收录）===== */
-  .my-note-archived {
-    margin: 18px 0 10px;
-    padding: 14px 18px 16px;
-    background: #f8f6ff;
-    border-left: 4px solid #6c5ce7;
-    border-radius: 0 12px 12px 0;
-  }
-  .my-note-archived .mna-head {
-    font-size: 0.76rem; font-weight: 700; color: #6c5ce7;
-    letter-spacing: 1.2px; margin-bottom: 10px;
-  }
-  .my-note-archived .mna-body {
-    font-family: "Kaiti SC", "STKaiti", "KaiTi", "977f53", serif;
-    font-size: 0.98rem; line-height: 1.95; color: #37306b;
-  }
-  .my-note-archived .mna-body p { margin: 9px 0; }
-  .my-note-archived .mna-body b { color: #5b4bd6; }
-  .my-note-archived .mna-body code {
-    background: #ece7ff; color: #5b4bd6; padding: 1px 5px;
-    border-radius: 4px; font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 0.88em;
-  }
-  .my-note-archived .mna-sub {
-    font-weight: 700; color: #5b4bd6; margin: 14px 0 4px;
-    font-size: 1rem;
-  }
-  .my-note-archived .mna-body pre {
-    background: #fff; border: 1px solid #e3dcff; border-radius: 8px;
-    padding: 10px 12px; margin: 8px 0;
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 0.84rem; line-height: 1.62; color: #443c73;
-    overflow-x: auto; -webkit-overflow-scrolling: touch;
-  }
-  .mna-table {
-    width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.86rem;
-    display: block; overflow-x: auto; -webkit-overflow-scrolling: touch;
-  }
-  .mna-table th, .mna-table td {
-    border: 1px solid #e3dcff; padding: 6px 9px; text-align: left;
-    white-space: nowrap; color: #443c73;
-    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.82rem;
-  }
-  .mna-table th { background: #f0ecff; color: #5b4bd6; font-weight: 700; }
-  .my-note-archived .mna-add {
-    font-size: 0.88rem; color: #7a72a8; background: #f2eeff;
-    border-radius: 7px; padding: 8px 11px; margin: 8px 0 0; line-height: 1.8;
-  }
-
