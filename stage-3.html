@@ -82,7 +82,9 @@ print("不同体温种类：", 种类数, "种")   # 3 种</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>元组是只读列表（防误改），集合是去重口袋（无序、无编号）——"能按编号取"的前提是有顺序，集合为了去重牺牲了顺序。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -173,6 +175,17 @@ print(共同)     # {"二甲双胍"}</pre>
         <b>解析：</b>集合的 &amp; 直接求两边共有元素。"找两个名单的共同项"（共同病人、共同药物）用集合交集一行搞定。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-011" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-012 ==================== -->
@@ -206,7 +219,9 @@ print(s)         # 还是 "abc"（原件从未被改动）</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>strip/split/join 是文本处理三件套；字符串方法都是"复印机"——返回新值、原件不动，必须接住返回值。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -298,6 +313,17 @@ print("诊断：", 字段[2])   # 肺炎</pre>
         <b>解析：</b>split 拆 CSV 是最常见的文本处理——以后读数据文件全靠它。字段顺序：0姓名、1体温、2诊断。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-012" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-013 ==================== -->
@@ -338,7 +364,9 @@ print(患者档案["张三"]["诊断"])   # 肺炎 —— 先外层键，再内�
   </div>
   <div class="tip"><b>一句话总结：</b>嵌套取值像剥洋葱——先剥外层再剥里层；列表套字典（一摞病历卡）是"先抽卡、再看字段"；学会嵌套就读得懂 JSON。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -451,6 +479,17 @@ print(回复)   # 你好！</pre>
         <b>解析：</b>这就是真实 API 返回结构！字典→列表→字典→字典→字符串，四层剥取。等你学到调用 API 时，这行代码天天见——现在学会，到时候就是老朋友。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-013" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-014 ==================== -->
@@ -494,7 +533,9 @@ for 病人 in 病人列表:                        # 筛选急症
   </div>
   <div class="tip"><b>一句话总结：</b>病人数据管理系统 = 元组管"不变的" + 嵌套管"数据的形状" + strip 管"输入干净" + 集合管"统计去重"——四个知识点组装成一个真实系统。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -594,6 +635,17 @@ print("肺炎人数：", 计数)   # 2</pre>
         <b>解析：</b>append 加字典——这就是"系统新增一条记录"的本质。加完列表变 3 人，所有 for 遍历自动包含新人。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-014" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-015 ==================== -->
@@ -631,7 +683,9 @@ if 文件名.endswith(".csv"):
   </div>
   <div class="tip"><b>一句话总结：</b>find 找位置（找不到是 -1 不是报错）、replace 换内容（复印机必须接住）、count 数次数、startswith 判格式——四个方法搞定 90% 文本处理。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -728,6 +782,17 @@ else:
         <b>解析：</b>startswith 返回 bool，直接当 if 条件用。数据录入校验的经典写法——以后写表单校验全靠它。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-015" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-016 ==================== -->
@@ -765,7 +830,9 @@ for 房号, 病人体温 in 病房.items():
   </div>
   <div class="tip"><b>一句话总结：</b>get 是安全取值（有键用真值、没键用默认）、setdefault 是自动建计数器、嵌套字典用双层循环遍历。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -870,6 +937,17 @@ print(人数)   # {'胸外': 2, '心内': 1, '神外': 1}</pre>
         <b>解析：</b>setdefault + 累加 = 分类计数器的固定套路。这个模式在数据处理里出现频率极高，务必记牢。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-016" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <!-- ==================== py-017 ==================== -->
@@ -916,7 +994,9 @@ print("发文量：", 期刊统计)</pre>
   </div>
   <div class="tip"><b>一句话总结：</b>文献数据处理器 = 嵌套存数据 + get 防缺字段 + find/lower 搜关键词 + set/setdefault 统计——stage-3 全部知识点组装成一个真实科研工具。</div>
 
-  <h3>练习题</h3>
+  <details class="quiz-fold">
+  <summary>&#128221; 练习题 &middot; 8 道（点击展开）</summary>
+
   <h4>基础题</h4>
   <div class="quiz">
     <span class="qno">1</span>
@@ -1013,6 +1093,17 @@ for 文献 in 文献列表:
         <b>解析：</b>append 加字典 = 系统新增一条文献。加完所有 for 遍历自动包含新文献——这就是"数据驱动"：代码不用改，数据变就行。</div></details>
     </div>
   </div>
+</details>
+<details class="note-fold">
+  <summary>&#9997;&#65039; 我的笔记（点击展开）</summary>
+  <div class="note-wrap">
+    <textarea class="note-input" data-note-id="py-017" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
+    <div class="note-actions">
+      <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
+    </div>
+  </div>
+</details>
 </section>
 
 <div class="note" id="note">
@@ -1026,6 +1117,39 @@ for 文献 in 文献列表:
 <script>
 window.addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('pgbar').style.width=p+'%';});
 document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);};});
+</script>
+
+<script>
+(function () {
+  function initNotes() {
+    document.querySelectorAll('.note-input').forEach(function (t) {
+      var key = 'pystudy_note_' + (t.dataset.noteId || 'x');
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved) t.value = saved;
+      } catch (e) {}
+      t.addEventListener('input', function () {
+        try { localStorage.setItem(key, t.value); } catch (e) {}
+      });
+    });
+  }
+  window.copyNote = function (btn) {
+    var wrap = btn.closest('.note-wrap');
+    var ta = wrap.querySelector('.note-input');
+    var id = ta.dataset.noteId || '';
+    var txt = '【' + id + ' 我的笔记】\n' + (ta.value || '');
+    var done = function () { btn.textContent = '已复制 ✓'; setTimeout(function () { btn.textContent = '复制笔记'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallback(ta, done); });
+    } else { fallback(ta, done); }
+  };
+  function fallback(ta, done) {
+    ta.select(); ta.setSelectionRange(0, 99999);
+    try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动选择文本复制'); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotes);
+  else initNotes();
+})();
 </script>
 </body>
 </html>
