@@ -200,6 +200,7 @@ print(病历行("张三", 38.5))   # 张三：38.5度</pre>
     <textarea class="note-input" data-note-id="py-018" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -342,6 +343,7 @@ print(开医嘱("二甲双胍", "500mg", "每日两次", "餐后服用"))</pre>
     <textarea class="note-input" data-note-id="py-019" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -527,6 +529,7 @@ print(发药次数)   # 3</pre>
     <textarea class="note-input" data-note-id="py-020" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -669,6 +672,7 @@ print(发药次数)   # 3</pre>
     <textarea class="note-input" data-note-id="py-021" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -816,6 +820,7 @@ print(发药次数)   # 3</pre>
     <textarea class="note-input" data-note-id="py-022" placeholder="写下你对这节课的理解、疑问、心得……&#10;（自动保存在本机浏览器，换设备看不到；想永久保存可复制发给我）"></textarea>
     <div class="note-actions">
       <button class="note-copy" onclick="copyNote(this)">复制笔记</button>
+      <button class="note-fs" onclick="toggleNoteFs(this)">全屏写</button>
       <span class="note-tip">保存在本机浏览器 &middot; 也可复制发我归档</span>
     </div>
   </div>
@@ -881,8 +886,35 @@ document.querySelectorAll('.copy').forEach(function(b){b.onclick=function(){navi
     ta.select(); ta.setSelectionRange(0, 99999);
     try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动选择文本复制'); }
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotes);
-  else initNotes();
+  /* 笔记框高度自适应 + 手机全屏写 */
+  function autoGrow(t) {
+    if (!t || !t.offsetParent) return;
+    var max = Math.round(window.innerHeight * 0.7);
+    t.style.height = 'auto';
+    t.style.height = Math.min(Math.max(t.scrollHeight, 120), max) + 'px';
+  }
+  window.toggleNoteFs = function (btn) {
+    var wrap = btn.closest('.note-wrap');
+    var on = wrap.classList.toggle('fs');
+    document.body.classList.toggle('note-fs-open', on);
+    btn.textContent = on ? '收起' : '全屏写';
+    var ta = wrap.querySelector('.note-input');
+    if (on) { autoGrow(ta); ta.focus(); } else { ta.style.height = ''; }
+  };
+  function initNoteGrow() {
+    document.querySelectorAll('details.note-fold').forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (d.open) d.querySelectorAll('.note-input').forEach(autoGrow);
+      });
+    });
+    document.querySelectorAll('.note-input').forEach(function (t) {
+      t.addEventListener('input', function () { autoGrow(t); });
+      autoGrow(t);
+    });
+  }
+  function boot() { initNotes(); initNoteGrow(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
 </script>
 </body>
