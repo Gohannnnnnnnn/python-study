@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UI 组件速查卡 | 说准名字，AI 才写得对</title>
+<title>弹窗家族全家福 | UI 浮层速查卡</title>
 <style>
   :root {
     --bg:#f5f7fb; --ink:#24324a; --ink-soft:#65748b; --primary:#2563eb;
@@ -13,175 +13,223 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--ink);
     font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-    font-size:16px; line-height:1.85; max-width:720px; margin:0 auto; padding:20px 18px 60px; }
+    font-size:16px; line-height:1.8; max-width:720px; margin:0 auto; padding:20px 18px 60px; }
   header { text-align:center; padding:26px 0 10px; }
   .logo { font-size:0.78rem; letter-spacing:5px; color:var(--primary); margin-bottom:8px; }
-  h1 { font-size:1.42rem; color:var(--deep); }
+  h1 { font-size:1.4rem; color:var(--deep); }
   .sub { color:var(--ink-soft); font-size:0.85rem; margin-top:6px; }
-  .lead { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:16px 0; font-size:0.92rem; }
+  .lead { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:16px 0; font-size:0.9rem; }
   .lead b { color:var(--primary); }
-  section { margin:22px 0; }
-  .sec-title { font-size:0.82rem; font-weight:700; color:var(--primary); margin-bottom:10px; padding-left:10px; border-left:3px solid var(--primary); letter-spacing:0.5px; }
-  .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:10px 0; }
-  .card .head { display:flex; align-items:baseline; gap:8px; margin-bottom:6px; flex-wrap:wrap; }
-  .card .en { font-size:1.02rem; font-weight:700; color:var(--deep); font-family:ui-monospace,Menlo,Consolas,monospace; }
-  .card .cn { font-size:0.78rem; background:var(--panel); color:var(--primary); padding:1px 9px; border-radius:10px; font-weight:700; }
-  .card .fact { font-size:0.92rem; }
-  .card .use { font-size:0.86rem; color:var(--ink-soft); margin-top:5px; }
-  .card .use b { color:var(--green); font-weight:700; }
-  .card .say { font-size:0.86rem; margin-top:7px; background:#fff9e8; border-radius:7px; padding:6px 10px; color:#8a5a10; }
+  section { margin:20px 0; }
+  .sec-title { font-size:0.8rem; font-weight:700; color:#fff; background:var(--primary); display:inline-block; padding:3px 12px; border-radius:8px; margin-bottom:10px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:11px; padding:12px 15px; margin:9px 0; }
+  .card .head { display:flex; align-items:baseline; gap:7px; flex-wrap:wrap; }
+  .card .en { font-size:0.98rem; font-weight:700; color:var(--deep); font-family:ui-monospace,Menlo,Consolas,monospace; }
+  .card .cn { font-size:0.75rem; background:var(--panel); color:var(--primary); padding:1px 8px; border-radius:9px; font-weight:700; }
+  .card .fact { font-size:0.9rem; margin-top:4px; }
+  .card .say { font-size:0.83rem; margin-top:6px; background:#fff9e8; border-radius:6px; padding:5px 9px; color:#8a5a10; }
   .card .say b { color:#b45309; }
-  .card .warn { font-size:0.84rem; margin-top:6px; color:var(--red); }
-  table { width:100%; border-collapse:collapse; font-size:0.86rem; background:#fff; border-radius:12px; overflow:hidden; }
-  th, td { padding:9px 10px; border-bottom:1px solid var(--line); text-align:left; }
-  th { background:var(--panel); color:var(--deep); font-weight:700; font-size:0.8rem; }
-  td code { background:var(--panel); padding:1px 6px; border-radius:5px; font-size:0.82rem; color:var(--primary); }
-  .pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
-  .pair > div { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:0.85rem; }
-  .pair .k { font-weight:700; color:var(--primary); font-size:0.78rem; display:block; margin-bottom:3px; }
-  .pit { background:#fff; border:1px solid var(--line); border-left:4px solid var(--red); border-radius:10px; padding:13px 16px; margin:10px 0; }
-  .pit .no { color:var(--red); font-weight:700; font-size:0.76rem; letter-spacing:1px; }
-  .pit .t { font-size:1rem; font-weight:700; color:var(--deep); margin:3px 0 6px; }
-  .pit .why { font-size:0.88rem; color:var(--ink-soft); }
-  .bar { display:flex; align-items:center; gap:8px; margin:5px 0; font-size:0.85rem; }
-  .bar .n { width:96px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; }
-  .bar .fill { height:12px; border-radius:6px; background:linear-gradient(90deg,#93c5fd,#2563eb); }
-  .note { font-size:0.8rem; color:var(--ink-soft); margin-top:8px; }
-  footer { text-align:center; color:var(--ink-soft); font-size:0.78rem; margin-top:28px; }
+  .card .warn { font-size:0.82rem; color:var(--red); margin-top:4px; }
+  table { width:100%; border-collapse:collapse; font-size:0.84rem; background:#fff; border-radius:11px; overflow:hidden; }
+  th, td { padding:8px 9px; border-bottom:1px solid var(--line); text-align:left; }
+  th { background:var(--panel); color:var(--deep); font-weight:700; font-size:0.78rem; }
+  td code { background:var(--panel); padding:1px 5px; border-radius:4px; font-size:0.8rem; color:var(--primary); }
+  .pit { background:#fff; border:1px solid var(--line); border-left:4px solid var(--red); border-radius:10px; padding:12px 15px; margin:9px 0; }
+  .pit .no { color:var(--red); font-weight:700; font-size:0.74rem; letter-spacing:1px; }
+  .pit .t { font-size:0.97rem; font-weight:700; color:var(--deep); margin:2px 0 5px; }
+  .pit .why { font-size:0.86rem; color:var(--ink-soft); }
+  .bar { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:0.84rem; }
+  .bar .n { width:92px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.78rem; }
+  .bar .fill { height:11px; border-radius:6px; background:linear-gradient(90deg,#93c5fd,#2563eb); }
+  .note { font-size:0.79rem; color:var(--ink-soft); margin-top:7px; }
+  footer { text-align:center; color:var(--ink-soft); font-size:0.77rem; margin-top:26px; }
 </style>
 </head>
 <body>
 <header>
   <div class="logo">速 查 卡</div>
-  <h1>UI 组件速查</h1>
-  <div class="sub">说准名字，AI 才写得对 · 9 种浮层 + 选型标准 + 3 个坑</div>
+  <h1>弹窗家族 · 全家福</h1>
+  <div class="sub">16 种浮层，按家族分类 · 说准名字，AI 才写得对</div>
 </header>
 
 <div class="lead">
-  <b>一句话记住：</b>"弹窗"是所有浮层的统称。你说"加个弹窗"，AI 只能猜；说"弹个 <b>Toast</b>"，它立刻知道要一闪而过、不打断操作。<br>
-  <span style="font-size:0.85rem;color:var(--ink-soft)">（内容整理自 Ludi 的抖音视频，2026-10-19；按截图与画面文字还原）</span>
+  <b>先记一条主线：</b>所有浮层按"打不打断用户"分三类——<br>
+  <b>非模态</b>（不打断，用户该干嘛干嘛）→ 轻提示类<br>
+  <b>半模态</b>（占一块，但背后还在）→ 面板类<br>
+  <b>模态</b>（挡住，必须处理）→ 对话类<br>
+  <span style="font-size:0.83rem;color:var(--ink-soft)">整理自 Ludi 的抖音两期视频（2026-10-19 / 10-28）</span>
 </div>
 
 <section>
-  <div class="sec-title">一、认得名字（7 种常用浮层）</div>
+  <div class="sec-title">一、对话类 · 模态（会挡住，必须处理）</div>
 
   <div class="card">
-    <div class="head"><span class="en">Toast</span><span class="cn">轻提示</span><span class="cn">非模态</span></div>
-    <div class="fact">一闪而过（2-3 秒自动消失），不挡操作。</div>
-    <div class="use"><b>用在：</b>保存成功、复制成功、请求失败</div>
-    <div class="say"><b>话术：</b>「保存成功后弹个 Toast，自动消失」</div>
+    <div class="head"><span class="en">Modal</span><span class="cn">模态弹窗</span></div>
+    <div class="fact">居中弹出 + 遮罩，整页锁住，处理完才能继续。</div>
+    <div class="say"><b>话术：</b>「点新增用 Modal 弹一个表单」</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Tooltip</span><span class="cn">文字提示</span><span class="cn">非模态</span></div>
-    <div class="fact">悬停（手机上长按）出现的一小段文字，只解释、不能点。</div>
-    <div class="use"><b>用在：</b>图标含义、字段说明</div>
-    <div class="say"><b>话术：</b>「这个问号图标加个 Tooltip 说明规则」</div>
+    <div class="head"><span class="en">AlertDialog</span><span class="cn">警报阻断弹窗</span></div>
+    <div class="fact">比普通 Modal 更"重"的确认框：专门用于不可逆、有后果的操作（删除全部、退出不保存）。按 Esc 可关。</div>
+    <div class="say"><b>话术：</b>「删除前用 AlertDialog 拦一下，写清后果」</div>
+    <div class="warn">普通提示别用它——太重。</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Alert</span><span class="cn">警告条</span><span class="cn">非模态</span></div>
-    <div class="fact">嵌在页面里的横幅，一直待着，直到条件消失或用户关掉。</div>
-    <div class="use"><b>用在：</b>表单顶部错误汇总、系统维护通知</div>
-    <div class="say"><b>话术：</b>「页面顶部放个 Alert 提示报名截止」</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><span class="en">Popconfirm</span><span class="cn">气泡确认</span><span class="cn">打扰最小</span></div>
-    <div class="fact">就在按钮旁边弹个小气泡问一句"确定删除吗？"——<b>鼠标不用挪窝</b>。</div>
-    <div class="use"><b>用在：</b>删除单条记录、取消订单</div>
+    <div class="head"><span class="en">Popconfirm</span><span class="cn">气泡确认</span></div>
+    <div class="fact">就在按钮旁边弹个小气泡问"确定吗"，鼠标不用挪窝。</div>
     <div class="say"><b>话术：</b>「删除按钮加 Popconfirm 二次确认」</div>
   </div>
+</section>
+
+<section>
+  <div class="sec-title">二、面板类 · 半模态（装内容，背后还在）</div>
 
   <div class="card">
-    <div class="head"><span class="en">Modal / Dialog</span><span class="cn">模态弹窗</span><span class="cn">模态</span></div>
-    <div class="fact">居中弹出 + 遮罩，挡住页面，必须处理完才能继续。</div>
-    <div class="use"><b>用在：</b>登录、新建表单、支付、重要确认</div>
-    <div class="say"><b>话术：</b>「点新增用 Modal 弹一个表单」</div>
-    <div class="warn">最重的一种。能不用就别用。</div>
+    <div class="head"><span class="en">Drawer</span><span class="cn">抽屉</span></div>
+    <div class="fact">从<b>侧边</b>滑出。背后列表还在，焦点不丢——适合"边看边改"。</div>
+    <div class="say"><b>话术：</b>「点这行，用 Drawer 从右边滑出编辑面板」</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Drawer</span><span class="cn">抽屉</span><span class="cn">半模态</span></div>
-    <div class="fact">从侧边滑出的面板，<b>背后的列表还在</b>，焦点不丢。</div>
-    <div class="use"><b>用在：</b>编辑详情、筛选、设置、移动端导航</div>
-    <div class="say"><b>话术：</b>「点这一行，用 Drawer 从右边滑出编辑面板」</div>
+    <div class="head"><span class="en">Bottom Sheet</span><span class="cn">底部半屏面板</span></div>
+    <div class="fact">从<b>底部</b>升起，占半屏。<b>抖音评论区就是这个</b>——所以它<b>不是抽屉</b>（抽屉在侧边）。</div>
+    <div class="say"><b>话术：</b>「评论列表用 Bottom Sheet，从底部升起」</div>
+    <div class="warn">移动端最常用的一种，替代"新建一个页面"。</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Popover</span><span class="cn">气泡卡片</span><span class="cn">补充</span></div>
-    <div class="fact">点一下弹出的浮层，里面可以放按钮、链接、小表单。</div>
-    <div class="use"><b>用在：</b>头像菜单、快捷操作</div>
-    <div class="say"><b>话术：</b>「点头像弹 Popover，放"设置/退出"」</div>
+    <div class="head"><span class="en">ActionSheet</span><span class="cn">底部动作面板</span></div>
+    <div class="fact">底部弹出的一列大按钮，每个是一个动作（更换头像 / 个性签名 / 设置）。</div>
+    <div class="say"><b>话术：</b>「点头像从底部弹 ActionSheet，列出操作」</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="en">Popover</span><span class="cn">气泡卡片</span></div>
+    <div class="fact">点一下弹出的小浮层，可以放按钮、链接（比 Tooltip 重，能交互）。</div>
+    <div class="say"><b>话术：</b>「点头像弹 Popover 菜单」</div>
   </div>
 </section>
 
 <section>
-  <div class="sec-title">二、打扰指数（从轻到重，选之前先看这条）</div>
+  <div class="sec-title">三、轻提示类 · 非模态（不打断）</div>
+
   <div class="card">
-    <div class="bar"><span class="n">Toast</span><span class="fill" style="width:25%"></span><span style="font-size:0.78rem;color:var(--ink-soft)">最低</span></div>
-    <div class="bar"><span class="n">Alert</span><span class="fill" style="width:45%"></span></div>
-    <div class="bar"><span class="n">Popconfirm</span><span class="fill" style="width:60%"></span></div>
-    <div class="bar"><span class="n">Drawer</span><span class="fill" style="width:75%"></span></div>
-    <div class="bar"><span class="n">Modal</span><span class="fill" style="width:100%"></span><span style="font-size:0.78rem;color:var(--red)">最高</span></div>
-    <div class="note">视频给的打扰指数参考：Toast 25 / Alert 45 / Popconfirm 60，Drawer、Modal 更高。<b>原则：能用轻的就别用重的。</b></div>
+    <div class="head"><span class="en">Toast</span><span class="cn">轻提示</span></div>
+    <div class="fact">一闪而过（2-3 秒自动消失），不挡操作。</div>
+    <div class="say"><b>话术：</b>「保存成功后弹个 Toast」</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="en">Snackbar</span><span class="cn">底部撤销条</span></div>
+    <div class="fact">屏幕底部浮一条黑条，<b>带一个操作按钮</b>（"已删除 1 封邮件 · 撤销"）。</div>
+    <div class="say"><b>话术：</b>「删除后底部弹 Snackbar 带撤销按钮」</div>
+    <div class="warn">和 Toast 的区别：<b>Toast 只能看，Snackbar 能点</b>。</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="en">Inline Alert</span><span class="cn">行内校验</span></div>
+    <div class="fact">错误就地显示在输入框下方（"请输入 11 位手机号"），不是飘走。</div>
+    <div class="say"><b>话术：</b>「手机号格式错误用 Inline Alert 显示在输入框下」</div>
+    <div class="warn">表单校验千万别用 Toast——几秒就消失，用户回头看不到错在哪。</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="en">Alert</span><span class="cn">警告条</span></div>
+    <div class="fact">嵌在页面里的横幅，常驻到条件消失。</div>
+    <div class="say"><b>话术：</b>「页面顶部放个 Alert 提示截止时间」</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="en">Notification</span><span class="cn">通知</span></div>
+    <div class="fact">从角落滑入，停留几秒，可堆叠多条。</div>
+    <div class="say"><b>话术：</b>「导出完成后右上角发 Notification」</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="en">Tooltip</span><span class="cn">文字提示</span></div>
+    <div class="fact">悬停（手机上长按）出现的一小段文字，只解释不能点。</div>
+    <div class="say"><b>话术：</b>「这个问号图标加个 Tooltip」</div>
   </div>
 </section>
 
 <section>
-  <div class="sec-title">三、内容一多，选弹窗还是抽屉还是新页面？</div>
+  <div class="sec-title">四、另外三张"熟脸"（容易忽略但常用）</div>
+
   <div class="card">
-    <div class="fact"><b>判断法① 看内容长短</b>（以 1440px 屏幕为基准）</div>
-    <div class="use">表单宽度大致分 400 / 520 / 720 三档；<b>超长表单一律出局</b>——改用 <b>Drawer 抽屉</b>或<b>新页面</b>。</div>
+    <div class="head"><span class="en">Loading</span><span class="cn">加载态</span></div>
+    <div class="fact">转圈 / 骨架屏，告诉用户"在等"。超过 1 秒不反馈，用户就会以为卡死。</div>
+    <div class="say"><b>话术：</b>「请求时显示 Loading，别让页面静着」</div>
   </div>
+
   <div class="card">
-    <div class="fact"><b>判断法② 要不要左右对照</b></div>
-    <div class="use">需要一边看列表一边改内容 → <b>Drawer</b>（背后列表还在，焦点不丢）。<br>不需要对照、就是要用户专心做完一件事 → <b>Modal</b>。</div>
+    <div class="head"><span class="en">Tour</span><span class="cn">新手引导</span></div>
+    <div class="fact">一步步高亮界面元素 + 说明气泡（"新功能上线：给背景打个聚光灯"）。</div>
+    <div class="say"><b>话术：</b>「新功能首次进入做一个 Tour 引导」</div>
   </div>
-  <table style="margin-top:10px">
-    <tr><th>情况</th><th>选</th></tr>
-    <tr><td>内容很少，问一句就行</td><td><code>Popconfirm</code></td></tr>
-    <tr><td>中等表单、要用户专注完成</td><td><code>Modal</code></td></tr>
-    <tr><td>超长表单 / 要边看列表边改</td><td><code>Drawer</code></td></tr>
-    <tr><td>内容极多、要独立浏览</td><td>新页面</td></tr>
+
+  <div class="card">
+    <div class="head"><span class="en">Lightbox</span><span class="cn">灯箱</span></div>
+    <div class="fact">点图片后全屏放大查看，背景变暗。</div>
+    <div class="say"><b>话术：</b>「点图片用 Lightbox 全屏查看」</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-title">五、选型：用哪个？（按情况查表）</div>
+  <table>
+    <tr><th>你想干什么</th><th>用哪个</th></tr>
+    <tr><td>提示一下就走</td><td><code>Toast</code></td></tr>
+    <tr><td>提示 + 可撤销</td><td><code>Snackbar</code></td></tr>
+    <tr><td>表单填错</td><td><code>Inline Alert</code></td></tr>
+    <tr><td>解释一个图标</td><td><code>Tooltip</code></td></tr>
+    <tr><td>删除前问一句</td><td><code>Popconfirm</code></td></tr>
+    <tr><td>不可逆操作，必须拦住</td><td><code>AlertDialog</code></td></tr>
+    <tr><td>中等表单，专心填完</td><td><code>Modal</code></td></tr>
+    <tr><td>边看列表边改详情</td><td><code>Drawer</code></td></tr>
+    <tr><td>移动端看评论 / 详情</td><td><code>Bottom Sheet</code></td></tr>
+    <tr><td>底部列出一堆操作</td><td><code>ActionSheet</code></td></tr>
+    <tr><td>内容极多</td><td>新页面</td></tr>
   </table>
+  <div class="note"><b>判断法①</b> 看内容长短：1440px 屏下表单一超长 → 出局，改 Drawer 或新页面。<br>
+  <b>判断法②</b> 要不要左右对照：要 → Drawer（背后列表还在，焦点不丢）；不要 → Modal。</div>
 </section>
 
 <section>
-  <div class="sec-title">四、3 个坑（视频说 90% 的人都踩过）</div>
+  <div class="sec-title">六、打扰指数（越低越好）</div>
+  <div class="card">
+    <div class="bar"><span class="n">Toast</span><span class="fill" style="width:25%"></span><span style="font-size:0.76rem;color:var(--ink-soft)">25 最低</span></div>
+    <div class="bar"><span class="n">Alert</span><span class="fill" style="width:45%"></span><span style="font-size:0.76rem;color:var(--ink-soft)">45</span></div>
+    <div class="bar"><span class="n">Popconfirm</span><span class="fill" style="width:60%"></span><span style="font-size:0.76rem;color:var(--ink-soft)">60</span></div>
+    <div class="bar"><span class="n">Drawer</span><span class="fill" style="width:75%"></span></div>
+    <div class="bar"><span class="n">Modal</span><span class="fill" style="width:100%"></span><span style="font-size:0.76rem;color:var(--red)">最高</span></div>
+    <div class="note"><b>原则：能用轻的就别用重的。</b>用户每被打断一次，就多一次想关掉你的冲动。</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-title">七、3 个坑（90% 的人都踩过）</div>
 
   <div class="pit">
     <div class="no">坑 ①</div>
     <div class="t">填表的弹窗，别"点蒙层就关"</div>
-    <div class="why">用户填了一半，手一滑点到旁边——<b>数据全没</b>。<br>正确做法：填表弹窗要么禁止点蒙层关闭，要么<b>加草稿自动保存</b>。</div>
-    <div class="say" style="margin-top:8px;background:#fff9e8;border-radius:7px;padding:6px 10px;font-size:0.86rem;color:#8a5a10"><b>话术：</b>「这个表单弹窗别点蒙层关，另加草稿自动保存」</div>
+    <div class="why">用户填一半手滑点到旁边 → <b>数据全没</b>。要么禁止点蒙层关闭，要么加草稿自动保存。</div>
   </div>
 
   <div class="pit">
     <div class="no">坑 ②</div>
     <div class="t">能撤销，就别二次确认</div>
-    <div class="why"><b>删了能找回</b> → 直接删，给一个"撤销"条（撤销比确认省事，还少一次点击）。<br><b>删了找不回</b> → 才弹窗拦一下。</div>
-    <div class="say" style="margin-top:8px;background:#fff9e8;border-radius:7px;padding:6px 10px;font-size:0.86rem;color:#8a5a10"><b>话术：</b>「删除后给个撤销 Toast，不要弹确认框」</div>
+    <div class="why"><b>删了能找回</b>（有回收站）→ 直接删 + Snackbar 撤销条；<b>删了找不回</b> → 才用 AlertDialog / Popconfirm 拦一下。</div>
   </div>
 
   <div class="pit">
     <div class="no">坑 ③</div>
     <div class="t">按钮别写"是 / 否"</div>
-    <div class="why">用户在弹窗上的注意力只有 <b>0.2-0.3 秒</b>（视频标注 299ms）。写"是/否"他得回头看问题。<br>正确做法：按钮直接写动作——<b>"确认退票"而不是"是"</b>，并把后果写在旁边（如"将扣除 30 元手续费"）。</div>
-    <div class="say" style="margin-top:8px;background:#fff9e8;border-radius:7px;padding:6px 10px;font-size:0.86rem;color:#8a5a10"><b>话术：</b>「按钮文字写具体动作，别用是/否」</div>
+    <div class="why">用户在弹窗上的注意力只有 <b>0.2-0.3 秒</b>（299ms）。按钮直接写动作——"确认退票"而不是"是"，后果写在旁边（"将扣除 30 元"）。</div>
   </div>
 </section>
 
-<section>
-  <div class="sec-title">五、最容易混的四组</div>
-  <div class="pair">
-    <div><span class="k">Toast vs Alert</span>Toast 一闪而过；Alert 嵌在页面里常驻。</div>
-    <div><span class="k">Tooltip vs Popover</span>Tooltip 只能看文字；Popover 能点能放按钮。</div>
-    <div><span class="k">Modal vs Drawer</span>Modal 居中挡住整页；Drawer 侧滑、背后列表还在。</div>
-    <div><span class="k">Popconfirm vs Modal</span>Popconfirm 就在按钮旁边问一句；Modal 是整页级的大事。</div>
-  </div>
-</section>
-
-<footer>UI 组件速查卡 · 2026-10 · 给 AI 下指令前先看一眼</footer>
+<footer>弹窗家族全家福 · 16 种浮层 · 2026-10 · 给 AI 下指令前先看一眼</footer>
 </body>
 </html>
