@@ -11,12 +11,9 @@
     --gold:#d97706; --green:#159568; --red:#d64c4c;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background:var(--bg); color:var(--ink);
+  body { background:var(--bg); color:var(--ink);
     font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-    font-size:16px; line-height:1.85;
-    max-width:720px; margin:0 auto; padding:20px 18px 60px;
-  }
+    font-size:16px; line-height:1.85; max-width:720px; margin:0 auto; padding:20px 18px 60px; }
   header { text-align:center; padding:26px 0 10px; }
   .logo { font-size:0.78rem; letter-spacing:5px; color:var(--primary); margin-bottom:8px; }
   h1 { font-size:1.42rem; color:var(--deep); }
@@ -29,7 +26,7 @@
   .card .head { display:flex; align-items:baseline; gap:8px; margin-bottom:6px; flex-wrap:wrap; }
   .card .en { font-size:1.02rem; font-weight:700; color:var(--deep); font-family:ui-monospace,Menlo,Consolas,monospace; }
   .card .cn { font-size:0.78rem; background:var(--panel); color:var(--primary); padding:1px 9px; border-radius:10px; font-weight:700; }
-  .card .fact { font-size:0.92rem; color:var(--ink); }
+  .card .fact { font-size:0.92rem; }
   .card .use { font-size:0.86rem; color:var(--ink-soft); margin-top:5px; }
   .card .use b { color:var(--green); font-weight:700; }
   .card .say { font-size:0.86rem; margin-top:7px; background:#fff9e8; border-radius:7px; padding:6px 10px; color:#8a5a10; }
@@ -42,6 +39,14 @@
   .pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
   .pair > div { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:0.85rem; }
   .pair .k { font-weight:700; color:var(--primary); font-size:0.78rem; display:block; margin-bottom:3px; }
+  .pit { background:#fff; border:1px solid var(--line); border-left:4px solid var(--red); border-radius:10px; padding:13px 16px; margin:10px 0; }
+  .pit .no { color:var(--red); font-weight:700; font-size:0.76rem; letter-spacing:1px; }
+  .pit .t { font-size:1rem; font-weight:700; color:var(--deep); margin:3px 0 6px; }
+  .pit .why { font-size:0.88rem; color:var(--ink-soft); }
+  .bar { display:flex; align-items:center; gap:8px; margin:5px 0; font-size:0.85rem; }
+  .bar .n { width:96px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; }
+  .bar .fill { height:12px; border-radius:6px; background:linear-gradient(90deg,#93c5fd,#2563eb); }
+  .note { font-size:0.8rem; color:var(--ink-soft); margin-top:8px; }
   footer { text-align:center; color:var(--ink-soft); font-size:0.78rem; margin-top:28px; }
 </style>
 </head>
@@ -49,116 +54,130 @@
 <header>
   <div class="logo">速 查 卡</div>
   <h1>UI 组件速查</h1>
-  <div class="sub">说准名字，AI 才写得对 · 共 9 种常用浮层</div>
+  <div class="sub">说准名字，AI 才写得对 · 9 种浮层 + 选型标准 + 3 个坑</div>
 </header>
 
 <div class="lead">
-  <b>为什么这张卡值得存：</b>你给 AI 下指令时说"弹个窗"，它只能猜；说"弹个 <b>Toast</b>"，它立刻知道你想要的是一闪而过、不打断操作的那种。<b>名字说准，返工就少一半。</b>
+  <b>一句话记住：</b>"弹窗"是所有浮层的统称。你说"加个弹窗"，AI 只能猜；说"弹个 <b>Toast</b>"，它立刻知道要一闪而过、不打断操作。<br>
+  <span style="font-size:0.85rem;color:var(--ink-soft)">（内容整理自 Ludi 的抖音视频，2026-10-19；按截图与画面文字还原）</span>
 </div>
 
 <section>
-  <div class="sec-title">一、轻提示类 · 不打断用户</div>
+  <div class="sec-title">一、认得名字（7 种常用浮层）</div>
 
   <div class="card">
-    <div class="head"><span class="en">Toast</span><span class="cn">轻提示</span></div>
-    <div class="fact">屏幕边缘短暂出现的小条，2-3 秒自动消失，不挡操作。</div>
-    <div class="use"><b>用在：</b>保存成功、复制成功、请求失败、网络异常</div>
-    <div class="say"><b>话术：</b>「保存成功后弹个 Toast，成功后自动消失」</div>
-    <div class="warn">别用它传递需要用户确认的信息——用户很可能没看见。</div>
+    <div class="head"><span class="en">Toast</span><span class="cn">轻提示</span><span class="cn">非模态</span></div>
+    <div class="fact">一闪而过（2-3 秒自动消失），不挡操作。</div>
+    <div class="use"><b>用在：</b>保存成功、复制成功、请求失败</div>
+    <div class="say"><b>话术：</b>「保存成功后弹个 Toast，自动消失」</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Tooltip</span><span class="cn">文字提示</span></div>
-    <div class="fact">鼠标悬停（手机上长按）出现的一小段文字，纯粹是解释。</div>
-    <div class="use"><b>用在：</b>图标含义、字段说明、缩写全称</div>
-    <div class="say"><b>话术：</b>「这个问号图标加个 Tooltip，说明填写规则」</div>
-    <div class="warn">只能放文字，不能放按钮——要能点就用 Popover。</div>
+    <div class="head"><span class="en">Tooltip</span><span class="cn">文字提示</span><span class="cn">非模态</span></div>
+    <div class="fact">悬停（手机上长按）出现的一小段文字，只解释、不能点。</div>
+    <div class="use"><b>用在：</b>图标含义、字段说明</div>
+    <div class="say"><b>话术：</b>「这个问号图标加个 Tooltip 说明规则」</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Notification</span><span class="cn">通知</span></div>
-    <div class="fact">从右上角滑入，可带标题和内容，停留几秒，可堆叠多条。</div>
-    <div class="use"><b>用在：</b>新消息提醒、后台任务完成、系统公告</div>
-    <div class="say"><b>话术：</b>「导出完成后，右上角发一条 Notification」</div>
-  </div>
-</section>
-
-<section>
-  <div class="sec-title">二、提醒与确认类 · 要用户注意</div>
-
-  <div class="card">
-    <div class="head"><span class="en">Alert</span><span class="cn">警告条</span></div>
-    <div class="fact">嵌在页面里的横幅，一直待在那儿，直到条件消失或用户关掉。</div>
-    <div class="use"><b>用在：</b>表单顶部的错误汇总、系统维护通知、重要说明</div>
-    <div class="say"><b>话术：</b>「页面顶部放个 Alert，提示报名截止时间」</div>
-    <div class="warn">它是"常驻"的——别用它做"操作成功"提示（那是 Toast）。</div>
+    <div class="head"><span class="en">Alert</span><span class="cn">警告条</span><span class="cn">非模态</span></div>
+    <div class="fact">嵌在页面里的横幅，一直待着，直到条件消失或用户关掉。</div>
+    <div class="use"><b>用在：</b>表单顶部错误汇总、系统维护通知</div>
+    <div class="say"><b>话术：</b>「页面顶部放个 Alert 提示报名截止」</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Popconfirm</span><span class="cn">气泡确认</span></div>
-    <div class="fact">点按钮后，旁边弹出小气泡"确定删除吗？"+ 确定/取消。</div>
-    <div class="use"><b>用在：</b>删除单条记录、取消订单、不可逆的小操作</div>
+    <div class="head"><span class="en">Popconfirm</span><span class="cn">气泡确认</span><span class="cn">打扰最小</span></div>
+    <div class="fact">就在按钮旁边弹个小气泡问一句"确定删除吗？"——<b>鼠标不用挪窝</b>。</div>
+    <div class="use"><b>用在：</b>删除单条记录、取消订单</div>
     <div class="say"><b>话术：</b>「删除按钮加 Popconfirm 二次确认」</div>
-    <div class="warn">比 Modal 轻——只是问一句，不打断整个页面。</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Modal / Dialog</span><span class="cn">模态弹窗</span></div>
-    <div class="fact">居中弹出 + 半透明遮罩，挡住页面，必须处理完才能继续。</div>
-    <div class="use"><b>用在：</b>登录、新建表单、重要协议确认、支付</div>
+    <div class="head"><span class="en">Modal / Dialog</span><span class="cn">模态弹窗</span><span class="cn">模态</span></div>
+    <div class="fact">居中弹出 + 遮罩，挡住页面，必须处理完才能继续。</div>
+    <div class="use"><b>用在：</b>登录、新建表单、支付、重要确认</div>
     <div class="say"><b>话术：</b>「点新增用 Modal 弹一个表单」</div>
-    <div class="warn">最重的一种。能不用就不用——用户很烦被打断。</div>
+    <div class="warn">最重的一种。能不用就别用。</div>
   </div>
-</section>
-
-<section>
-  <div class="sec-title">三、容器类 · 装内容</div>
 
   <div class="card">
-    <div class="head"><span class="en">Drawer</span><span class="cn">抽屉</span></div>
-    <div class="fact">从侧边滑出的面板，不离开当前页面。</div>
-    <div class="use"><b>用在：</b>编辑详情、筛选条件、设置面板、移动端导航</div>
+    <div class="head"><span class="en">Drawer</span><span class="cn">抽屉</span><span class="cn">半模态</span></div>
+    <div class="fact">从侧边滑出的面板，<b>背后的列表还在</b>，焦点不丢。</div>
+    <div class="use"><b>用在：</b>编辑详情、筛选、设置、移动端导航</div>
     <div class="say"><b>话术：</b>「点这一行，用 Drawer 从右边滑出编辑面板」</div>
-    <div class="warn">优点：用户看完能立刻回到列表，不用重新找位置。</div>
   </div>
 
   <div class="card">
-    <div class="head"><span class="en">Popover</span><span class="cn">气泡卡片</span></div>
+    <div class="head"><span class="en">Popover</span><span class="cn">气泡卡片</span><span class="cn">补充</span></div>
     <div class="fact">点一下弹出的浮层，里面可以放按钮、链接、小表单。</div>
-    <div class="use"><b>用在：</b>头像菜单、快捷操作、日期选择器</div>
-    <div class="say"><b>话术：</b>「点头像弹 Popover，里面放"设置/退出"」</div>
-    <div class="warn">和 Tooltip 的区别：Tooltip 只能看，Popover 能点。</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><span class="en">Full-screen Overlay</span><span class="cn">霸屏拦截</span></div>
-    <div class="fact">全屏覆盖，强制用户看或点（视频里的说法，不是标准术语）。</div>
-    <div class="use"><b>用在：</b>版本升级引导、强制公告、运营活动（慎用）</div>
-    <div class="say"><b>话术：</b>（一般别主动要求这个——伤体验）</div>
-    <div class="warn">除非必要，不要用。用户最容易因此卸载。</div>
+    <div class="use"><b>用在：</b>头像菜单、快捷操作</div>
+    <div class="say"><b>话术：</b>「点头像弹 Popover，放"设置/退出"」</div>
   </div>
 </section>
 
 <section>
-  <div class="sec-title">四、怎么选（按需求查）</div>
-  <table>
-    <tr><th>你想干什么</th><th>用哪个</th></tr>
-    <tr><td>提示一下就走</td><td><code>Toast</code></td></tr>
-    <tr><td>解释一个图标/字段</td><td><code>Tooltip</code></td></tr>
-    <tr><td>提醒用户注意重要信息</td><td><code>Alert</code> / <code>Notification</code></td></tr>
-    <tr><td>删除前问一句</td><td><code>Popconfirm</code></td></tr>
-    <tr><td>让用户填表 / 登录</td><td><code>Modal</code></td></tr>
-    <tr><td>边看列表边改详情</td><td><code>Drawer</code></td></tr>
-    <tr><td>头像上弹个菜单</td><td><code>Popover</code></td></tr>
+  <div class="sec-title">二、打扰指数（从轻到重，选之前先看这条）</div>
+  <div class="card">
+    <div class="bar"><span class="n">Toast</span><span class="fill" style="width:25%"></span><span style="font-size:0.78rem;color:var(--ink-soft)">最低</span></div>
+    <div class="bar"><span class="n">Alert</span><span class="fill" style="width:45%"></span></div>
+    <div class="bar"><span class="n">Popconfirm</span><span class="fill" style="width:60%"></span></div>
+    <div class="bar"><span class="n">Drawer</span><span class="fill" style="width:75%"></span></div>
+    <div class="bar"><span class="n">Modal</span><span class="fill" style="width:100%"></span><span style="font-size:0.78rem;color:var(--red)">最高</span></div>
+    <div class="note">视频给的打扰指数参考：Toast 25 / Alert 45 / Popconfirm 60，Drawer、Modal 更高。<b>原则：能用轻的就别用重的。</b></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-title">三、内容一多，选弹窗还是抽屉还是新页面？</div>
+  <div class="card">
+    <div class="fact"><b>判断法① 看内容长短</b>（以 1440px 屏幕为基准）</div>
+    <div class="use">表单宽度大致分 400 / 520 / 720 三档；<b>超长表单一律出局</b>——改用 <b>Drawer 抽屉</b>或<b>新页面</b>。</div>
+  </div>
+  <div class="card">
+    <div class="fact"><b>判断法② 要不要左右对照</b></div>
+    <div class="use">需要一边看列表一边改内容 → <b>Drawer</b>（背后列表还在，焦点不丢）。<br>不需要对照、就是要用户专心做完一件事 → <b>Modal</b>。</div>
+  </div>
+  <table style="margin-top:10px">
+    <tr><th>情况</th><th>选</th></tr>
+    <tr><td>内容很少，问一句就行</td><td><code>Popconfirm</code></td></tr>
+    <tr><td>中等表单、要用户专注完成</td><td><code>Modal</code></td></tr>
+    <tr><td>超长表单 / 要边看列表边改</td><td><code>Drawer</code></td></tr>
+    <tr><td>内容极多、要独立浏览</td><td>新页面</td></tr>
   </table>
 </section>
 
 <section>
-  <div class="sec-title">五、最容易混的三组</div>
+  <div class="sec-title">四、3 个坑（视频说 90% 的人都踩过）</div>
+
+  <div class="pit">
+    <div class="no">坑 ①</div>
+    <div class="t">填表的弹窗，别"点蒙层就关"</div>
+    <div class="why">用户填了一半，手一滑点到旁边——<b>数据全没</b>。<br>正确做法：填表弹窗要么禁止点蒙层关闭，要么<b>加草稿自动保存</b>。</div>
+    <div class="say" style="margin-top:8px;background:#fff9e8;border-radius:7px;padding:6px 10px;font-size:0.86rem;color:#8a5a10"><b>话术：</b>「这个表单弹窗别点蒙层关，另加草稿自动保存」</div>
+  </div>
+
+  <div class="pit">
+    <div class="no">坑 ②</div>
+    <div class="t">能撤销，就别二次确认</div>
+    <div class="why"><b>删了能找回</b> → 直接删，给一个"撤销"条（撤销比确认省事，还少一次点击）。<br><b>删了找不回</b> → 才弹窗拦一下。</div>
+    <div class="say" style="margin-top:8px;background:#fff9e8;border-radius:7px;padding:6px 10px;font-size:0.86rem;color:#8a5a10"><b>话术：</b>「删除后给个撤销 Toast，不要弹确认框」</div>
+  </div>
+
+  <div class="pit">
+    <div class="no">坑 ③</div>
+    <div class="t">按钮别写"是 / 否"</div>
+    <div class="why">用户在弹窗上的注意力只有 <b>0.2-0.3 秒</b>（视频标注 299ms）。写"是/否"他得回头看问题。<br>正确做法：按钮直接写动作——<b>"确认退票"而不是"是"</b>，并把后果写在旁边（如"将扣除 30 元手续费"）。</div>
+    <div class="say" style="margin-top:8px;background:#fff9e8;border-radius:7px;padding:6px 10px;font-size:0.86rem;color:#8a5a10"><b>话术：</b>「按钮文字写具体动作，别用是/否」</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-title">五、最容易混的四组</div>
   <div class="pair">
-    <div><span class="k">Toast vs Alert vs Notification</span>Toast=一闪而过；Alert=嵌在页面里常驻；Notification=角落滑入、可堆叠。</div>
-    <div><span class="k">Tooltip vs Popover</span>Tooltip 只能看文字；Popover 能放按钮、能点。</div>
-    <div><span class="k">Modal vs Drawer</span>Modal 居中挡住页面；Drawer 侧滑、保留原页面。</div>
+    <div><span class="k">Toast vs Alert</span>Toast 一闪而过；Alert 嵌在页面里常驻。</div>
+    <div><span class="k">Tooltip vs Popover</span>Tooltip 只能看文字；Popover 能点能放按钮。</div>
+    <div><span class="k">Modal vs Drawer</span>Modal 居中挡住整页；Drawer 侧滑、背后列表还在。</div>
     <div><span class="k">Popconfirm vs Modal</span>Popconfirm 就在按钮旁边问一句；Modal 是整页级的大事。</div>
   </div>
 </section>
