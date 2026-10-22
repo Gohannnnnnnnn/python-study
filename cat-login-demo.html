@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录页养只猫 · 可运行 Demo + 原理</title>
+<style>
+  :root{
+    --bg:#f5f7fb; --ink:#24324a; --soft:#65748b; --primary:#2563eb; --deep:#172554;
+    --line:#dbe4f0; --panel:#eef3fd;
+    --s0:#f7f8fb; --s1:#ffffff; --s2:#fbfcfe;
+    --r-sm:8px; --r-md:12px; --r-lg:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px;line-height:1.8;padding:22px 16px 60px}
+  .wrap{max-width:700px;margin:0 auto}
+  h1{font-size:1.35rem;color:var(--deep);text-align:center}
+  .sub{text-align:center;color:var(--soft);font-size:0.85rem;margin-top:6px}
+
+  /* ============ 演示区：登录卡片 ============ */
+  .stage{margin:24px auto;display:flex;justify-content:center}
+  .login-card{
+    width:100%;max-width:360px;background:var(--s1);border-radius:var(--r-lg);
+    padding:0 28px 26px;text-align:center;
+    /* 质感招 2：不用边框，用多层淡阴影 */
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .08), 0 8px 24px -6px rgb(20 30 60 / .10);
+  }
+  .cat-box{height:150px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:6px}
+  .cat{width:150px;height:auto;display:block}
+  .cat .pupil{transition:transform 140ms cubic-bezier(.34,1.2,.64,1)}
+  .cat .eye-open{transition:opacity 120ms}
+  .cat .eye-closed{opacity:0;transition:opacity 120ms}
+
+  .meow{font-size:0.85rem;color:#b06a3b;background:#fdf2e7;display:inline-block;
+    padding:3px 12px;border-radius:99px;margin-bottom:10px}
+  .login-card h2{font-size:1.15rem;color:var(--deep);margin-bottom:4px}
+  .login-card .hint{font-size:0.78rem;color:var(--soft);margin-bottom:18px}
+  .field{text-align:left;margin-bottom:13px}
+  .field span{display:block;font-size:0.78rem;color:var(--soft);margin-bottom:5px}
+  .field input{
+    width:100%;padding:11px 13px;font-size:0.95rem;color:var(--ink);
+    background:var(--s2);border:none;border-radius:var(--r-sm);
+    box-shadow:inset 0 0 0 1px #e6ecf5;   /* 内阴影代替边框 */
+    transition:box-shadow 160ms,background 160ms;
+  }
+  .field input:focus{outline:none;background:#fff;box-shadow:inset 0 0 0 2px #bcd6fb, 0 0 0 4px #eaf2ff}
+  .btn{
+    width:100%;margin-top:8px;padding:12px;border:none;border-radius:var(--r-sm);
+    background:var(--primary);color:#fff;font-size:0.95rem;font-weight:600;cursor:pointer;
+    transition:transform 120ms cubic-bezier(.2,.9,.3,1),background 160ms;
+  }
+  .btn:hover{background:#1d4ed8}
+  .btn:active{transform:scale(.985)}          /* 质感招 9：拖拽/点击用"过阻尼" */
+
+  /* ============ 说明区 ============ */
+  section{margin:28px 0}
+  .sec-t{font-size:0.8rem;font-weight:700;color:#fff;background:var(--primary);
+    display:inline-block;padding:3px 12px;border-radius:var(--r-sm);margin-bottom:12px}
+  .card{background:#fff;border-radius:var(--r-md);padding:15px 17px;margin:10px 0;
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .06)}
+  .card h3{font-size:0.98rem;color:var(--deep);margin-bottom:6px}
+  .card p{font-size:0.9rem}
+  .card b{color:var(--primary)}
+  pre{background:#0f1115;color:#d7e0ee;border-radius:10px;padding:12px 14px;margin:9px 0;
+    overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.77rem;line-height:1.6}
+  pre .c{color:#6b7a90} pre .k{color:#93c5fd} pre .v{color:#a7e3c0} pre .s{color:#f0c987}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
+  .grid2>div{background:#fff;border-radius:10px;padding:11px 13px;font-size:0.85rem;
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .06)}
+  .grid2 .k{font-weight:700;color:var(--primary);font-size:0.78rem;display:block;margin-bottom:3px}
+  .tip{background:#f0faf5;border-radius:10px;padding:12px 15px;margin:10px 0;font-size:0.87rem}
+  .tip b{color:#159568}
+  footer{text-align:center;color:var(--soft);font-size:0.77rem;margin-top:28px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>登录页养只猫</h1>
+  <div class="sub">鼠标一动它就看你，点输入框它盯着你填 · 下面是可运行的 Demo</div>
+
+  <!-- ===== 演示 ===== -->
+  <div class="stage">
+    <div class="login-card">
+      <div class="cat-box">
+        <svg class="cat" viewBox="0 0 200 170" aria-hidden="true">
+          <!-- 耳朵 -->
+          <path d="M42 62 L58 18 L86 52 Z" fill="#f0b688"/>
+          <path d="M158 62 L142 18 L114 52 Z" fill="#f0b688"/>
+          <path d="M50 58 L60 30 L77 52 Z" fill="#f7d2b4"/>
+          <path d="M150 58 L140 30 L123 52 Z" fill="#f7d2b4"/>
+          <!-- 头 -->
+          <ellipse cx="100" cy="100" rx="72" ry="62" fill="#f7c799"/>
+          <!-- 眼睛（睁） -->
+          <g class="eye-open">
+            <ellipse cx="74" cy="92" rx="17" ry="19" fill="#fff"/>
+            <ellipse cx="126" cy="92" rx="17" ry="19" fill="#fff"/>
+            <circle class="pupil" cx="74" cy="92" r="8.5" fill="#2b2b2b"/>
+            <circle class="pupil" cx="126" cy="92" r="8.5" fill="#2b2b2b"/>
+            <circle cx="77" cy="88" r="2.6" fill="#fff" opacity=".9"/>
+            <circle cx="129" cy="88" r="2.6" fill="#fff" opacity=".9"/>
+          </g>
+          <!-- 眼睛（闭） -->
+          <g class="eye-closed">
+            <path d="M58 92 Q74 104 90 92" stroke="#2b2b2b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M110 92 Q126 104 142 92" stroke="#2b2b2b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- 鼻子 -->
+          <path d="M100 112 l-6 7 h12 z" fill="#d98b8b"/>
+          <!-- 胡须 -->
+          <path d="M40 112 h-22 M40 122 h-20 M160 112 h22 M160 122 h20"
+                stroke="#e0a97f" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+          <!-- 腮红 -->
+          <ellipse cx="52" cy="118" rx="11" ry="7" fill="#f7a8a8" opacity=".45"/>
+          <ellipse cx="148" cy="118" rx="11" ry="7" fill="#f7a8a8" opacity=".45"/>
+        </svg>
+      </div>
+
+      <div class="meow" id="meow">喵，欢迎回来</div>
+      <h2>账号登录</h2>
+      <div class="hint">欢迎回来，请使用工作账号登录系统</div>
+
+      <div class="field">
+        <span>账号</span>
+        <input id="acc" placeholder="demo" autocomplete="username">
+      </div>
+      <div class="field">
+        <span>密码</span>
+        <input id="pwd" type="password" placeholder="请输入密码" autocomplete="current-password">
+      </div>
+      <button class="btn" id="loginBtn">登录</button>
+    </div>
+  </div>
+
+  <!-- ===== 原理 ===== -->
+  <section>
+    <div class="sec-t">它到底怎么做的（视频里的答案）</div>
+    <div class="card">
+      <h3>不是 GIF，不是视频——是一张 20 帧的雪碧图</h3>
+      <p>视频里明确写了：<b>"一张 20 帧的图，不到 500KB"</b>。原理是把 20 张画好的小猫动作<b>拼成一张大图</b>（sprite sheet），然后用 CSS 逐帧切换显示区域。</p>
+      <p style="margin-top:6px">好处：<b>体积小、不卡、能精确控制</b>（想让它笑就笑，想让它闭眼就闭眼）。GIF 做不到这点——GIF 只能一播到底。</p>
+    </div>
+
+    <div class="grid2">
+      <div><span class="k">方案 A · 雪碧图（视频同款）</span>20 帧拼一张图，CSS <code>steps()</code> 切帧。效果好、需要的是一张图。<b>难点：得先有美术素材。</b></div>
+      <div><span class="k">方案 B · SVG + JS（本 Demo）</span>不用素材，代码画猫，眼睛实时跟随。<b>难点：动作没 A 丰富，但零成本、可控。</b></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">方案 A：雪碧图逐帧动画</div>
+    <div class="card">
+      <p>假设图是 20 帧横排，每帧 200×170：</p>
+<pre><span class="c">/* 整张图 4000×170，每帧 200 宽 */</span>
+<span class="k">.cat</span>{
+  <span class="v">width</span>:200px; <span class="v">height</span>:170px;
+  <span class="v">background</span>:<span class="k">url</span>(cat-sprite.png) <span class="v">no-repeat</span>;
+  <span class="v">background-size</span>:4000px 170px;   <span class="c">/* 20 帧总宽 */</span>
+}
+<span class="c">/* 眨眼：只播第 6-8 帧 */</span>
+<span class="k">.cat.blink</span>{
+  <span class="v">animation</span>: blink .24s steps(3) 1;
+}
+<span class="k">@keyframes</span> blink{
+  <span class="k">from</span>{ <span class="v">background-position</span>: -1000px 0 }  <span class="c">/* 第6帧 */</span>
+  <span class="k">to</span>  { <span class="v">background-position</span>: -1600px 0 }  <span class="c">/* 第9帧 */</span>
+}</pre>
+      <p style="margin-top:8px"><b>关键技巧：</b>把 20 帧<b>分区</b>——0-5 待机、6-8 眨眼、9-13 看左边、14-19 闭眼。JS 只需要给元素换 class，就切换整套动作。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">方案 B：眼睛跟随鼠标（本 Demo 用的）</div>
+    <div class="card">
+      <p>核心就三步：拿鼠标坐标 → 算眼睛到鼠标的角度 → 把瞳孔推过去（限制最大距离，不然眼球会飞出去）。</p>
+<pre><span class="k">const</span> pupils = document.querySelectorAll(<span class="s">'.pupil'</span>);
+
+document.addEventListener(<span class="s">'mousemove'</span>, e => {
+  pupils.forEach(p =&gt; {
+    <span class="k">const</span> eye = p.getBoundingClientRect();
+    <span class="k">const</span> cx = eye.left + eye.width / 2;
+    <span class="k">const</span> cy = eye.top  + eye.height / 2;
+
+    <span class="c">// 角度</span>
+    <span class="k">const</span> ang = Math.atan2(e.clientY - cy, e.clientX - cx);
+    <span class="c">// 距离：越远推得越多，但最多 6px</span>
+    <span class="k">const</span> d = Math.min(6, Math.hypot(e.clientX - cx, e.clientY - cy) / 30);
+
+    p.style.transform =
+      `translate(${Math.cos(ang) * d}px, ${Math.sin(ang) * d}px)`;
+  });
+});</pre>
+      <p style="margin-top:8px">再配一句 <code>transition: transform 140ms cubic-bezier(.34,1.2,.64,1)</code>——瞳孔就有"弹性跟手"的感觉，不是硬邦邦跟着。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">加点小心思（这三招让体验翻倍）</div>
+    <div class="card">
+      <h3>① 点输入框 → 它盯着你</h3>
+      <p>输入框获得焦点时，让眼睛往下看（输入框在猫下方）。实现：focus 时给瞳孔一个固定的 <code>translateY(4px)</code>。</p>
+    </div>
+    <div class="card">
+      <h3>② 输密码 → 它闭眼</h3>
+      <p>切到 <code>.eye-closed</code>（弯弯的闭眼线）。<b>"我不看你密码"</b>——这一下用户会笑出来，这就是"治愈感"的来源。</p>
+    </div>
+    <div class="card">
+      <h3>③ 登录成功 → 换成笑脸</h3>
+      <p>按钮点击后换成"眯眼笑"的帧/表情。逻辑上是把 <code>class</code> 从 <code>idle</code> 切到 <code>happy</code>。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">贴给 AI 的提示词</div>
+    <div class="tip">
+      <b>想在自己项目里加，直接抄这段：</b><br><br>
+      「在登录页顶部加一只跟着鼠标动的猫。要求：<br>
+      1）用内联 SVG 画（不用图片素材），橘色圆头、两只三角耳、大眼、腮红；<br>
+      2）瞳孔随鼠标移动，用 <code>atan2</code> 算角度，最大位移 6px，<code>transition: transform 140ms cubic-bezier(.34,1.2,.64,1)</code>；<br>
+      3）账号/密码输入框获得焦点时，眼睛看向该输入框；<br>
+      4）密码框聚焦时切换成闭眼状态；<br>
+      5）点登录按钮时切"眯眼笑"；<br>
+      6）尊重 <code>prefers-reduced-motion</code>，开启时不做跟随动画。」
+    </div>
+  </section>
+
+  <footer>登录页养只猫 · 原理与可运行 Demo · 2026-10</footer>
+</div>
+
+<script>
+(function(){
+  const pupils = document.querySelectorAll('.pupil');
+  const catBox = document.querySelector('.cat');
+  const openG  = document.querySelector('.eye-open');
+  const closeG = document.querySelector('.eye-closed');
+  const acc = document.getElementById('acc');
+  const pwd = document.getElementById('pwd');
+  const btn = document.getElementById('loginBtn');
+  const meow = document.getElementById('meow');
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 眼睛看向某个坐标
+  function lookAt(x, y, max = 6){
+    if (reduce) return;
+    pupils.forEach(p => {
+      const r = p.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const ang = Math.atan2(y - cy, x - cx);
+      const d = Math.min(max, Math.hypot(x - cx, y - cy) / 30);
+      p.style.transform = `translate(${Math.cos(ang)*d}px, ${Math.sin(ang)*d}px)`;
+    });
+  }
+
+  // 全局跟随（除非正在聚焦某个输入框）
+  let locked = null;
+  document.addEventListener('mousemove', e => {
+    if (locked) return;
+    lookAt(e.clientX, e.clientY);
+  });
+
+  // 输入框聚焦：盯着输入框
+  function focusLook(el){
+    locked = el;
+    const r = el.getBoundingClientRect();
+    lookAt(r.left + r.width/2, r.top + r.height/2, 7);
+  }
+  acc.addEventListener('focus', () => focusLook(acc));
+  pwd.addEventListener('focus', () => {
+    focusLook(pwd);
+    openG.style.opacity = 0;      // 闭眼
+    closeG.style.opacity = 1;
+    meow.textContent = '我不看你的密码 →_→';
+  });
+
+  [acc, pwd].forEach(el => el.addEventListener('blur', () => {
+    locked = null;
+    openG.style.opacity = 1;
+    closeG.style.opacity = 0;
+    meow.textContent = '喵，欢迎回来';
+  }));
+
+  // 登录：眯眼笑
+  btn.addEventListener('click', () => {
+    meow.textContent = '登录中… 喵';
+    catBox.style.transition = 'transform 260ms cubic-bezier(.34,1.56,.64,1)';
+    catBox.style.transform = 'scale(1.06) rotate(-2deg)';
+    setTimeout(() => {
+      catBox.style.transform = 'scale(1) rotate(0)';
+      meow.textContent = '（这里是接后端的地方）';
+    }, 900);
+  });
+
+  // 初始化：往上瞟一眼
+  setTimeout(() => {
+    const r = catBox.getBoundingClientRect();
+    lookAt(r.left + r.width/2, r.top - 60);
+  }, 300);
+})();
+</script>
+</body>
+</html>
