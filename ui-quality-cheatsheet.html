@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大厂 AI 界面质感 5 招 | 速查卡</title>
+<title>AI 界面质感 9 招 | 速查卡</title>
 <style>
   :root {
     --bg:#f5f7fb; --ink:#24324a; --ink-soft:#65748b; --primary:#2563eb;
@@ -23,128 +23,182 @@
   section { margin:20px 0; }
   .sec-title { font-size:0.8rem; font-weight:700; color:#fff; background:var(--primary); display:inline-block; padding:3px 12px; border-radius:8px; margin-bottom:10px; }
   .card { background:#fff; border:1px solid var(--line); border-radius:11px; padding:14px 16px; margin:10px 0; }
-  .card .no { font-size:0.74rem; font-weight:700; color:var(--gold); letter-spacing:2px; }
-  .card .t { font-size:1.05rem; font-weight:700; color:var(--deep); margin:2px 0 7px; }
+  .card .no { font-size:0.72rem; font-weight:700; color:var(--gold); letter-spacing:2px; }
+  .card .t { font-size:1.02rem; font-weight:700; color:var(--deep); margin:2px 0 7px; }
   .card .why { font-size:0.9rem; }
   .card .why b { color:var(--primary); }
+  .src { font-size:0.72rem; color:var(--ink-soft); background:var(--panel); padding:1px 7px; border-radius:8px; margin-left:6px; }
   pre { background:#0f1115; color:#d7e0ee; border-radius:9px; padding:11px 13px; margin:9px 0; overflow-x:auto;
-        font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.79rem; line-height:1.65; }
+        font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.78rem; line-height:1.65; }
   pre .c { color:#6b7a90; }
   pre .k { color:#93c5fd; }
   pre .v { color:#a7e3c0; }
   .prompt { background:#f0f7ff; border:1.5px solid #bcd6fb; border-radius:12px; padding:15px 17px; margin:12px 0; }
   .prompt .h { font-size:0.8rem; font-weight:700; color:var(--primary); margin-bottom:8px; }
-  .prompt ol { padding-left:20px; font-size:0.89rem; }
-  .prompt li { margin:6px 0; }
-  .prompt code { background:#fff; padding:1px 5px; border-radius:4px; font-size:0.82rem; color:#b45309; }
+  .prompt ol { padding-left:20px; font-size:0.88rem; }
+  .prompt li { margin:5px 0; }
+  .prompt code { background:#fff; padding:1px 5px; border-radius:4px; font-size:0.81rem; color:#b45309; }
   .tip { background:#f0faf5; border:1px solid #cfe8df; border-radius:10px; padding:11px 14px; margin:10px 0; font-size:0.87rem; }
   .tip b { color:var(--green); }
-  table { width:100%; border-collapse:collapse; font-size:0.84rem; background:#fff; border-radius:11px; overflow:hidden; }
-  th, td { padding:8px 9px; border-bottom:1px solid var(--line); text-align:left; }
-  th { background:var(--panel); color:var(--deep); font-weight:700; font-size:0.78rem; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0; }
+  .grid2 > div { background:#fff; border:1px solid var(--line); border-radius:10px; padding:9px 11px; font-size:0.84rem; }
+  .grid2 .k { font-weight:700; color:var(--primary); font-size:0.76rem; display:block; }
   footer { text-align:center; color:var(--ink-soft); font-size:0.77rem; margin-top:26px; }
 </style>
 </head>
 <body>
 <header>
   <div class="logo">速 查 卡</div>
-  <h1>大厂界面质感 · 5 招</h1>
-  <div class="sub">为什么 AI 做的界面有"塑料味" · 差的就是这 5 个细节</div>
+  <h1>AI 界面质感 · 9 招</h1>
+  <div class="sub">两个作者的"5 个细节"合并去重 · 全是纯 CSS，零成本</div>
 </header>
 
 <div class="lead">
-  <b>核心结论：</b>大厂 AI 客户端和"AI 随手搓"的差距，<b>不在功能，在 5 个几乎看不见的细节</b>。把这些写进提示词，AI 出的界面立刻上一个档次。<br>
-  <span style="font-size:0.83rem;color:var(--ink-soft)">整理自 Ludi 抖音视频（扒大厂 AI 客户端源码）</span>
+  <b>核心：</b>大厂界面和"AI 随手搓"的差距不在功能，在<b>这些几乎看不见的细节</b>。全部是纯 CSS，加进提示词就生效。<br>
+  <span style="font-size:0.82rem;color:var(--ink-soft)">整理自 Ludi、费纸张两条抖音视频（#vibe知识大赏）</span>
 </div>
 
 <section>
-  <div class="sec-title">五个细节</div>
+  <div class="sec-title">一、分层与边框（3 招）</div>
 
   <div class="card">
-    <div class="no">01 / 05</div>
-    <div class="t">扔掉黑粗边框</div>
-    <div class="why">不要用 <code>1px solid #333</code> 画边框分层。<b>用 4 级微明度背景色阶</b>，相邻两级亮度只差 <b>1%~3%</b>——看上去有层次，但没有一根线。<br>而且<b>全站不要用纯黑 #000</b>（刺眼）。</div>
-<pre><span class="c">/* 用背景差分层，不用边框 */</span>
-<span class="k">:root</span> {
-  <span class="v">--surface-0</span>: #0f1115;   <span class="c">/* 页面底 */</span>
-  <span class="v">--surface-1</span>: #14171c;   <span class="c">/* 卡片 */</span>
-  <span class="v">--surface-2</span>: #191d23;   <span class="c">/* 悬浮 */</span>
-  <span class="v">--surface-3</span>: #1f242b;   <span class="c">/* 弹层 */</span>
+    <div class="no">01</div>
+    <div class="t">微明度色阶代替边框</div>
+    <div class="why">不要用 <code>1px solid #333</code> 画边框分层。改用 <b>4 级微明度背景色</b>，相邻两级只差 <b>1%~3%</b>——有层次但没有一根线。全站避免纯黑 <code>#000</code>。</div>
+<pre><span class="k">:root</span> {
+  <span class="v">--surface-0</span>: #0f1115;  <span class="c">/* 页面底 */</span>
+  <span class="v">--surface-1</span>: #14171c;  <span class="c">/* 卡片 */</span>
+  <span class="v">--surface-2</span>: #191d23;  <span class="c">/* 悬浮 */</span>
+  <span class="v">--surface-3</span>: #1f242b;  <span class="c">/* 弹层 */</span>
 }
 <span class="k">.card</span> { <span class="v">background</span>: <span class="k">var</span>(--surface-1); <span class="v">border</span>: none; }</pre>
   </div>
 
   <div class="card">
-    <div class="no">02 / 05</div>
-    <div class="t">视网膜欺骗术（暗色字重）</div>
-    <div class="why"><b>同样粗细的字，在深色背景上看起来更粗、更刺眼</b>——这叫"光渗效应"（Optical Irradiation），因为亮色在白底上会向外"晕开"。<br>所以<b>暗色模式的字重要比亮色模式细一档</b>（比如 500 → 400，或 variable font 的 wght -50）。</div>
-<pre><span class="k">:root</span> { <span class="v">font-weight</span>: 450; }
-<span class="k">[data-theme="dark"]</span> { <span class="v">font-weight</span>: 400; }  <span class="c">/* 暗色调细一档 */</span></pre>
+    <div class="no">02</div>
+    <div class="t">用阴影代替边框<span class="src">费纸张</span></div>
+    <div class="why">需要"边界感"时，<b>用极淡的多层阴影</b>，比 1px 线自然得多——像纸片浮在桌面上，而不是被框住。</div>
+<pre><span class="k">.card</span> {
+  <span class="v">border</span>: none;
+  <span class="v">box-shadow</span>:
+    0 1px 2px -1px rgb(0 0 0 / .06),
+    0 2px 4px rgb(0 0 0 / .04);
+}</pre>
   </div>
 
   <div class="card">
-    <div class="no">03 / 05</div>
+    <div class="no">03</div>
+    <div class="t">同心圆角<span class="src">费纸张</span></div>
+    <div class="why">嵌套的圆角要<b>"同心"</b>：内层半径 = 外层半径 − 间距。否则看起来像两块不搭的板子拼在一起。</div>
+<pre><span class="c">/* 外层 20px 圆角，padding 4px</span>
+<span class="c">   → 内层应该是 16px（20 - 4），不是 20 */</span>
+<span class="k">.card</span>     { <span class="v">border-radius</span>: 20px; <span class="v">padding</span>: 4px; }
+<span class="k">.card-in</span> { <span class="v">border-radius</span>: 16px; }</pre>
+  </div>
+</section>
+
+<section>
+  <div class="sec-title">二、文字（3 招）</div>
+
+  <div class="card">
+    <div class="no">04</div>
+    <div class="t">等宽数字（治乱抖）</div>
+    <div class="why">计时、统计、价格——<b>普通字体每个数字宽度不同，数字一跳整行就左右乱晃</b>。一行 CSS 就稳。</div>
+<pre><span class="k">.timer</span>, <span class="k">.price</span>, <span class="k">.stats</span> {
+  <span class="v">font-variant-numeric</span>: tabular-nums;
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="no">05</div>
+    <div class="t">暗色模式字重调细一档</div>
+    <div class="why">同样粗细的字，<b>在深色背景上看起来更粗更刺眼</b>——"光渗效应"（Optical Irradiation）。所以暗色模式的字重要比亮色细一档。</div>
+<pre><span class="k">:root</span> { <span class="v">font-weight</span>: 450; }
+<span class="k">[data-theme="dark"]</span> { <span class="v">font-weight</span>: 400; }</pre>
+  </div>
+
+  <div class="card">
+    <div class="no">06</div>
+    <div class="t">平衡标题换行<span class="src">费纸张</span></div>
+    <div class="why">标题最后一行只剩一两个字，很难看。<b>一行 CSS 让每行长度均衡</b>（浏览器自动算）。</div>
+<pre><span class="k">h1</span>, <span class="k">h2</span>, <span class="k">.title</span> {
+  <span class="v">text-wrap</span>: balance;
+}</pre>
+  </div>
+</section>
+
+<section>
+  <div class="sec-title">三、动效（3 招）</div>
+
+  <div class="card">
+    <div class="no">07</div>
     <div class="t">水墨晕染式打字</div>
-    <div class="why">AI 流式输出时，<b>别让字一个一个"硬蹦"出来</b>。每个字带一点模糊渐显，像墨滴落在纸上晕开——质感立刻不同。单字约 <b>120ms</b>，模糊从 6px 收到 0。</div>
+    <div class="why">AI 流式输出时，<b>别让字一个一个"硬蹦"</b>。每字带一点模糊渐显，像墨滴晕开，单字约 120ms。</div>
 <pre><span class="k">.char</span> {
   <span class="v">opacity</span>: 0;
   <span class="v">filter</span>: <span class="k">blur</span>(6px);
   <span class="v">animation</span>: inkIn 120ms ease-out forwards;
 }
-<span class="k">@keyframes</span> inkIn {
-  <span class="k">to</span> { <span class="v">opacity</span>: 1; <span class="v">filter</span>: <span class="k">blur</span>(0); }
-}</pre>
+<span class="k">@keyframes</span> inkIn { <span class="k">to</span> { <span class="v">opacity</span>:1; <span class="v">filter</span>:<span class="k">blur</span>(0); } }</pre>
   </div>
 
   <div class="card">
-    <div class="no">04 / 05</div>
-    <div class="t">等宽数字（治乱抖）</div>
-    <div class="why">"思考中 13 秒"这种计时、统计、价格——<b>普通字体每个数字宽度不同，数字一跳整行就左右乱晃</b>。加一行 CSS 就稳了。</div>
-<pre><span class="k">.timer</span>, <span class="k">.price</span>, <span class="k">.stats</span> {
-  <span class="v">font-variant-numeric</span>: tabular-nums;
-  <span class="c">/* 或 font-feature-settings: "tnum"; */</span>
-}</pre>
+    <div class="no">08</div>
+    <div class="t">错开入场<span class="src">费纸张</span></div>
+    <div class="why"><b>别让整块内容一起淡入</b>——卡片一张张错开出现，页面立刻"活"了。用 <code>--i</code> 变量控制顺序。</div>
+<pre><span class="k">.item</span> {
+  <span class="v">animation</span>: fadeUp 400ms ease-out both;
+  <span class="v">animation-delay</span>: calc(<span class="k">var</span>(--i) * 100ms);
+}
+<span class="c">/* 元素上写 style="--i:0" / "--i:1" / "--i:2" ... */</span></pre>
   </div>
 
   <div class="card">
-    <div class="no">05 / 05</div>
+    <div class="no">09</div>
     <div class="t">动效也分性格</div>
-    <div class="why"><b>不是所有动效都用同一条曲线。</b><br>· <b>拖拽</b>：要"过阻尼"——快速到位，几乎不回弹（东西跟着手走，要跟手）<br>· <b>点赞/收藏</b>：要"欠阻尼"——明显 Q 弹回弹（这是情绪反馈，要有弹性）</div>
-<pre><span class="c">/* 拖拽：过阻尼，快到位 */</span>
-<span class="k">.drag</span> { <span class="v">transition</span>: transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1); }
-
-<span class="c">/* 点赞：欠阻尼，明显回弹 */</span>
-<span class="k">.like</span> { <span class="v">transition</span>: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1); }</pre>
+    <div class="why">不是所有动效都用同一条曲线：<br>· <b>拖拽</b>：过阻尼——快速到位，几乎不回弹（要跟手）<br>· <b>点赞/收藏</b>：欠阻尼——明显 Q 弹回弹（是情绪反馈）</div>
+<pre><span class="c">/* 拖拽：快到位 */</span>
+<span class="k">.drag</span> { <span class="v">transition</span>: transform 180ms cubic-bezier(0.2,0.9,0.3,1); }
+<span class="c">/* 点赞：明显回弹 */</span>
+<span class="k">.like</span> { <span class="v">transition</span>: transform 420ms cubic-bezier(0.34,1.56,0.64,1); }</pre>
   </div>
 </section>
 
 <section>
-  <div class="sec-title">可直接抄的提示词</div>
+  <div class="sec-title">可直接抄的提示词（9 条全在这里）</div>
   <div class="prompt">
-    <div class="h">给 AI 写界面前，把这段加进去</div>
+    <div class="h">让 AI 写界面前，把这段贴在需求前面</div>
     <ol>
-      <li>不要用 1px 边框做分层。改用 4 级微明度背景色（surface-0 到 surface-3），相邻两级亮度只差 1%~3%。全站不要用纯黑 <code>#000</code>。</li>
-      <li>暗色模式下字重比亮色模式细一档（如 450 → 400），避免光渗效应让字发胖刺眼。</li>
-      <li>流式输出的文字用"水墨晕染"效果：每个字从 <code>blur(6px)</code> + 透明渐显到清晰，单字约 120ms，不要硬蹦出来。</li>
-      <li>所有数字（计时、统计、价格）使用等宽数字：<code>font-variant-numeric: tabular-nums</code>。</li>
-      <li>动效分性格：拖拽用"过阻尼"（快速到位、几乎不回弹），点赞/收藏用"欠阻尼"（明显 Q 弹回弹）。</li>
+      <li>不要用 1px 边框分层。改用 4 级微明度背景色（surface-0~3），相邻只差 1%~3%；全站不用纯黑 <code>#000</code>。</li>
+      <li>需要边界感时用极淡多层阴影，不要用边框。</li>
+      <li>嵌套圆角要同心：内层半径 = 外层半径 − padding。</li>
+      <li>所有数字（计时/统计/价格）用 <code>font-variant-numeric: tabular-nums</code>。</li>
+      <li>暗色模式字重比亮色细一档（如 450 → 400），避免光渗效应。</li>
+      <li>标题加 <code>text-wrap: balance</code>，让换行长度均衡。</li>
+      <li>流式文字用"水墨晕染"：每字从 <code>blur(6px)</code>+透明渐显到清晰，单字约 120ms。</li>
+      <li>列表/卡片用错开入场：<code>animation-delay: calc(var(--i) * 100ms)</code>。</li>
+      <li>动效分性格：拖拽用过阻尼（快速到位），点赞用欠阻尼（明显回弹）。</li>
     </ol>
   </div>
-  <div class="tip"><b>用法：</b>把这段贴在你的需求前面，比如"<b>【界面质感要求见下】</b>……现在帮我做一个登录页"。AI 会照做，出来的东西立刻不一样。</div>
+  <div class="tip"><b>用法：</b>「【界面质感要求见下】……现在帮我做一个登录页」。<br><b>比反复说"做得高级一点"有用得多</b>——"高级"AI 理解不了，"亮度差 1-3%"它能执行。</div>
 </section>
 
 <section>
-  <div class="sec-title">一句话记住每招</div>
-  <table>
-    <tr><th>招</th><th>关键动作</th></tr>
-    <tr><td>01 分层</td><td>用背景差 1-3% 代替边框</td></tr>
-    <tr><td>02 字重</td><td>暗色模式调细一档</td></tr>
-    <tr><td>03 打字</td><td>模糊渐显，别硬蹦</td></tr>
-    <tr><td>04 数字</td><td>tabular-nums 防抖</td></tr>
-    <tr><td>05 动效</td><td>拖拽硬、点赞弹</td></tr>
-  </table>
+  <div class="sec-title">一句话记住</div>
+  <div class="grid2">
+    <div><span class="k">分层</span>背景差 1-3%，不用线</div>
+    <div><span class="k">边界</span>淡阴影比边框自然</div>
+    <div><span class="k">圆角</span>内 = 外 − padding</div>
+    <div><span class="k">数字</span>tabular-nums 防抖</div>
+    <div><span class="k">暗色</span>字重调细一档</div>
+    <div><span class="k">标题</span>text-wrap: balance</div>
+    <div><span class="k">打字</span>模糊渐显别硬蹦</div>
+    <div><span class="k">入场</span>错开 100ms 一张</div>
+    <div><span class="k">动效</span>拖拽硬、点赞弹</div>
+    <div><span class="k">总则</span>细节决定"贵不贵"</div>
+  </div>
 </section>
 
-<footer>大厂 AI 界面质感 5 招 · 2026-10 · 写界面前先看一遍</footer>
+<footer>AI 界面质感 9 招 · 2026-10 · 写界面前先看一遍</footer>
 </body>
 </html>
