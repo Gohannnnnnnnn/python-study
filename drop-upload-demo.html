@@ -30,19 +30,26 @@
     box-shadow:0 1px 2px -1px rgb(20 30 60 / .08), 0 8px 24px -6px rgb(20 30 60 / .10);
   }
 
-  /* 演示用的“飞行文件卡 + 假光标” */
-  .ghost{
-    position:absolute;left:0;top:0;z-index:9;pointer-events:none;
-    display:none;align-items:center;gap:7px;
-    padding:7px 11px 7px 8px;border-radius:9px;background:#fff;
-    box-shadow:0 10px 24px -10px rgb(20 30 60 / .35), 0 0 0 1px #e2eaf6;
-    font-size:0.76rem;font-weight:600;color:#33415c;white-space:nowrap;
-    opacity:0;will-change:transform,opacity;
+  /* 篮筐（落区里的橙色插画） */
+  .hoop{display:block;width:112px;height:auto;margin:2px auto 6px}
+  .hoop .rim{transition:stroke 200ms}
+  .hoop .rim.flash{stroke:#159568}
+  .hoop .net{transform-box:fill-box;transform-origin:50% 0%}
+  .hoop .net.swish{animation:netSwish 460ms cubic-bezier(.3,1.4,.5,1)}
+  @keyframes netSwish{
+    0%{transform:scaleY(1) translateY(0)}
+    26%{transform:scaleY(.74) translateY(4px)}
+    58%{transform:scaleY(1.08) translateY(-1px)}
+    100%{transform:scaleY(1) translateY(0)}
   }
-  .ghost.show{display:inline-flex}
-  .ghost .gi{width:20px;height:20px;border-radius:5px;background:#fdecef;color:#8e1f2f;
-    font-size:0.55rem;font-weight:700;display:flex;align-items:center;justify-content:center}
-  .ghost .gc{position:absolute;right:-9px;bottom:-9px;width:14px;height:18px}
+
+  /* 演示用的“球” */
+  .ball{
+    position:absolute;left:0;top:0;z-index:9;pointer-events:none;width:34px;height:34px;
+    display:none;opacity:0;will-change:transform,opacity;
+    filter:drop-shadow(0 8px 12px rgb(232 115 12 / .35));
+  }
+  .ball.show{display:block}
   .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .panel-head h2{font-size:1.02rem;color:var(--deep);letter-spacing:.2px}
   .badge-count{
@@ -144,7 +151,7 @@
 <body>
 <div class="wrap">
   <h1>拖拽上传那一下</h1>
-  <div class="sub">把文件拖进虚线框，或者点一下拍照 · 下面是能真的拖的 Demo</div>
+  <div class="sub">把文件"投"进篮筐，或者点一下拍照 · 下面是能真的拖的 Demo</div>
   <div class="src">交互来源：抖音 @YICHA. 5.5s（Figma / UI 动效）· 本页是复刻实现，不是视频截图</div>
 
   <!-- ===================== 演示 ===================== -->
@@ -158,10 +165,17 @@
 
       <div class="drop" id="drop" tabindex="0" role="button"
            aria-label="拖入文件或点击选择文件">
-        <svg class="cam" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3.5 10.5h4.2l2-3h8.6l2 3h4.2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-21a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2z"/>
-          <circle cx="15" cy="17" r="4.2"/>
+        <svg class="hoop" viewBox="0 0 120 66" aria-hidden="true">
+          <rect x="36" y="1.5" width="48" height="20" rx="3" fill="none"
+                stroke="#f0a04b" stroke-width="2"/>
+          <ellipse class="rim" cx="60" cy="25" rx="15.5" ry="4.4" fill="none"
+                   stroke="#e8730c" stroke-width="2.6"/>
+          <g class="net" stroke="#e8730c" stroke-width="1.5" fill="none" stroke-linecap="round">
+            <path d="M46.5 26.5 L52.5 45 L67.5 45 L73.5 26.5"/>
+            <path d="M50.5 27 L55.5 45"/><path d="M60 26.5 L60 45"/>
+            <path d="M69.5 27 L64.5 45"/>
+            <path d="M48.6 33 L71.4 33"/><path d="M50.4 39.4 L69.6 39.4"/>
+          </g>
         </svg>
         <div class="t1">Drop files here</div>
         <div class="t2">or take the shot</div>
@@ -170,20 +184,20 @@
       <input type="file" id="picker" multiple hidden>
 
       <div class="actions">
-        <button class="mini" id="autoBtn" style="flex:1 1 100%;background:#2563eb;color:#fff">▶ 看一遍拖拽全过程</button>
-        <button class="mini" id="mockBtn">直接收下（不演示）</button>
+        <button class="mini" id="autoBtn" style="flex:1 1 100%;background:#e8730c;color:#fff">▶ 看一遍投篮</button>
+        <button class="mini" id="mockBtn">直接收下（不表演）</button>
         <button class="mini" id="pickBtn">选择文件</button>
         <button class="mini" id="camBtn">拍一张</button>
       </div>
       <div class="panel-sub" style="margin:8px 0 0;font-size:0.73rem">
-        手机里没有“拖文件”这回事（触摸屏触发不了拖拽事件）——点上面那个蓝按钮看动画，或用「选择文件」。
+        手机里没有“拖文件”这回事（触摸屏触发不了拖拽事件）——点橙色按钮看投篮，或用「选择文件」。
       </div>
 
-      <div class="ghost" id="ghost" aria-hidden="true">
-        <span class="gi">PDF</span><span>final_final_v7.pdf</span>
-        <svg class="gc" viewBox="0 0 14 18" aria-hidden="true">
-          <path d="M1 1 L1 14 L5 10.6 L7.4 16.6 L9.6 15.6 L7.2 9.8 L12 9.2 Z"
-                fill="#172554" stroke="#fff" stroke-width="1" stroke-linejoin="round"/>
+      <div class="ball" id="ball" aria-hidden="true">
+        <svg viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="18" fill="#e8730c"/>
+          <path d="M2 20h36M20 2v36M6.5 7.5c7.5 6.5 19.5 6.5 27 0M6.5 32.5c7.5-6.5 19.5-6.5 27 0"
+                stroke="#a8430a" stroke-width="1.5" fill="none"/>
         </svg>
       </div>
 
@@ -290,37 +304,64 @@ drop.addEventListener(<span class="s">'dragleave'</span>, () =&gt; {
   </section>
 
   <section>
-    <div class="sec-t">Demo 为什么要自己演一遍</div>
+    <div class="sec-t">"take the shot" 是双关</div>
     <div class="card">
-      <h3>真拖拽没法自动播放，那就造一个假拖拽</h3>
-      <p>浏览器的事件是用户触发的，代码没法"模拟一次真拖"给观众看；手机微信里更是没有拖拽事件。
-      所以演示用<b>一张假文件卡 + 假光标</b>，用 <code>transform</code> 从角落飞到落区中心，<b>中途手动加上和真拖拽同一个 <code>.over</code> class</b>——
-      看起来就是拖进去的过程，实现却只有三行定位计算。</p>
-<pre><span class="k">const</span> pr = panel.getBoundingClientRect();      <span class="c">// 面板坐标</span>
-<span class="k">const</span> zr = drop.getBoundingClientRect();       <span class="c">// 落区坐标</span>
+      <p>这句话两层意思叠在一起：<b>拍一张</b>（camera）和<b>投一球</b>（basketball）。
+      落区上面画的是一个橙色篮筐，所以把文件拖进去这件事，被做成了"<b>把文件投进筐里</b>"。</p>
+      <p style="margin-top:6px">这就是我说"这个交互有点意思"的真正原因——<b>不是动效花，是它把一句功能文案玩成了梗</b>，
+      而且玩梗不耽误用：文案本身把两种输入都说清楚了。</p>
+    </div>
+  </section>
 
-ghost.style.transform =
-  <span class="s">`translate(${zr.left - pr.left + zr.width*.4}px,
-               ${zr.top  - pr.top  + zr.height*.3}px)`</span>;
+  <section>
+    <div class="sec-t">Demo 里这段投篮是怎么做的</div>
+    <div class="card">
+      <h3>抛物线不用物理引擎，三个关键帧就够</h3>
+      <p>真拖拽没法让代码自动播给别人看（事件得用户触发），手机微信里更没有拖拽事件。所以演示用<b>一个假球</b>：
+      算出球在面板里的起点、篮圈的位置、再加一个"最高点"，用 Web Animations 串成三段，边飞边转。</p>
+<pre><span class="k">const</span> pr = panel.getBoundingClientRect();     <span class="c">// 面板坐标</span>
+<span class="k">const</span> hr = hoop.getBoundingClientRect();      <span class="c">// 篮筐坐标</span>
 
-<span class="k">await</span> sleep(<span class="v">520</span>); drop.classList.add(<span class="s">'over'</span>);   <span class="c">// 飞到附近 → 落区变脸</span>
-<span class="k">await</span> sleep(<span class="v">300</span>); addFiles([file]);              <span class="c">// 收下 → 计数 +1</span></pre>
-      <p style="margin-top:8px"><b>两个要点：</b>① 设起点后要 <code>void ghost.offsetWidth</code> 强制重排，否则起点和终点会一起生效、看不到位移；
-      ② 动画里加的那个 <code>.over</code> 必须和真拖拽时加的是同一个 class，不然演示和实物会不一致。</p>
+<span class="k">const</span> sx = pr.width * <span class="v">.10</span>, sy = pr.height - <span class="v">56</span>;      <span class="c">// 起点：左下角</span>
+<span class="k">const</span> ex = hr.left - pr.left + hr.width/<span class="v">2</span> - <span class="v">17</span>;       <span class="c">// 终点：篮圈中心</span>
+<span class="k">const</span> ey = hr.top  - pr.top  + hr.height * <span class="v">.42</span> - <span class="v">17</span>;
+<span class="k">const</span> mx = (sx + ex) / <span class="v">2</span>, my = Math.min(sy, ey) - <span class="v">92</span>; <span class="c">// 最高点抬高 92px</span>
+
+ball.animate([
+  { transform: <span class="s">`translate(${sx}px,${sy}px) rotate(0deg)`</span>,    offset: <span class="v">0</span>   },
+  { transform: <span class="s">`translate(${mx}px,${my}px) rotate(-200deg)`</span>, offset: <span class="v">.55</span> },
+  { transform: <span class="s">`translate(${ex}px,${ey}px) rotate(-390deg)`</span>, offset: <span class="v">1</span>   }
+], { duration: <span class="v">900</span>, easing: <span class="s">'linear'</span>, fill: <span class="s">'forwards'</span> });</pre>
+      <p style="margin-top:8px"><b>为什么用 linear 而不是 ease-out：</b>抛物线在水平方向是匀速的，减速感应该来自重力，不是缓动曲线。
+      想更像真球，可以把 duration 拆成两段（上升 420ms / 下落 480ms），下落那段用 <code>cubic-bezier(.4,0,1,.6)</code> 加速。</p>
+    </div>
+    <div class="card">
+      <h3>进筐那一下：篮网砸下去再回弹</h3>
+      <p>球的动画结束后，给篮网加一个 class，让它纵向压到 0.74 再回弹到 1.08（过阻尼），篮圈同时闪一下绿色。
+      这就是"进了"的全部反馈——没有音效、没有粒子，两个动作而已。</p>
+<pre>.hoop .net{ <span class="v">transform-box</span>:fill-box; <span class="v">transform-origin</span>:50% 0% }
+.hoop .net.swish{ <span class="v">animation</span>:netSwish 460ms cubic-bezier(.3,1.4,.5,1) }
+<span class="k">@keyframes</span> netSwish{
+  <span class="v">26%</span> { <span class="v">transform</span>:scaleY(.74) translateY(4px) }   <span class="c">/* 被砸下去 */</span>
+  <span class="v">58%</span> { <span class="v">transform</span>:scaleY(1.08) translateY(-1px) } <span class="c">/* 回弹过头 */</span>
+}</pre>
+      <p style="margin-top:8px"><b>两个坑：</b>① SVG 元素的 <code>transform-origin</code> 必须配 <code>transform-box:fill-box</code>，否则会绕着 SVG 左上角变形；
+      ② 动画类用完要移除（<code>classList.remove</code>），不然第二次点不会重播。</p>
     </div>
     <div class="warn">
-      <b>取舍：</b>这种自动播放适合做演示/录屏/作品集，别塞进真实产品里——用户会以为界面在自己动。
-      真实产品只保留 hover 反馈。
+      <b>取舍：</b>这种自动播放适合演示/录屏/作品集，别塞进真实产品——用户会以为界面自己在动。
+      真实产品只保留 hover 反馈和进筐后的计数变化。
     </div>
   </section>
 
   <section>
     <div class="sec-t amber">视频里能确认的 / 我没能确认的</div>
     <div class="card">
-      <p><b>能确认</b>（逐帧 OCR）：落区文案是 <code>Drop files here / or take the shot</code>；右上计数从 0 跳到 1；
-      落地后出现一行 <code>final_final_v7.pdf · 2.4 MB</code>，状态 Uploaded。</p>
-      <p style="margin-top:6px"><b>没能确认</b>：0.1 秒级的缓动细节（虚线框有没有吸附、有没有回弹）。5.5 秒的视频里这层信息我靠像素差分推不出来，
-      所以本页的动效是按常见做法复刻的，不是逐帧还原。</p>
+      <p><b>能确认</b>（逐帧 OCR + 像素取证）：落区文案是 <code>Drop files here / or take the shot</code>；落区里有一块
+      <b>62×34 的橙色描边图形</b>，把这块裁下来单独给视觉模型看，答"<code>Basketball hoop</code>"——所以是<b>篮筐</b>，不是相机图标；
+      右上计数从 0 跳到 1；落地后出现一行 <code>final_final_v7.pdf · 2.4 MB</code>，状态 Uploaded。</p>
+      <p style="margin-top:6px"><b>没能确认</b>：原视频里那个"球"到底是文件卡还是篮球、抛的是几段弧、篮网有没有回弹。
+      5.5 秒的视频里这层信息我靠差分和亮度推不出来，所以本页的投篮是<b>按这句话的双关做的复刻</b>，不是逐帧还原。</p>
     </div>
   </section>
 
@@ -336,7 +377,10 @@ ghost.style.transform =
       5）用 dragenter/dragleave 计数（depth++/--）避免子元素冒泡导致高亮闪烁，dragover 必须 preventDefault；<br>
       6）点落区打开文件选择，另有"拍一张"按钮用 getUserMedia + canvas.toBlob 包成 File，与拖拽走同一个 addFiles()；<br>
       7）每个文件一行：类型图标、文件名、体积、上传进度条，完成后变绿色"已上传"；<br>
-      8）支持 <code>prefers-reduced-motion</code>、键盘 Enter 触发选择、多文件拖入。」"
+      8）支持 <code>prefers-reduced-motion</code>、键盘 Enter 触发选择、多文件拖入；<br>
+      9）落区上方画一个橙色篮筐（篮板矩形 + 篮圈椭圆 + 网格状篮网），再加一个"看一遍投篮"按钮：
+      用 Web Animations 让一个 34px 的篮球沿三个关键帧（起点 → 抬高 92px 的最高点 → 篮圈中心）飞行并旋转，
+      落点后篮网 scaleY 压到 0.74 再回弹到 1.08、篮圈闪绿，同时计数 +1、文件行入场；动画类用完要移除以便重播。」"
     </div>
   </section>
 
@@ -470,61 +514,77 @@ ghost.style.transform =
   }
   mockBtn.addEventListener('click', () => { addFiles([mockFile()]); });
 
-  /* ---------- 演一遍：飞行文件卡 + 假光标，把拖拽过程放出来 ---------- */
-  const ghost  = document.getElementById('ghost');
+  /* ---------- 演一遍：把"文件"当球投进篮筐 ---------- */
+  const ball   = document.getElementById('ball');
   const autoBtn = document.getElementById('autoBtn');
   const panel  = drop.closest('.panel');
+  const hoop   = document.querySelector('.hoop');
+  const rim    = document.querySelector('.hoop .rim');
+  const net    = document.querySelector('.hoop .net');
   const sleep  = ms => new Promise(r => setTimeout(r, ms));
+  const BALL   = 34;
   let playing = false;
 
-  async function playDrag(){
+  async function playShot(){
     if (playing) return;
     playing = true; autoBtn.disabled = true;
 
     const pr = panel.getBoundingClientRect();
-    const zr = drop.getBoundingClientRect();
+    const hr = hoop.getBoundingClientRect();
 
-    ghost.classList.add('show');
-    ghost.style.transition = 'none';
-    ghost.style.opacity = '1';
-    ghost.style.transform =
-      'translate(' + (pr.width * 0.08) + 'px,' + (pr.height - 56) + 'px) scale(1) rotate(-6deg)';
-    void ghost.offsetWidth;              // 让起点先生效，否则会和终点一起跳
+    // 起点：面板左下角（球在手里）；终点：篮圈中心再往下一点（穿网）
+    const sx = pr.width * 0.10;
+    const sy = pr.height - 56;
+    const ex = hr.left - pr.left + hr.width / 2 - BALL / 2;
+    const ey = hr.top  - pr.top  + hr.height * 0.42 - BALL / 2;
+    // 抛物线最高点：比两端更高 92px
+    const mx = (sx + ex) / 2;
+    const my = Math.max(4, Math.min(sy, ey) - 92);   // 别飞出面板顶部
 
-    if (reduce){                          // 尊重减弱动效：不飞，直接给结果
-      drop.classList.add('over');
-      await sleep(150);
-      drop.classList.remove('over');
-      ghost.classList.remove('show');
+    ball.classList.add('show');
+    ball.style.opacity = '1';
+    ball.style.transform = 'translate(' + sx + 'px,' + sy + 'px) scale(.9)';
+
+    if (reduce){                       // 尊重减弱动效：不飞，直接进筐
+      ball.style.transform = 'translate(' + ex + 'px,' + ey + 'px)';
+      net.classList.add('swish');
+      await sleep(180);
+      ball.classList.remove('show'); ball.style.opacity = ''; ball.style.transform = '';
+      net.classList.remove('swish');
       addFiles([mockFile()]);
       playing = false; autoBtn.disabled = false;
       return;
     }
 
-    // 1) 拖进落区
-    ghost.style.transition = 'transform 780ms cubic-bezier(.25,.9,.3,1), opacity 200ms';
-    ghost.style.transform =
-      'translate(' + (zr.left - pr.left + zr.width * 0.40) + 'px,' +
-                     (zr.top - pr.top + zr.height * 0.30) + 'px) scale(.97) rotate(3deg)';
+    // 抛物线：三段关键帧（起 → 最高点 → 穿筐），边飞边转
+    const anim = ball.animate([
+      { transform: 'translate(' + sx + 'px,' + sy + 'px) rotate(0deg) scale(.9)',    opacity: 1, offset: 0 },
+      { transform: 'translate(' + mx + 'px,' + my + 'px) rotate(-200deg) scale(1)',  opacity: 1, offset: .55 },
+      { transform: 'translate(' + ex + 'px,' + ey + 'px) rotate(-390deg) scale(.96)', opacity: 1, offset: 1 }
+    ], { duration: 900, easing: 'linear', fill: 'forwards' });
 
-    await sleep(520);
-    drop.classList.add('over');           // 2) 落区变脸（和真拖拽同一个 class）
+    // 球快到头顶时，落区先"张手"（和真拖拽共用同一个 .over class）
+    setTimeout(() => drop.classList.add('over'), 620);
+    await anim.finished;
 
-    await sleep(300);
-    ghost.style.transition = 'transform 240ms cubic-bezier(.4,0,.7,1), opacity 240ms';
-    ghost.style.transform =
-      'translate(' + (zr.left - pr.left + zr.width * 0.5) + 'px,' +
-                     (zr.top - pr.top + zr.height * 0.5) + 'px) scale(.5) rotate(0deg)';
-    ghost.style.opacity = '0';            // 3) 被"吸"进去
+    // 进筐：篮圈闪一下、篮网被砸下去再回弹、球消失
+    rim.classList.add('flash');
+    net.classList.add('swish');
+    await ball.animate([
+      { transform: 'translate(' + ex + 'px,' + ey + 'px) scale(1)',          opacity: 1 },
+      { transform: 'translate(' + ex + 'px,' + (ey + 30) + 'px) scale(.55)', opacity: 0 }
+    ], { duration: 260, easing: 'cubic-bezier(.4,0,.7,1)', fill: 'forwards' }).finished;
 
-    await sleep(280);
+    ball.classList.remove('show');
+    ball.style.opacity = '';
+    ball.style.transform = '';
     drop.classList.remove('over');
-    ghost.classList.remove('show');
-    ghost.style.opacity = '';
-    addFiles([mockFile()]);               // 4) 计数 +1、文件行入场
+    await sleep(120);
+    setTimeout(() => { rim.classList.remove('flash'); net.classList.remove('swish'); }, 460);
+    addFiles([mockFile()]);            // 计数 +1、文件行入场
     playing = false; autoBtn.disabled = false;
   }
-  autoBtn.addEventListener('click', playDrag);
+  autoBtn.addEventListener('click', playShot);
 
   /* ---------- 拍照：canvas -> File，与拖拽同一条路 ---------- */
   function showStatus(msg){
