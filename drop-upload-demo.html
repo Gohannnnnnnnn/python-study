@@ -24,10 +24,25 @@
   /* ================= 演示区 ================= */
   .stage{margin:24px auto;display:flex;justify-content:center}
   .panel{
+    position:relative;
     width:100%;max-width:420px;background:var(--s1);border-radius:var(--r-lg);
     padding:20px 20px 16px;
     box-shadow:0 1px 2px -1px rgb(20 30 60 / .08), 0 8px 24px -6px rgb(20 30 60 / .10);
   }
+
+  /* 演示用的“飞行文件卡 + 假光标” */
+  .ghost{
+    position:absolute;left:0;top:0;z-index:9;pointer-events:none;
+    display:none;align-items:center;gap:7px;
+    padding:7px 11px 7px 8px;border-radius:9px;background:#fff;
+    box-shadow:0 10px 24px -10px rgb(20 30 60 / .35), 0 0 0 1px #e2eaf6;
+    font-size:0.76rem;font-weight:600;color:#33415c;white-space:nowrap;
+    opacity:0;will-change:transform,opacity;
+  }
+  .ghost.show{display:inline-flex}
+  .ghost .gi{width:20px;height:20px;border-radius:5px;background:#fdecef;color:#8e1f2f;
+    font-size:0.55rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .ghost .gc{position:absolute;right:-9px;bottom:-9px;width:14px;height:18px}
   .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .panel-head h2{font-size:1.02rem;color:var(--deep);letter-spacing:.2px}
   .badge-count{
@@ -155,9 +170,21 @@
       <input type="file" id="picker" multiple hidden>
 
       <div class="actions">
+        <button class="mini" id="autoBtn" style="flex:1 1 100%;background:#2563eb;color:#fff">▶ 看一遍拖拽全过程</button>
+        <button class="mini" id="mockBtn">直接收下（不演示）</button>
         <button class="mini" id="pickBtn">选择文件</button>
         <button class="mini" id="camBtn">拍一张</button>
-        <button class="mini" id="mockBtn">模拟拖入</button>
+      </div>
+      <div class="panel-sub" style="margin:8px 0 0;font-size:0.73rem">
+        手机里没有“拖文件”这回事（触摸屏触发不了拖拽事件）——点上面那个蓝按钮看动画，或用「选择文件」。
+      </div>
+
+      <div class="ghost" id="ghost" aria-hidden="true">
+        <span class="gi">PDF</span><span>final_final_v7.pdf</span>
+        <svg class="gc" viewBox="0 0 14 18" aria-hidden="true">
+          <path d="M1 1 L1 14 L5 10.6 L7.4 16.6 L9.6 15.6 L7.2 9.8 L12 9.2 Z"
+                fill="#172554" stroke="#fff" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
       </div>
 
       <div class="camera-box" id="camBox">
@@ -259,6 +286,31 @@ drop.addEventListener(<span class="s">'dragleave'</span>, () =&gt; {
     </div>
     <div class="card">
       <p>这四个都是<b>零成本反馈</b>：不占布局、不需要新组件、不打断用户。做工具和做作品集都值这几行。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">Demo 为什么要自己演一遍</div>
+    <div class="card">
+      <h3>真拖拽没法自动播放，那就造一个假拖拽</h3>
+      <p>浏览器的事件是用户触发的，代码没法"模拟一次真拖"给观众看；手机微信里更是没有拖拽事件。
+      所以演示用<b>一张假文件卡 + 假光标</b>，用 <code>transform</code> 从角落飞到落区中心，<b>中途手动加上和真拖拽同一个 <code>.over</code> class</b>——
+      看起来就是拖进去的过程，实现却只有三行定位计算。</p>
+<pre><span class="k">const</span> pr = panel.getBoundingClientRect();      <span class="c">// 面板坐标</span>
+<span class="k">const</span> zr = drop.getBoundingClientRect();       <span class="c">// 落区坐标</span>
+
+ghost.style.transform =
+  <span class="s">`translate(${zr.left - pr.left + zr.width*.4}px,
+               ${zr.top  - pr.top  + zr.height*.3}px)`</span>;
+
+<span class="k">await</span> sleep(<span class="v">520</span>); drop.classList.add(<span class="s">'over'</span>);   <span class="c">// 飞到附近 → 落区变脸</span>
+<span class="k">await</span> sleep(<span class="v">300</span>); addFiles([file]);              <span class="c">// 收下 → 计数 +1</span></pre>
+      <p style="margin-top:8px"><b>两个要点：</b>① 设起点后要 <code>void ghost.offsetWidth</code> 强制重排，否则起点和终点会一起生效、看不到位移；
+      ② 动画里加的那个 <code>.over</code> 必须和真拖拽时加的是同一个 class，不然演示和实物会不一致。</p>
+    </div>
+    <div class="warn">
+      <b>取舍：</b>这种自动播放适合做演示/录屏/作品集，别塞进真实产品里——用户会以为界面在自己动。
+      真实产品只保留 hover 反馈。
     </div>
   </section>
 
@@ -412,10 +464,67 @@ drop.addEventListener(<span class="s">'dragleave'</span>, () =&gt; {
   picker.addEventListener('change', () => { addFiles(picker.files); picker.value = ''; });
 
   /* ---------- 模拟拖入（不用真去拖文件也能看效果） ---------- */
-  mockBtn.addEventListener('click', () => {
+  function mockFile(){
     const blob = new Blob([new Uint8Array(2400 * 1024)], { type: 'application/pdf' });
-    addFiles([new File([blob], 'final_final_v7.pdf', { type: 'application/pdf' })]);
-  });
+    return new File([blob], 'final_final_v7.pdf', { type: 'application/pdf' });
+  }
+  mockBtn.addEventListener('click', () => { addFiles([mockFile()]); });
+
+  /* ---------- 演一遍：飞行文件卡 + 假光标，把拖拽过程放出来 ---------- */
+  const ghost  = document.getElementById('ghost');
+  const autoBtn = document.getElementById('autoBtn');
+  const panel  = drop.closest('.panel');
+  const sleep  = ms => new Promise(r => setTimeout(r, ms));
+  let playing = false;
+
+  async function playDrag(){
+    if (playing) return;
+    playing = true; autoBtn.disabled = true;
+
+    const pr = panel.getBoundingClientRect();
+    const zr = drop.getBoundingClientRect();
+
+    ghost.classList.add('show');
+    ghost.style.transition = 'none';
+    ghost.style.opacity = '1';
+    ghost.style.transform =
+      'translate(' + (pr.width * 0.08) + 'px,' + (pr.height - 56) + 'px) scale(1) rotate(-6deg)';
+    void ghost.offsetWidth;              // 让起点先生效，否则会和终点一起跳
+
+    if (reduce){                          // 尊重减弱动效：不飞，直接给结果
+      drop.classList.add('over');
+      await sleep(150);
+      drop.classList.remove('over');
+      ghost.classList.remove('show');
+      addFiles([mockFile()]);
+      playing = false; autoBtn.disabled = false;
+      return;
+    }
+
+    // 1) 拖进落区
+    ghost.style.transition = 'transform 780ms cubic-bezier(.25,.9,.3,1), opacity 200ms';
+    ghost.style.transform =
+      'translate(' + (zr.left - pr.left + zr.width * 0.40) + 'px,' +
+                     (zr.top - pr.top + zr.height * 0.30) + 'px) scale(.97) rotate(3deg)';
+
+    await sleep(520);
+    drop.classList.add('over');           // 2) 落区变脸（和真拖拽同一个 class）
+
+    await sleep(300);
+    ghost.style.transition = 'transform 240ms cubic-bezier(.4,0,.7,1), opacity 240ms';
+    ghost.style.transform =
+      'translate(' + (zr.left - pr.left + zr.width * 0.5) + 'px,' +
+                     (zr.top - pr.top + zr.height * 0.5) + 'px) scale(.5) rotate(0deg)';
+    ghost.style.opacity = '0';            // 3) 被"吸"进去
+
+    await sleep(280);
+    drop.classList.remove('over');
+    ghost.classList.remove('show');
+    ghost.style.opacity = '';
+    addFiles([mockFile()]);               // 4) 计数 +1、文件行入场
+    playing = false; autoBtn.disabled = false;
+  }
+  autoBtn.addEventListener('click', playDrag);
 
   /* ---------- 拍照：canvas -> File，与拖拽同一条路 ---------- */
   function showStatus(msg){
