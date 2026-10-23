@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大厂 AI 界面 · 第二弹（5 个隐藏细节 + 彩蛋）</title>
+<style>
+  :root{
+    --bg:#f5f7fb; --ink:#24324a; --soft:#65748b; --primary:#2563eb; --deep:#172554;
+    --line:#dbe4f0; --panel:#eef3fd; --gold:#d97706; --green:#159568; --red:#d64c4c;
+    --s1:#fff; --s2:#fbfcfe;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px;line-height:1.85;padding:22px 16px 60px}
+  .wrap{max-width:740px;margin:0 auto}
+  h1{font-size:1.35rem;color:var(--deep);text-align:center}
+  .sub{text-align:center;color:var(--soft);font-size:0.85rem;margin-top:6px}
+  .src{text-align:center;color:#94a3b8;font-size:0.75rem;margin-top:4px}
+
+  section{margin:26px 0}
+  .sec-t{font-size:0.8rem;font-weight:700;color:#fff;background:var(--primary);
+    display:inline-block;padding:3px 12px;border-radius:8px;margin-bottom:12px}
+  .sec-t.gold{background:var(--gold)}
+  .card{background:#fff;border-radius:12px;padding:15px 17px;margin:10px 0;
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .06)}
+  .card h3{font-size:1rem;color:var(--deep);margin-bottom:6px}
+  .card p{font-size:0.92rem;margin:6px 0}
+  .card b{color:var(--primary)}
+  .card .no{display:inline-block;background:var(--panel);color:var(--primary);font-size:0.72rem;
+    font-weight:700;padding:1px 8px;border-radius:6px;margin-right:6px}
+  code{background:#f1f5fb;border-radius:4px;padding:1px 5px;font-size:0.86em;
+    font-family:ui-monospace,Menlo,Consolas,monospace;color:#2c4a7c}
+  pre{background:#0f1115;color:#d7e0ee;border-radius:10px;padding:12px 14px;margin:9px 0;
+    overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.77rem;line-height:1.6}
+  pre .c{color:#6b7a90} pre .k{color:#93c5fd} pre .v{color:#a7e3c0} pre .s{color:#f0c987}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
+  .grid2>div{background:#fff;border-radius:10px;padding:11px 13px;font-size:0.88rem;
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .06)}
+  .grid2 .k{font-weight:700;color:var(--primary);font-size:0.78rem;display:block;margin-bottom:3px}
+  .tip{background:#f0faf5;border:1px solid #cfe8df;border-radius:10px;padding:12px 15px;margin:10px 0;font-size:0.9rem}
+  .tip b{color:var(--green)}
+  .warn{background:#fdf2e7;border:1px solid #f4dcc4;border-radius:10px;padding:12px 15px;margin:10px 0;font-size:0.9rem}
+  .warn b{color:#b06a3b}
+  .bad{color:var(--red);font-weight:700}
+  .good{color:var(--green);font-weight:700}
+  .demo{background:var(--s2);border:1px dashed #cfdcee;border-radius:12px;padding:14px;margin:12px 0}
+  .demo .lbl{font-size:0.74rem;color:var(--soft);letter-spacing:1px;margin-bottom:8px}
+  .mini{padding:6px 12px;font-size:0.8rem;font-weight:600;border:none;border-radius:8px;
+    background:var(--panel);color:#2c4a7c;cursor:pointer}
+  .mini:hover{background:#e2ecfd}
+  .field{display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--soft);margin:6px 0}
+  .field input[type=range]{flex:1}
+  .field output{font-family:ui-monospace,Consolas,monospace;color:var(--deep);font-weight:700;width:52px;text-align:right}
+
+  /* ① 输入法演示 */
+  .ime{position:relative}
+  .ime-cand{position:absolute;left:8px;bottom:100%;margin-bottom:4px;background:#fff;
+    border:1px solid var(--line);border-radius:8px;padding:4px 6px;font-size:0.8rem;
+    box-shadow:0 8px 20px -10px rgb(20 30 60 / .3);display:none}
+  .ime-cand span{display:block;padding:2px 6px;border-radius:4px}
+  .ime-cand span.on{background:var(--panel);color:var(--primary);font-weight:700}
+
+  /* ② 滚动演示 */
+  .chat{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .chat-scroll{height:170px;overflow-y:auto;padding:10px 12px;scroll-behavior:auto}
+  .msg{font-size:0.82rem;line-height:1.7;padding:6px 10px;margin:6px 0;border-radius:8px;background:var(--panel)}
+  .msg.ai{background:#f3f6fb}
+  .chat-hud{display:flex;justify-content:space-between;align-items:center;
+    font-size:0.72rem;color:var(--soft);padding:6px 12px;background:#fafcff;border-top:1px solid var(--line)}
+  .chat-hud output{font-family:ui-monospace,Consolas,monospace;color:var(--deep)}
+  .jump{position:absolute;right:12px;bottom:44px;background:rgba(37,99,235,.92);color:#fff;
+    border:none;border-radius:99px;padding:4px 12px;font-size:0.74rem;cursor:pointer;display:none;
+    backdrop-filter:blur(6px)}
+  .jump.show{display:block}
+
+  /* ④ 圆角演示 */
+  .radius-stage{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .r-out{background:#fff;padding:var(--gap,10px);border:1px solid #e6ecf5;
+    border-radius:var(--ro,20px);box-shadow:0 1px 3px rgb(20 30 60 / .06)}
+  .r-in{width:150px;height:88px;background:var(--panel);border:1px solid #d5e2f9;
+    border-radius:var(--ri,10px);display:flex;align-items:center;justify-content:center;
+    font-size:0.78rem;color:var(--primary);font-weight:700}
+
+  /* ③ 边框演示 */
+  .nest-bad{border:1px solid #cfd8e6;border-radius:12px;padding:8px;background:#fff}
+  .nest-bad .l2{border:1px solid #cfd8e6;border-radius:10px;padding:8px;margin-top:6px}
+  .nest-bad .l3{border:1px solid #cfd8e6;border-radius:8px;padding:6px;margin-top:6px}
+  .nest-bad .l4{border:1px solid #cfd8e6;border-radius:6px;padding:5px;margin-top:6px}
+  .nest-bad button{border:1px solid #cfd8e6;background:#fff;border-radius:4px;font-size:0.72rem;padding:3px 8px}
+  .nest-good{border:1px solid #e6ecf5;border-radius:12px;padding:10px;background:#fff}
+  .nest-good .l2{background:#f7f9fd;border-radius:9px;padding:8px;margin-top:6px}
+  .nest-good .l3{background:#fff;border-radius:7px;padding:6px;margin-top:6px;
+    box-shadow:inset 0 0 0 1px #eef2f9}
+  .nest-good .btns{display:flex;gap:6px;margin-top:6px}
+  .nest-good button{border:none;background:transparent;color:#4a5c78;font-size:0.74rem;
+    padding:3px 8px;border-radius:6px;cursor:pointer}
+  .nest-good button:hover{background:var(--panel);color:var(--primary)}
+
+  /* ⑤ 分屏演示 */
+  .split{display:flex;height:150px;background:#fff;border:1px solid var(--line);
+    border-radius:12px;overflow:hidden;position:relative}
+  .pane{display:flex;align-items:center;justify-content:center;font-size:0.78rem;
+    color:var(--soft);background:var(--s2);min-width:0;transition:flex-basis 120ms ease}
+  .pane.left{background:#f7f9fd}
+  .divider{flex:0 0 8px;cursor:col-resize;position:relative;background:linear-gradient(
+      to right,transparent 3px,rgba(37,99,235,.35) 3px,rgba(37,99,235,.35) 5px,transparent 5px)}
+  .divider::after{content:"";position:absolute;inset:0;background:transparent}
+  .divider:hover{background:linear-gradient(to right,transparent 3px,rgba(37,99,235,.7) 3px,rgba(37,99,235,.7) 5px,transparent 5px)}
+  .split-ctl{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;font-size:0.78rem;color:var(--soft)}
+  .split-ctl output{font-family:ui-monospace,Consolas,monospace;color:var(--deep);font-weight:700}
+
+  /* ⑥ 文件名 */
+  .frow{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
+    border-radius:8px;padding:8px 10px;margin:8px 0;font-size:0.82rem}
+  .frow .ico{flex:0 0 26px;height:26px;border-radius:6px;background:#fdecef;color:#8e1f2f;
+    font-size:0.55rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .tail-ellipsis{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mid-ellipsis{flex:1 1 auto;min-width:0;display:flex}
+  .mid-ellipsis .base{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mid-ellipsis .ext{flex:0 0 auto;color:#4a5c78}
+
+  footer{text-align:center;color:var(--soft);font-size:0.77rem;margin-top:30px}
+  @media (max-width:520px){ .grid2{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>大厂 AI 界面 · 第二弹</h1>
+  <div class="sub">5 个隐藏细节 + 1 个彩蛋 · 每条都带实时演示和可抄的代码</div>
+  <div class="src">来源：抖音 @Ludi《Vibe知识大赏丨大厂AI界面的5个隐藏 第二弹》169.8 秒 · 本页按 26 帧逐帧 OCR 整理，数值取自画面标注</div>
+
+  <section>
+    <div class="sec-t">速览 · 六条一句话</div>
+    <div class="card">
+      <p><span class="no">01</span><b>输入法</b> —— 还在选字时，回车只管选字；选完字半秒内的回车也要挡（Safari 会补发）</p>
+      <p><span class="no">02</span><b>滚动</b> —— 贴着底才跟随；距底 3 行弹出「跳至最新」，1 行内恢复跟随</p>
+      <p><span class="no">03</span><b>边框</b> —— 从外往里只穿过 1 层框；按钮不画边，hover 才变底色</p>
+      <p><span class="no">04</span><b>圆角</b> —— 外圈 = 里圈 + 缝，两条弧线才平行</p>
+      <p><span class="no">05</span><b>分屏</b> —— 透明玻璃分割条、Esc 复原、双击对半、拖过 82% 自动收起</p>
+      <p><span class="no">06</span><b>彩蛋</b> —— 长文件名省略号放在后缀前面</p>
+    </div>
+  </section>
+
+  <!-- ================= ① 输入法 ================= -->
+  <section>
+    <div class="sec-t">01 · 打中文不怕误发</div>
+    <div class="card">
+      <h3>坑长什么样</h3>
+      <p>用中文输入法打「nihao」，候选框还开着（显示"你好 / 3尼豪 / 4泥嗪"），这时按回车——<span class="bad">半截拼音直接被发了出去</span>。用户的本意是"选第一个候选"。</p>
+      <p><b>大厂做法</b>：回车前先看一眼——<b>候选框还开着 → 回车 = 选字；候选框已关上 → 回车 = 发送</b>。</p>
+    </div>
+    <div class="card">
+      <h3>还有第二个坑（视频里专门提了）</h3>
+      <p><b>Safari 这类浏览器在你选完字之后，会自己再补发一次回车。</b>所以光判断"正在 composing"不够——选完字之后的那 <b>半秒内</b>，多出来的那个回车也要吞掉，否则字上去了、消息也照样发出去了。</p>
+    </div>
+    <div class="demo ime">
+      <div class="lbl">演示 · 点「模拟输入法」看两种回车的区别</div>
+      <div class="ime-cand" id="imeCand"><span class="on">1 你好</span><span>2 尼豪</span><span>3 泥嗪</span></div>
+      <input id="imeInput" placeholder="在这里打字，回车试试"
+             style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:0.9rem">
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="mini" id="imeBtn">模拟输入法（未选字）</button>
+        <span style="font-size:0.78rem;color:var(--soft)" id="imeState">状态：空闲</span>
+      </div>
+      <div class="frow" style="margin-top:8px"><div class="ico">MSG</div><div class="tail-ellipsis" id="imeLog">还没有发出任何消息</div></div>
+    </div>
+<pre><span class="k">const</span> ta = document.getElementById(<span class="s">'input'</span>);
+<span class="k">let</span> lastComposed = <span class="v">0</span>;
+
+ta.addEventListener(<span class="s">'compositionend'</span>, () =&gt; {
+  lastComposed = Date.now();          <span class="c">// 记下"刚选完字"的时刻</span>
+});
+
+ta.addEventListener(<span class="s">'keydown'</span>, e =&gt; {
+  <span class="k">if</span> (e.key !== <span class="s">'Enter'</span> || e.shiftKey) <span class="k">return</span>;
+
+  <span class="c">// ① 还在拼写/选词：回车只上屏，不发送</span>
+  <span class="k">if</span> (e.isComposing || e.keyCode === <span class="v">229</span>) <span class="k">return</span>;
+
+  <span class="c">// ② Safari 选完字后会补发回车：半秒内的也不发送</span>
+  <span class="k">if</span> (Date.now() - lastComposed &lt; <span class="v">500</span>) <span class="k">return</span>;
+
+  e.preventDefault();
+  send(ta.value);
+});</pre>
+    <div class="tip"><b>一句话</b>：<code>isComposing</code> 挡的是"还在选字"，<code>lastComposed &lt; 500ms</code> 挡的是"选完字那一下"——两个都要，缺一个都会漏。</div>
+  </section>
+
+  <!-- ================= ② 滚动 ================= -->
+  <section>
+    <div class="sec-t">02 · 翻记录不被拽走</div>
+    <div class="card">
+      <h3>坑</h3>
+      <p>AI 正在流式输出，你往上翻想重读刚才那段——<span class="bad">新内容一来就把你拽回底部</span>。这叫"强拽到底"，长对话里最烦人的体验。</p>
+      <p><b>大厂做法</b>：贴着底才跟随，一翻就松手。<b>而且阈值是量出来的</b>，不是凭感觉：</p>
+    </div>
+    <div class="grid2">
+      <div><span class="k">距底 0.0 行</span>自动跟随，新内容来了直接滚到底</div>
+      <div><span class="k">距底 3 行</span>不再跟随，<b>弹出「跳至最新」</b></div>
+      <div><span class="k">3 行内 / 1 行外</span>中间的迟滞区，避免按钮狂闪</div>
+      <div><span class="k">按钮形态</span>半透明玻璃，浮在内容上，不占布局</div>
+    </div>
+    <div class="demo">
+      <div class="lbl">演示 · 往上翻两行，再点「来一条新回复」</div>
+      <div class="chat" id="chatBox">
+        <div class="chat-scroll" id="chatScroll">
+          <div class="msg">把这份方案按章节拆一下</div>
+          <div class="msg ai">好的，我先按"背景 / 方法 / 结果 / 讨论"四块分，逐块给要点。</div>
+          <div class="msg">继续</div>
+          <div class="msg ai">背景部分讲三件事：为什么现在做、别人做到哪、你的切入点。</div>
+          <div class="msg">继续</div>
+          <div class="msg ai">方法部分按数据、模型、评估三段写，评估指标要给口径。</div>
+          <div class="msg">继续</div>
+          <div class="msg ai">结果部分先给主表，再给消融和敏感性分析。</div>
+        </div>
+        <button class="jump" id="jumpBtn">↓ 跳至最新</button>
+        <div class="chat-hud">
+          <span>距底部 <output id="hudRows">0.0</output> 行</span>
+          <span id="hudMode">自动跟随</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="mini" id="addMsg">来一条新回复</button>
+        <button class="mini" id="scrollTop">滚到中间看看</button>
+      </div>
+    </div>
+<pre><span class="k">const</span> GAP_FOLLOW = <span class="v">1</span>;    <span class="c">// 距底 1 行以内 → 跟随</span>
+<span class="k">const</span> GAP_BUTTON = <span class="v">3</span>;    <span class="c">// 超过 3 行 → 出按钮</span>
+
+scroller.addEventListener(<span class="s">'scroll'</span>, () =&gt; {
+  <span class="k">const</span> gap = scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight;
+  <span class="k">const</span> rows = gap / lineHeight;
+  following = rows &lt;= GAP_FOLLOW;
+  jumpBtn.classList.toggle(<span class="s">'show'</span>, rows &gt; GAP_BUTTON);
+});
+
+<span class="k">function</span> append(text){
+  <span class="k">const</span> atBottom = following;      <span class="c">// 追加前记一次，别在 DOM 变高后判</span>
+  list.append(makeMsg(text));
+  <span class="k">if</span> (atBottom) scroller.scrollTop = scroller.scrollHeight;
+}</pre>
+    <div class="warn"><b>最常写错的一行</b>：在 <code>append()</code> 之后才判断"是否在底部"——那时 <code>scrollHeight</code> 已经变了，永远判成"不在底部"，跟随就失效。<b>要在追加之前记录状态。</b></div>
+  </section>
+
+  <!-- ================= ③ 边框 ================= -->
+  <section>
+    <div class="sec-t">03 · 边框只准套一层</div>
+    <div class="card">
+      <h3>坑</h3>
+      <p>卡片一圈框、里面气泡一圈框、工具栏再一圈框、按钮还一圈框——<span class="bad">套娃 4 层，又土又挤</span>。眼睛要穿过四道线才能读到内容。</p>
+      <p><b>大厂规矩写得很死</b>：从外往里<b>只穿过 1 层框</b>；层次靠<b>底色和留白</b>，不靠线；按钮<b>不画边框</b>，鼠标放上去才变一下底色。</p>
+    </div>
+    <div class="demo">
+      <div class="lbl">左边：套娃 4 层 ／ 右边：单层 + 底色</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="nest-bad">
+          <div class="l2">卡片
+            <div class="l3">气泡
+              <div class="l4">工具栏
+                <div style="display:flex;gap:4px;margin-top:4px">
+                  <button>复制</button><button>重试</button><button>分享</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nest-good">
+          <div>卡片
+            <div class="l2">气泡
+              <div class="l3">工具栏
+                <div class="btns">
+                  <button>复制</button><button>重试</button><button>分享</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:0.74rem;color:var(--soft);margin-top:8px">
+        左边数一下：从外到按钮要穿过 4 条线。右边只有最外 1 条。
+      </div>
+    </div>
+    <div class="card">
+      <h3>两个配套细节（视频里专门圈出来的）</h3>
+      <p><b>① 线的位置决定会不会跳</b>：普通画法把线画在格子<b>外面</b>，选中时线变粗——下面的元素跟着往下跳一格。大厂把线画在<b>里面</b>（<code>box-shadow: inset</code> 或 <code>outline-offset: -1px</code>），选中变粗时<b>旁边纹丝不动</b>。</p>
+      <p><b>② 线要细得像一根头发丝</b>：1px 及以下（Retina 上用 0.5px / hairline）。粗边框是"廉价感"最直接的来源。</p>
+    </div>
+<pre><span class="c">/* 线画在里面：选中加粗也不挤动邻居 */</span>
+.option{ <span class="v">box-shadow</span>:inset 0 0 0 1px #e6ecf5; }
+.option[aria-selected=<span class="s">"true"</span>]{ <span class="v">box-shadow</span>:inset 0 0 0 2px #2563eb; }
+
+<span class="c">/* 按钮不画边，用底色 */</span>
+.toolbar button{ <span class="v">border</span>:none; <span class="v">background</span>:transparent; }
+.toolbar button:hover{ <span class="v">background</span>:#eef3fd; <span class="v">color</span>:#2563eb; }</pre>
+  </section>
+
+  <!-- ================= ④ 圆角 ================= -->
+  <section>
+    <div class="sec-t">04 · 圆角必须同心</div>
+    <div class="card">
+      <h3>坑：里外套成一样的数值</h3>
+      <p>外圈 20、里圈也 20（<code>20/20</code>）——看着"统一"，其实<b>拐角处的缝一头宽一头窄</b>（视频里量出来：侧边缝和拐角缝对不上，拐角 11.3）。这就是 AI 生成界面那种"说不上哪里不对"的来源。</p>
+      <p><b>正解</b>：<b>外圈 = 里圈 + 缝</b>。20/12 对 8px 的缝，两条弧线严丝合缝、全程平行。</p>
+    </div>
+    <div class="demo">
+      <div class="lbl">拖动滑块看弧线关系（内圈 = 外圈 − 缝）</div>
+      <div class="field"><span style="width:64px">外圈</span><input type="range" id="rOut" min="6" max="30" value="20"><output id="oOut">20</output></div>
+      <div class="field"><span style="width:64px">缝</span><input type="range" id="rGap" min="0" max="14" value="8"><output id="oGap">8</output></div>
+      <div class="field"><span style="width:64px">内圈</span><span id="oIn" style="font-family:ui-monospace,Consolas,monospace;color:var(--deep);font-weight:700">12</span>
+        <button class="mini" id="wrongBtn" style="margin-left:auto">试试"内外同值"的错误做法</button></div>
+      <div class="radius-stage" style="margin-top:10px">
+        <div class="r-out" id="rOutBox" style="--ro:20px;--gap:8px">
+          <div class="r-in" id="rInBox" style="--ri:12px">外圈 = 里圈 + 缝</div>
+        </div>
+      </div>
+      <div style="font-size:0.74rem;color:var(--soft);margin-top:8px" id="radiusNote">
+        缝是均匀的：侧边、拐角都是 8px。
+      </div>
+    </div>
+<pre><span class="c">/* 用变量绑定，改一个值内外一起动 */</span>
+:root{ <span class="v">--radius-in</span>:12px; <span class="v">--gap</span>:8px; }
+.outer{ <span class="v">padding</span>:var(--gap); <span class="v">border-radius</span>:calc(<span class="k">var</span>(--radius-in) + <span class="k">var</span>(--gap)); }
+.inner{ <span class="v">border-radius</span>:var(--radius-in); }</pre>
+    <div class="tip"><b>自查一句</b>：缝的宽度和拐角弧线的间隙一样吗？不一样就是没同心——把内圈改小到 <code>外圈 − 缝</code> 就好。</div>
+  </section>
+
+  <!-- ================= ⑤ 分屏 ================= -->
+  <section>
+    <div class="sec-t">05 · 分屏别翻车</div>
+    <div class="card">
+      <h3>坑</h3>
+      <p>拖到 92% 那种尴尬宽度，右边窄成一条缝，鼠标还在死命拽；拖到一半后悔了，找不到回去的路。</p>
+      <p><b>大厂在三处兜底</b>：① 分割条是<b>透明玻璃</b>，热区够宽，鼠标划过不卡住 ② <b>拖过 82% 自动收起</b>，别让人停在 92% ③ <b>Esc 复原、双击对半</b>，随时能回中间。</p>
+    </div>
+    <div class="demo">
+      <div class="lbl">真的拖一下：分割条 / 双击对半 / Esc 复原</div>
+      <div class="split" id="split">
+        <div class="pane left" id="paneL" style="flex:0 0 40%">左 40%</div>
+        <div class="divider" id="divider" title="拖动 / 双击 50:50"></div>
+        <div class="pane" id="paneR" style="flex:1 1 auto">右 60%</div>
+      </div>
+      <div class="split-ctl">
+        <span>当前 <output id="splitOut">40 / 60</output></span>
+        <span id="splitHint" style="color:var(--soft)">拖动分割条试试</span>
+        <button class="mini" id="resetSplit" style="margin-left:auto">复原 50:50</button>
+      </div>
+    </div>
+<pre><span class="k">const</span> COLLAPSE = <span class="v">0.82</span>;   <span class="c">// 拖过 82% 直接收起右侧</span>
+
+divider.addEventListener(<span class="s">'pointermove'</span>, e =&gt; {
+  <span class="k">if</span> (!dragging) <span class="k">return</span>;
+  <span class="k">const</span> r = box.getBoundingClientRect();
+  <span class="k">let</span> pct = (e.clientX - r.left) / r.width;
+  <span class="k">if</span> (pct &gt; COLLAPSE) { collapse(); <span class="k">return</span>; }   <span class="c">// 别停在 92%</span>
+  left.style.flex = <span class="s">`0 0 ${pct * 100}%`</span>;
+});
+
+divider.addEventListener(<span class="s">'dblclick'</span>, () =&gt; setRatio(<span class="v">.5</span>));
+document.addEventListener(<span class="s">'keydown'</span>, e =&gt; {
+  <span class="k">if</span> (e.key === <span class="s">'Escape'</span>) restore();      <span class="c">// 随时能回中间</span>
+});</pre>
+  </section>
+
+  <!-- ================= ⑥ 彩蛋 ================= -->
+  <section>
+    <div class="sec-t gold">06 · 彩蛋：长文件名怎么截</div>
+    <div class="card">
+      <h3>坑</h3>
+      <p><code>2025年度财务报告-最终版-v3.pdf</code> 常见做法是整串尾部省略，变成 <span class="bad">2025年度财务报告-最终…</span>——<b>后缀没了，用户看不出这是什么文件</b>。</p>
+      <p><b>正解</b>：<b>省略号放在后缀前面</b>，把扩展名保住。</p>
+    </div>
+    <div class="demo">
+      <div class="lbl">同一个文件名，两种截法（故意压窄，让截断真的发生）</div>
+      <div style="max-width:215px">
+      <div class="frow">
+        <div class="ico">PDF</div>
+        <div class="tail-ellipsis">2025年度财务报告-最终版-v3.pdf</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--red);margin:-2px 0 8px 2px">↑ 常见：尾部省略，后缀被吃掉</div>
+      <div class="frow">
+        <div class="ico">PDF</div>
+        <div class="mid-ellipsis">
+          <span class="base">2025年度财务报告-最终版-v3</span><span class="ext">.pdf</span>
+        </div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--green);margin-top:-2px;">↑ 大厂：省略号在后缀前面，后缀保住</div>
+      </div>
+    </div>
+<pre><span class="c">&lt;!-- 前后分段：前面的可省略，后缀固定不缩 --&gt;</span>
+&lt;div class=<span class="s">"fname"</span>&gt;
+  &lt;span class=<span class="s">"base"</span>&gt;2025年度财务报告-最终版-v3&lt;/span&gt;
+  &lt;span class=<span class="s">"ext"</span>&gt;.pdf&lt;/span&gt;
+&lt;/div&gt;
+
+.fname{ <span class="v">display</span>:flex; <span class="v">min-width</span>:0 }
+.base{ <span class="v">min-width</span>:0; <span class="v">overflow</span>:hidden; <span class="v">text-overflow</span>:ellipsis; <span class="v">white-space</span>:nowrap }
+.ext { <span class="v">flex</span>:0 0 auto }</pre>
+    <div class="tip"><b>如果还要更长文件名也不丢信息</b>：把中间那段（版本号、日期）优先省略，头尾都留——但门槛高，日常用"后缀保住"就够了。</div>
+  </section>
+
+  <!-- ================= 上期 & 出处 ================= -->
+  <section>
+    <div class="sec-t">上期回顾（视频开头带的）</div>
+    <div class="card">
+      <p>第一弹的 5 个魔鬼细节，画面里能读到的四条：<b>微对比色阶</b>、<b>暗色字重减细</b>、<b>水墨晕染打字</b>、<b>数字等宽锁死</b>。</p>
+      <p style="color:var(--soft);font-size:0.85rem">第五条没在画面停留到可读的程度，26 帧里没抓到——不编。</p>
+    </div>
+    <div class="card">
+      <h3>这期的依据</h3>
+      <p>视频说这些规矩来自网友拆解还原的「<b>大厂设计说明书</b>」，共 8 章：01 设计理念与基础标准 · 02 按钮输入框等零件拆解还原 · 03 聊天对话怎么走 · 04 动画手感与光影 · 05 图片音视频与文件 · 06 桌面留白与协作 · 07 配置与素材整理 · 08 给 AI 写界面的指南。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">整段抄给 AI 的提示词</div>
+    <div class="tip">
+      <b>做界面前把这段丢给 AI：</b><br><br>
+      「界面细节按大厂规范做：<br>
+      1）输入框：回车发送前判断 <code>e.isComposing</code>，并且挡掉 <code>compositionend</code> 之后 500ms 内的回车（Safari 会补发）；<br>
+      2）聊天滚动：距底 1 行内自动跟随，超过 3 行显示"跳至最新"玻璃按钮；判断"是否在底部"必须在插入 DOM 之前；<br>
+      3）边框：整页从外到内容只穿 1 层 border，层级用底色和留白区分；选项的线用 <code>box-shadow: inset</code> 画在里侧，选中加粗不影响布局；按钮不画边框，hover 变底色；所有线条 1px 以下；<br>
+      4）圆角：<code>外圈 = 内圈 + 缝隙</code>，用 <code>calc()</code> 绑定，不要内外同值；<br>
+      5）分屏：分割条热区 8px 透明玻璃、双击 50:50、Esc 复原、拖过 82% 自动收起；<br>
+      6）文件名截断：省略号放在扩展名前面，<code>.pdf</code> 必须可见。」"
+    </div>
+  </section>
+
+  <footer>大厂 AI 界面第二弹 · 5 个隐藏细节 + 1 个彩蛋 · 每条都可在本页操作验证 · 2026-10</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- ① 输入法 ---------- */
+  const imeInput = document.getElementById('imeInput');
+  const imeCand  = document.getElementById('imeCand');
+  const imeBtn   = document.getElementById('imeBtn');
+  const imeState = document.getElementById('imeState');
+  const imeLog   = document.getElementById('imeLog');
+  let composing = false, lastComposed = 0;
+
+  imeInput.addEventListener('compositionstart', () => {
+    composing = true; imeCand.style.display = 'block';
+    imeState.textContent = '状态：正在选字（候选框开着）';
+  });
+  imeInput.addEventListener('compositionend', () => {
+    composing = false; lastComposed = Date.now(); imeCand.style.display = 'none';
+    imeState.textContent = '状态：刚选完字（半秒内回车不发送）';
+  });
+  imeBtn.addEventListener('click', () => {
+    composing = true; imeCand.style.display = 'block';
+    imeState.textContent = '状态：正在选字（候选框开着）';
+    imeInput.focus();
+    setTimeout(() => { composing = false; lastComposed = Date.now(); imeCand.style.display = 'none';
+      imeState.textContent = '状态：刚选完字（半秒内回车不发送）'; }, 1500);
+  });
+  imeInput.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.shiftKey) return;
+    if (composing || e.isComposing || e.keyCode === 229) {
+      imeState.textContent = '拦下了：还在选字，回车只用来上屏';
+      return;
+    }
+    if (Date.now() - lastComposed < 500) {
+      imeState.textContent = '拦下了：选完字半秒内的回车（Safari 补发）';
+      return;
+    }
+    e.preventDefault();
+    imeLog.textContent = '发出：' + (imeInput.value || '(空)');
+    imeInput.value = '';
+    imeState.textContent = '发送成功';
+  });
+
+  /* ---------- ② 滚动跟随 ---------- */
+  const scroller = document.getElementById('chatScroll');
+  const jumpBtn  = document.getElementById('jumpBtn');
+  const hudRows  = document.getElementById('hudRows');
+  const hudMode  = document.getElementById('hudMode');
+  const addMsg   = document.getElementById('addMsg');
+  const scrollMid= document.getElementById('scrollTop');
+  const GAP_FOLLOW = 1, GAP_BUTTON = 3;
+  let following = true;
+
+  function lineHeight(){
+    const m = getComputedStyle(scroller.querySelector('.msg'));
+    return parseFloat(m.lineHeight) || 20;
+  }
+  function gapRows(){
+    const gap = scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight;
+    return Math.max(0, gap) / lineHeight();
+  }
+  function refresh(){
+    const rows = gapRows();
+    hudRows.textContent = rows.toFixed(1);
+    following = rows <= GAP_FOLLOW;
+    hudMode.textContent = following ? '自动跟随' : '不再跟随';
+    jumpBtn.classList.toggle('show', rows > GAP_BUTTON);
+  }
+  scroller.addEventListener('scroll', refresh);
+  jumpBtn.addEventListener('click', () => {
+    scroller.scrollTop = scroller.scrollHeight;
+    refresh();
+  });
+  let n = 0;
+  const replies = [
+    '讨论部分点出三条局限：样本量、单中心、随访时长。',
+    '再加一段"下一步计划"，把要补的数据列成表。',
+    '摘要最后写，控制在 250 字以内，先给结论句。',
+    '如果投中文核心，参考文献按 GB/T 7714 排。'
+  ];
+  addMsg.addEventListener('click', () => {
+    const atBottom = following;                     // 关键：插入前记录
+    const d = document.createElement('div');
+    d.className = 'msg ai';
+    d.textContent = replies[n++ % replies.length];
+    scroller.appendChild(d);
+    if (atBottom) scroller.scrollTop = scroller.scrollHeight;
+    refresh();
+  });
+  scrollMid.addEventListener('click', () => {
+    scroller.scrollTop = 0;                        // 滚到最上面：距底会超过 3 行，按钮才出得来
+    refresh();
+  });
+  setTimeout(() => { scroller.scrollTop = scroller.scrollHeight; refresh(); }, 60);
+
+  /* ---------- ④ 圆角 ---------- */
+  const rOut = document.getElementById('rOut'), rGap = document.getElementById('rGap');
+  const oOut = document.getElementById('oOut'), oGap = document.getElementById('oGap');
+  const oIn  = document.getElementById('oIn');
+  const rOutBox = document.getElementById('rOutBox'), rInBox = document.getElementById('rInBox');
+  const radiusNote = document.getElementById('radiusNote');
+  const wrongBtn = document.getElementById('wrongBtn');
+  let wrongMode = false;
+
+  function paintRadius(){
+    const out = +rOut.value, gap = +rGap.value;
+    const inner = wrongMode ? out : Math.max(0, out - gap);
+    oOut.textContent = out; oGap.textContent = gap; oIn.textContent = inner;
+    rOutBox.style.setProperty('--ro', out + 'px');
+    rOutBox.style.setProperty('--gap', gap + 'px');
+    rInBox.style.setProperty('--ri', inner + 'px');
+    radiusNote.textContent = wrongMode
+      ? '错误做法：内外都是 ' + out + 'px，缝在侧边和拐角上不一样宽。'
+      : '正确：内圈 ' + inner + 'px = 外圈 ' + out + 'px − 缝 ' + gap + 'px，侧边拐角都是 ' + gap + 'px。';
+    radiusNote.style.color = wrongMode ? 'var(--red)' : 'var(--soft)';
+  }
+  rOut.addEventListener('input', paintRadius);
+  rGap.addEventListener('input', paintRadius);
+  wrongBtn.addEventListener('click', () => {
+    wrongMode = !wrongMode;
+    wrongBtn.textContent = wrongMode ? '换回同心做法' : '试试"内外同值"的错误做法';
+    paintRadius();
+  });
+  paintRadius();
+
+  /* ---------- ⑤ 分屏 ---------- */
+  const split = document.getElementById('split');
+  const paneL = document.getElementById('paneL');
+  const paneR = document.getElementById('paneR');
+  const divider = document.getElementById('divider');
+  const splitOut = document.getElementById('splitOut');
+  const splitHint = document.getElementById('splitHint');
+  const resetSplit = document.getElementById('resetSplit');
+  const COLLAPSE = 0.82;
+  let dragging = false, savedPct = 0.4, collapsed = false;
+
+  function setRatio(p){
+    collapsed = false;
+    paneR.style.display = '';
+    divider.style.display = '';
+    const pct = Math.min(0.78, Math.max(0.22, p));
+    paneL.style.flex = '0 0 ' + (pct * 100).toFixed(1) + '%';
+    paneR.style.flex = '1 1 auto';
+    paneL.textContent = '左 ' + Math.round(pct * 100) + '%';
+    paneR.textContent = '右 ' + Math.round((1 - pct) * 100) + '%';
+    splitOut.textContent = Math.round(pct * 100) + ' / ' + Math.round((1 - pct) * 100);
+    savedPct = pct;
+  }
+  function collapse(){
+    collapsed = true;
+    paneL.style.flex = '0 0 100%';
+    paneR.style.display = 'none';
+    divider.style.display = 'none';
+    paneL.textContent = '左 100% · 右侧已自动收起';
+    splitOut.textContent = '100 / 0';
+    splitHint.textContent = '拖过 ' + Math.round(COLLAPSE * 100) + '% 自动收起 —— 按 Esc 或点复原';
+  }
+  divider.addEventListener('pointerdown', e => {
+    dragging = true;
+    divider.setPointerCapture(e.pointerId);
+    splitHint.textContent = '拖动中…';
+  });
+  divider.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    const r = split.getBoundingClientRect();
+    const pct = (e.clientX - r.left) / r.width;
+    if (pct > COLLAPSE) { collapse(); dragging = false; return; }
+    setRatio(pct);
+  });
+  divider.addEventListener('pointerup', e => {
+    dragging = false;
+    divider.releasePointerCapture && divider.releasePointerCapture(e.pointerId);
+    splitHint.textContent = '松开固定；双击对半，Esc 复原';
+  });
+  divider.addEventListener('dblclick', () => { setRatio(0.5); splitHint.textContent = '双击 → 50:50'; });
+  resetSplit.addEventListener('click', () => { setRatio(0.5); splitHint.textContent = '已复原 50:50'; });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && (collapsed || savedPct !== 0.4)) {
+      setRatio(0.5); splitHint.textContent = 'Esc → 复原 50:50';
+    }
+  });
+  setRatio(0.4);
+})();
+</script>
+</body>
+</html>
