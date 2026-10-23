@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拖拽上传 · 可运行 Demo + 原理</title>
+<style>
+  :root{
+    --bg:#f5f7fb; --ink:#24324a; --soft:#65748b; --primary:#2563eb; --deep:#172554;
+    --line:#dbe4f0; --panel:#eef3fd; --accent:#d97706;
+    --s0:#f7f8fb; --s1:#ffffff; --s2:#fbfcfe;
+    --r-sm:8px; --r-md:12px; --r-lg:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px;line-height:1.8;padding:22px 16px 60px}
+  .wrap{max-width:720px;margin:0 auto}
+  h1{font-size:1.35rem;color:var(--deep);text-align:center}
+  .sub{text-align:center;color:var(--soft);font-size:0.85rem;margin-top:6px}
+  .src{text-align:center;color:#94a3b8;font-size:0.75rem;margin-top:4px}
+  .src a{color:#94a3b8}
+
+  /* ================= 演示区 ================= */
+  .stage{margin:24px auto;display:flex;justify-content:center}
+  .panel{
+    width:100%;max-width:420px;background:var(--s1);border-radius:var(--r-lg);
+    padding:20px 20px 16px;
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .08), 0 8px 24px -6px rgb(20 30 60 / .10);
+  }
+  .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .panel-head h2{font-size:1.02rem;color:var(--deep);letter-spacing:.2px}
+  .badge-count{
+    min-width:26px;height:26px;padding:0 8px;border-radius:99px;
+    background:var(--panel);color:var(--primary);font-size:0.82rem;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform 180ms cubic-bezier(.34,1.56,.64,1),background 180ms,color 180ms;
+  }
+  .badge-count.has{background:var(--primary);color:#fff}
+  .badge-count.pop{transform:scale(1.24)}
+  .panel-sub{font-size:0.78rem;color:var(--soft);margin:2px 0 14px}
+
+  /* 虚线落区 */
+  .drop{
+    position:relative;border:1.5px dashed #c7d5ea;border-radius:var(--r-md);
+    background:var(--s2);padding:22px 14px;text-align:center;cursor:pointer;
+    transition:border-color 160ms,background 160ms,transform 160ms cubic-bezier(.2,.9,.3,1),
+               box-shadow 160ms;
+  }
+  .drop:focus-visible{outline:none;box-shadow:0 0 0 4px #eaf2ff}
+  .drop .cam{width:34px;height:34px;margin:0 auto 8px;display:block;color:#9db3d0;transition:color 160ms,transform 160ms}
+  .drop .t1{font-size:0.92rem;font-weight:600;color:#3c4c66}
+  .drop .t2{font-size:0.78rem;color:var(--soft);margin-top:2px}
+  .drop.over{
+    border-color:var(--primary);background:#f2f7ff;
+    transform:scale(1.012);
+    box-shadow:0 0 0 4px rgb(37 99 235 / .08), 0 6px 18px -8px rgb(37 99 235 / .35);
+  }
+  .drop.over .cam{color:var(--primary);transform:translateY(-2px) scale(1.06)}
+  .drop.over .t1{color:var(--primary)}
+  .drop.over .t2::after{content:" · 松手就收下";color:var(--primary);font-weight:600}
+
+  .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .mini{
+    flex:1 1 0;min-width:96px;padding:8px 10px;font-size:0.8rem;font-weight:600;
+    border:none;border-radius:var(--r-sm);background:var(--panel);color:#2c4a7c;cursor:pointer;
+    transition:background 140ms,transform 120ms;
+  }
+  .mini:hover{background:#e2ecfd}
+  .mini:active{transform:scale(.985)}
+
+  /* 文件列表 */
+  .files{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+  .file-row{
+    display:flex;align-items:center;gap:10px;background:var(--s2);border-radius:var(--r-sm);
+    padding:9px 10px;box-shadow:inset 0 0 0 1px #eaf0f8;
+    animation:rowIn 220ms cubic-bezier(.34,1.4,.64,1);
+  }
+  @keyframes rowIn{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+  .file-ico{width:28px;height:28px;flex:0 0 28px;display:flex;align-items:center;justify-content:center;
+    border-radius:7px;background:#fff;box-shadow:inset 0 0 0 1px #e6ecf5;font-size:0.62rem;
+    font-weight:700;color:#8e1f2f}
+  .file-main{flex:1 1 auto;min-width:0}
+  .file-name{font-size:0.83rem;font-weight:600;color:#33415c;overflow:hidden;
+    text-overflow:ellipsis;white-space:nowrap}
+  .file-meta{font-size:0.72rem;color:var(--soft);display:flex;gap:8px;align-items:center}
+  .bar{height:3px;border-radius:99px;background:#e6ecf5;margin-top:5px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--primary);border-radius:99px;
+    transition:width 220ms linear}
+  .file-row .ok{color:#159568;font-weight:600}
+  .rm{background:none;border:none;color:#b6c2d4;font-size:1rem;cursor:pointer;padding:0 2px;line-height:1}
+  .rm:hover{color:#8e1f2f}
+  .camera-box{margin-top:10px;display:none}
+  .camera-box video{width:100%;border-radius:var(--r-sm);background:#0f1115;display:block}
+  .camera-box .shoot{margin-top:8px;width:100%}
+  .status-line{font-size:0.75rem;color:#b06a3b;background:#fdf2e7;border-radius:8px;
+    padding:6px 10px;margin-top:10px;display:none}
+
+  /* ================= 说明区 ================= */
+  section{margin:28px 0}
+  .sec-t{font-size:0.8rem;font-weight:700;color:#fff;background:var(--primary);
+    display:inline-block;padding:3px 12px;border-radius:var(--r-sm);margin-bottom:12px}
+  .sec-t.amber{background:var(--accent)}
+  .card{background:#fff;border-radius:var(--r-md);padding:15px 17px;margin:10px 0;
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .06)}
+  .card h3{font-size:0.98rem;color:var(--deep);margin-bottom:6px}
+  .card p{font-size:0.9rem}
+  .card b{color:var(--primary)}
+  code{background:#f1f5fb;border-radius:4px;padding:1px 5px;font-size:0.86em;
+    font-family:ui-monospace,Menlo,Consolas,monospace;color:#2c4a7c}
+  pre{background:#0f1115;color:#d7e0ee;border-radius:10px;padding:12px 14px;margin:9px 0;
+    overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.77rem;line-height:1.6}
+  pre .c{color:#6b7a90} pre .k{color:#93c5fd} pre .v{color:#a7e3c0} pre .s{color:#f0c987}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
+  .grid2>div{background:#fff;border-radius:10px;padding:11px 13px;font-size:0.85rem;
+    box-shadow:0 1px 2px -1px rgb(20 30 60 / .06)}
+  .grid2 .k{font-weight:700;color:var(--primary);font-size:0.78rem;display:block;margin-bottom:3px}
+  .tip{background:#f0faf5;border-radius:10px;padding:12px 15px;margin:10px 0;font-size:0.87rem}
+  .tip b{color:#159568}
+  .warn{background:#fdf2e7;border-radius:10px;padding:12px 15px;margin:10px 0;font-size:0.87rem}
+  .warn b{color:#b06a3b}
+  footer{text-align:center;color:var(--soft);font-size:0.77rem;margin-top:28px}
+  @media (max-width:520px){ .grid2{grid-template-columns:1fr} }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>拖拽上传那一下</h1>
+  <div class="sub">把文件拖进虚线框，或者点一下拍照 · 下面是能真的拖的 Demo</div>
+  <div class="src">交互来源：抖音 @YICHA. 5.5s（Figma / UI 动效）· 本页是复刻实现，不是视频截图</div>
+
+  <!-- ===================== 演示 ===================== -->
+  <div class="stage">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Upload files</h2>
+        <div class="badge-count" id="badge">0</div>
+      </div>
+      <div class="panel-sub">Drag and drop, or take the shot.</div>
+
+      <div class="drop" id="drop" tabindex="0" role="button"
+           aria-label="拖入文件或点击选择文件">
+        <svg class="cam" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3.5 10.5h4.2l2-3h8.6l2 3h4.2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-21a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2z"/>
+          <circle cx="15" cy="17" r="4.2"/>
+        </svg>
+        <div class="t1">Drop files here</div>
+        <div class="t2">or take the shot</div>
+      </div>
+
+      <input type="file" id="picker" multiple hidden>
+
+      <div class="actions">
+        <button class="mini" id="pickBtn">选择文件</button>
+        <button class="mini" id="camBtn">拍一张</button>
+        <button class="mini" id="mockBtn">模拟拖入</button>
+      </div>
+
+      <div class="camera-box" id="camBox">
+        <video id="camView" playsinline muted></video>
+        <button class="mini shoot" id="shootBtn">按快门</button>
+      </div>
+
+      <div class="status-line" id="statusLine"></div>
+      <div class="files" id="fileList"></div>
+    </div>
+  </div>
+
+  <!-- ===================== 原理 ===================== -->
+  <section>
+    <div class="sec-t">这段交互好在哪（一句话）</div>
+    <div class="card">
+      <p>它把<b>两种输入塞进同一个落区</b>：能拖就拖，不能拖就拍一张，第二选择当场给出，不用另开按钮位；
+      然后用<b>右上角计数徽章</b>做最小反馈——不弹 toast，也知道东西收进去了。</p>
+      <p style="margin-top:6px">整个视频只有 5.5 秒、一句话没说，全靠<b>落区变脸 + 数字跳动</b>把话说完了。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">核心：四个拖拽事件</div>
+    <div class="card">
+      <h3>dragover 不 preventDefault，drop 永远不会触发</h3>
+      <p>这是新手第一个坑：浏览器默认把拖进来的文件当"导航"，你不喊停，它就跳走了。</p>
+<pre><span class="k">const</span> drop = document.getElementById(<span class="s">'drop'</span>);
+
+drop.addEventListener(<span class="s">'dragover'</span>, e =&gt; {
+  e.preventDefault();                       <span class="c">// 必须：允许放下</span>
+  e.dataTransfer.dropEffect = <span class="s">'copy'</span>;     <span class="c">// 光标显示"复制"</span>
+});
+
+drop.addEventListener(<span class="s">'drop'</span>, e =&gt; {
+  e.preventDefault();
+  addFiles(e.dataTransfer.files);           <span class="c">// 这里才是真文件</span>
+});</pre>
+      <p style="margin-top:8px">另外把整页的默认行为也堵住，否则文件没拖准、掉在框外，浏览器直接打开那个文件，页面就没了：</p>
+<pre>[<span class="s">'dragover'</span>, <span class="s">'drop'</span>].forEach(t =&gt;
+  window.addEventListener(t, e =&gt; e.preventDefault()));</pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">第二个坑：高亮会闪</div>
+    <div class="card">
+      <h3>dragenter / dragleave 会从子元素冒泡上来</h3>
+      <p>落区里只要有图标和文字，鼠标从文字移到图标就会触发一次 leave + enter。
+      直接用布尔值开关，边框就会疯狂闪。<b>正解是计数</b>：进一个加一，出一个减一，减到 0 才取消高亮。</p>
+<pre><span class="k">let</span> depth = <span class="v">0</span>;
+
+drop.addEventListener(<span class="s">'dragenter'</span>, e =&gt; {
+  e.preventDefault();
+  depth++;
+  drop.classList.add(<span class="s">'over'</span>);
+});
+
+drop.addEventListener(<span class="s">'dragleave'</span>, () =&gt; {
+  depth--;
+  <span class="k">if</span> (depth &lt;= <span class="v">0</span>) { depth = <span class="v">0</span>; drop.classList.remove(<span class="s">'over'</span>); }
+});</pre>
+      <p style="margin-top:8px">高亮本身也不用换一整块背景，<b>改边框色 + 轻微放大 1.012 + 一层淡蓝外发光</b>就够了——观众感知到的是"它活过来了"，不是"颜色变了"。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">"or take the shot" 怎么实现</div>
+    <div class="card">
+      <h3>拍照 = canvas 截一帧 → 变成 File → 走同一条路</h3>
+      <p>关键设计是<b>拍照不要单独做一套流程</b>：截出来的图包成 <code>File</code> 对象，直接丢给同一个 <code>addFiles()</code>，后面的列表、计数、上传全都复用。</p>
+<pre><span class="k">async function</span> shoot() {
+  <span class="k">const</span> stream = <span class="k">await</span> navigator.mediaDevices.getUserMedia({
+    video: { facingMode: <span class="s">'environment'</span> }      <span class="c">// 手机优先后置</span>
+  });
+  video.srcObject = stream;
+  <span class="k">await</span> video.play();
+
+  <span class="k">const</span> c = document.createElement(<span class="s">'canvas'</span>);
+  c.width = video.videoWidth; c.height = video.videoHeight;
+  c.getContext(<span class="s">'2d'</span>).drawImage(video, <span class="v">0</span>, <span class="v">0</span>);
+
+  <span class="k">const</span> blob = <span class="k">await new</span> Promise(r =&gt; c.toBlob(r, <span class="s">'image/jpeg'</span>, <span class="v">0.9</span>));
+  addFiles([<span class="k">new</span> File([blob], <span class="s">`scan_${Date.now()}.jpg`</span>, { type: <span class="s">'image/jpeg'</span> })]);
+
+  stream.getTracks().forEach(t =&gt; t.stop());   <span class="c">// 用完必须关，不然摄像头灯常亮</span>
+}</pre>
+      <p style="margin-top:8px"><code>getUserMedia</code> 只在 <b>https 或 localhost</b> 下可用。本地双击打开（<code>file://</code>）会直接失败——所以下面那句降级提示是必需的，不是客套。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">让"收下了"这件事被看见</div>
+    <div class="grid2">
+      <div><span class="k">① 计数徽章</span>0→1 有个 1.24 倍的 pop，再变实心蓝。比 toast 便宜，比静默强。</div>
+      <div><span class="k">② 新行入场</span>文件卡片从下方 6px 淡入上浮，200ms 过阻尼——"东西落进去了"。</div>
+      <div><span class="k">③ 状态就地变</span>上传中用 3px 进度条，完了变绿字"已上传"，不弹窗。</div>
+      <div><span class="k">④ 落区变脸</span>拖拽悬停时文案尾巴追加"松手就收下"，把下一步说清楚。</div>
+    </div>
+    <div class="card">
+      <p>这四个都是<b>零成本反馈</b>：不占布局、不需要新组件、不打断用户。做工具和做作品集都值这几行。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t amber">视频里能确认的 / 我没能确认的</div>
+    <div class="card">
+      <p><b>能确认</b>（逐帧 OCR）：落区文案是 <code>Drop files here / or take the shot</code>；右上计数从 0 跳到 1；
+      落地后出现一行 <code>final_final_v7.pdf · 2.4 MB</code>，状态 Uploaded。</p>
+      <p style="margin-top:6px"><b>没能确认</b>：0.1 秒级的缓动细节（虚线框有没有吸附、有没有回弹）。5.5 秒的视频里这层信息我靠像素差分推不出来，
+      所以本页的动效是按常见做法复刻的，不是逐帧还原。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-t">贴给 AI 的提示词</div>
+    <div class="tip">
+      <b>想给自己项目加一个同款上传区，直接抄这段：</b><br><br>
+      「做一个文件上传面板，要求：<br>
+      1）标题 <code>Upload files</code>，右上角计数徽章显示已有文件数，数量变化时 180ms 放大到 1.24 倍再回弹，有文件时变实心色；<br>
+      2）副标题 <code>Drag and drop, or take the shot.</code>；<br>
+      3）虚线落区里放相机图标 + <code>Drop files here</code> / <code>or take the shot</code> 两行；<br>
+      4）拖拽悬停时边框变主色、整体放大 1.012、加淡色外发光，文案追加"松手就收下"；<br>
+      5）用 dragenter/dragleave 计数（depth++/--）避免子元素冒泡导致高亮闪烁，dragover 必须 preventDefault；<br>
+      6）点落区打开文件选择，另有"拍一张"按钮用 getUserMedia + canvas.toBlob 包成 File，与拖拽走同一个 addFiles()；<br>
+      7）每个文件一行：类型图标、文件名、体积、上传进度条，完成后变绿色"已上传"；<br>
+      8）支持 <code>prefers-reduced-motion</code>、键盘 Enter 触发选择、多文件拖入。」"
+    </div>
+  </section>
+
+  <footer>拖拽上传交互复刻 · 可运行 Demo + 原理 · 2026-10</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const drop   = document.getElementById('drop');
+  const badge  = document.getElementById('badge');
+  const picker = document.getElementById('picker');
+  const fileList = document.getElementById('fileList');
+  const pickBtn = document.getElementById('pickBtn');
+  const camBtn  = document.getElementById('camBtn');
+  const mockBtn = document.getElementById('mockBtn');
+  const camBox  = document.getElementById('camBox');
+  const camView = document.getElementById('camView');
+  const shootBtn= document.getElementById('shootBtn');
+  const statusLine = document.getElementById('statusLine');
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let count = 0;
+  let stream = null;
+
+  function human(n){
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(0) + ' KB';
+    return (n / 1024 / 1024).toFixed(1) + ' MB';
+  }
+
+  function ext(name){
+    const m = /\.([a-z0-9]+)$/i.exec(name || '');
+    return m ? m[1].toUpperCase().slice(0, 4) : 'FILE';
+  }
+
+  function bumpBadge(){
+    badge.textContent = count;
+    badge.classList.toggle('has', count > 0);
+    if (reduce) return;
+    badge.classList.add('pop');
+    setTimeout(() => badge.classList.remove('pop'), 190);
+  }
+
+  let rowId = 0;
+  function addFiles(list){
+    const arr = Array.prototype.slice.call(list || []);
+    if (!arr.length) return;
+    arr.forEach(f => {
+      const id = 'r' + (++rowId);
+      const row = document.createElement('div');
+      row.className = 'file-row';
+      row.id = id;
+      row.innerHTML =
+        '<div class="file-ico"></div>' +
+        '<div class="file-main">' +
+          '<div class="file-name"></div>' +
+          '<div class="file-meta"><span class="sz"></span><span class="st">上传中 0%</span></div>' +
+          '<div class="bar"><i></i></div>' +
+        '</div>' +
+        '<button class="rm" title="移除" aria-label="移除">×</button>';
+      row.querySelector('.file-ico').textContent = ext(f.name);
+      row.querySelector('.file-name').textContent = f.name;
+      row.querySelector('.file-name').title = f.name;
+      row.querySelector('.sz').textContent = human(f.size);
+      fileList.appendChild(row);
+
+      // 模拟上传进度（真做时换成 XHR / fetch 的 onprogress）
+      const bar = row.querySelector('.bar i');
+      const st  = row.querySelector('.st');
+      let pct = 0;
+      const timer = setInterval(() => {
+        pct = Math.min(100, pct + 8 + Math.random() * 14);
+        bar.style.width = pct + '%';
+        if (pct >= 100) {
+          clearInterval(timer);
+          st.textContent = '已上传';
+          st.classList.add('ok');
+          bar.style.background = '#159568';
+        } else {
+          st.textContent = '上传中 ' + Math.round(pct) + '%';
+        }
+      }, 130);
+
+      row.querySelector('.rm').addEventListener('click', () => {
+        row.remove();
+        count = Math.max(0, count - 1);
+        bumpBadge();
+      });
+      count++;
+    });
+    bumpBadge();
+  }
+
+  /* ---------- 拖拽：计数法，避免子元素冒泡闪烁 ---------- */
+  let depth = 0;
+  drop.addEventListener('dragenter', e => {
+    e.preventDefault();
+    depth++;
+    drop.classList.add('over');
+  });
+  drop.addEventListener('dragover', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  });
+  drop.addEventListener('dragleave', () => {
+    depth--;
+    if (depth <= 0) { depth = 0; drop.classList.remove('over'); }
+  });
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    depth = 0;
+    drop.classList.remove('over');
+    addFiles(e.dataTransfer.files);
+  });
+  ['dragover', 'drop'].forEach(t =>
+    window.addEventListener(t, e => e.preventDefault()));
+
+  /* ---------- 点击 / 键盘 ---------- */
+  drop.addEventListener('click', () => picker.click());
+  drop.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); picker.click(); }
+  });
+  pickBtn.addEventListener('click', e => { e.stopPropagation(); picker.click(); });
+  picker.addEventListener('change', () => { addFiles(picker.files); picker.value = ''; });
+
+  /* ---------- 模拟拖入（不用真去拖文件也能看效果） ---------- */
+  mockBtn.addEventListener('click', () => {
+    const blob = new Blob([new Uint8Array(2400 * 1024)], { type: 'application/pdf' });
+    addFiles([new File([blob], 'final_final_v7.pdf', { type: 'application/pdf' })]);
+  });
+
+  /* ---------- 拍照：canvas -> File，与拖拽同一条路 ---------- */
+  function showStatus(msg){
+    statusLine.textContent = msg;
+    statusLine.style.display = 'block';
+  }
+  function hideStatus(){ statusLine.style.display = 'none'; }
+
+  camBtn.addEventListener('click', async () => {
+    if (camBox.style.display === 'block') { closeCam(); return; }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      showStatus('这个浏览器/环境不给用摄像头（需要 https 或 localhost）。先用「选择文件」走同一条路。');
+      return;
+    }
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      camView.srcObject = stream;
+      await camView.play();
+      camBox.style.display = 'block';
+      hideStatus();
+    } catch (err) {
+      showStatus('打不开摄像头（' + (err && err.name ? err.name : '未知错误') +
+                 '）：需要 https 或 localhost，且授权摄像头。可以先用「选择文件」。');
+    }
+  });
+
+  function closeCam(){
+    if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+    camBox.style.display = 'none';
+  }
+
+  shootBtn.addEventListener('click', async () => {
+    if (!stream) return;
+    const c = document.createElement('canvas');
+    c.width = camView.videoWidth || 1280;
+    c.height = camView.videoHeight || 720;
+    c.getContext('2d').drawImage(camView, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.9));
+    addFiles([new File([blob], 'scan_' + Date.now() + '.jpg', { type: 'image/jpeg' })]);
+    closeCam();
+  });
+})();
+</script>
+</body>
+</html>
